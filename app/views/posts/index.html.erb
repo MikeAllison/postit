@@ -2,7 +2,7 @@
 
 <% @posts.each do |post| %>
   <div class="row post">
-    <div class="col-xs-2">
+    <div class="col-sm-2 hidden-xs">
       <div class="well text-center">
         <p>
           <button type="button" class="btn btn-default btn-lg">
@@ -10,7 +10,7 @@
           </button>
         </p>
         <p>
-          Votes
+          <h4><span class="label label-primary">0 Votes</span></h4>
         </p>
         <p>
           <button type="button" class="btn btn-default btn-lg">
@@ -19,9 +19,22 @@
         </p>
       </div>
     </div> <!-- END VOTE COLUMN -->
-    <div class="col-xs-10">
+    <div class="col-sm-10">
       <div class="panel panel-default">
         <div class="panel-heading">
+          <span class="pull-right visible-xs">
+            <p>
+              <button type="button" class="btn btn-default btn-md">
+                <span class="glyphicon glyphicon-thumbs-up text-success" aria-hidden="true"></span>
+              </button>
+              <button type="button" class="btn btn-default btn-md">
+                <span class="glyphicon glyphicon-thumbs-down text-danger" aria-hidden="true"></span>
+              </button>
+            </p>
+            <p class="text-right">
+              <label class="label label-primary">0 Votes</label>
+            </p>
+          </span>
           <h3><strong><%= link_to post.title, post.url %></strong></h3>
         </div> <!-- END .panel-heading -->
         <div class="panel-body">
