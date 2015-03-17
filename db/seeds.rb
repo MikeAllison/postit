@@ -26,7 +26,7 @@ descriptions = [
   Post.create(url: "www.website#{i + 1}.com", title: "Title #{i + 1}", description: descriptions.sample, user_id: rand(1..10))
 end
 
-30.times do |i|
+500.times do |i|
   Comment.create(body: "This is comment #{i + 1}", user_id: rand(1..10), post_id: rand(1..50))
 end
 

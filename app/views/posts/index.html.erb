@@ -33,13 +33,14 @@
           <p class="description">
             <%= post.description %>
           </p>
-          <hr />
-          <p><small>Posted by</small> <a href="#"><%= post.creator.username %></a> <small><%= post.created_at.strftime("on %m/%d/%Y at %l:%M %Z") %></small></p>
         </div> <!-- END PANEL BODY -->
         <div class="panel-footer">
-          <button class="btn btn-primary btn-xs" type="button">
-            <span class="badge">14</span> Comments
-          </button>
+          <p>
+            <small>Posted by</small> <a href="#"><%= post.creator.username %></a> <small><%= post.created_at.strftime("on %m/%d/%Y at %l:%M %Z") %></small>
+            <button class="btn btn-primary btn-xs pull-right" type="button">
+              <span class="badge"><%= post.comments.count %></span> Comments
+            </button>
+          </p>
         </div> <!-- END .panel-footer -->
       </div> <!-- END .panel -->
     </div> <!-- END POST COLUMN -->
