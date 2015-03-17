@@ -1,9 +1,9 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tealeaf Academy - Postit</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Postit!</title>
     <meta name="description" content="">
     <meta name="author" content="">
     <%= stylesheet_link_tag "application", :media => "all" %>
@@ -12,26 +12,22 @@
     <%= yield(:head) %>
   </head>
   <body>
-    <header>
-      <div class="navbar">
-        <div class="navbar-inner">
-          <div class="container">
-            <%= render 'layouts/navigation' %>
-          </div>
-        </div>
-      </div>
-    </header>
+
+    <%= render 'layouts/navigation' %>
+
     <div id="main" role="main">
       <div class="container">
-         <div class="row">
-          <div class="span12">
+         <div id="row1" class="row">
+          <div class="col-xs-12">
             <%= render 'layouts/messages' %>
             <%= yield %>
           </div>
-        </div>
-        <footer>
-        </footer>
-      </div> <!--! end of .container -->
-    </div> <!--! end of #main -->
+        </div> <!-- END #ROW1 -->
+
+      </div> <!-- END .CONTAINER -->
+    </div> <!-- END #MAIN -->
+
+    <%= render 'layouts/footer' %>
+
   </body>
 </html>
