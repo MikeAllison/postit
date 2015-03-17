@@ -12,33 +12,50 @@
  *= require_tree .
  */
 
- @import "bootstrap-sprockets";
- @import "bootstrap";
+@import "bootstrap-sprockets";
+@import "bootstrap";
 
- .container {
-  margin-left: 135px
+#main {
+  padding-top: 20px;
 }
 
-.navbar .nav > li > a.brand {
-  padding-left: 0px;
+.page-title {
+  padding-bottom: 20px;
 }
 
-.quiet {
-  color: #ababab;
+.post {
+  padding-bottom: 30px;
 }
 
-div.nav_item {
-  margin-left: 25px;
-  float: left;
+.description {
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
-.label  {
-  a, a:hover, a:focus {
-    color: #fff;
-    text-decoration: none;
-  }
-}
-
-div.comment_votes {
-  padding: 10px;
-}
+// .container {
+//   margin-left: 135px
+// }
+//
+// .navbar .nav > li > a.brand {
+//   padding-left: 0px;
+// }
+//
+// .quiet {
+//   color: #ababab;
+// }
+//
+// div.nav_item {
+//   margin-left: 25px;
+//   float: left;
+// }
+//
+// .label  {
+//   a, a:hover, a:focus {
+//     color: #fff;
+//     text-decoration: none;
+//   }
+// }
+//
+// div.comment_votes {
+//   padding: 10px;
+// }

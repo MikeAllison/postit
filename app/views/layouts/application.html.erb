@@ -12,22 +12,13 @@
     <%= yield(:head) %>
   </head>
   <body>
-
-    <%= render 'layouts/navigation' %>
-
-    <div id="main" role="main">
-      <div class="container">
-         <div id="row1" class="row">
-          <div class="col-xs-12">
-            <%= render 'layouts/messages' %>
-            <%= yield %>
-          </div>
-        </div> <!-- END #ROW1 -->
-
-      </div> <!-- END .CONTAINER -->
-    </div> <!-- END #MAIN -->
-
-    <%= render 'layouts/footer' %>
-
+    <div class="container">
+      <%= render 'layouts/navigation' %>
+      <hr />
+      <%= render 'layouts/messages' %>
+      <%= render 'layouts/page_title' %>
+      <%= yield %>
+      <%= render 'layouts/footer' %>
+    </div> <!-- END .container -->
   </body>
 </html>
