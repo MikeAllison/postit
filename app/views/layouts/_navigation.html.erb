@@ -11,15 +11,13 @@
 
   <!-- This should probably be refactored to remove duplicate code -->
   <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-    <ul class="nav navbar-right nav-pills hidden-xs"> <!-- SHOW PILLS ON SM+ -->
-      <li><%= link_to "Home", root_path, class: 'text-muted' %></li>
-      <li><a href="#" class="text-muted">Register</a></li>
-      <li><a href="#" class="text-muted">Log In</a></li>
-    </ul>
-    <ul class="nav navbar-default navbar-right visible-xs"> <!-- SHOW LINKS ON MOBILE MENU -->
+    <ul class="nav navbar-right"> <!-- SHOW PILLS ON SM+ -->
       <li><%= link_to "Home", root_path, class: 'text-muted' %></li>
       <li><a href="#" class="text-muted">Register</a></li>
       <li><a href="#" class="text-muted">Log In</a></li>
     </ul>
   </div><!-- /.navbar-collapse -->
 </nav>
+
+<!-- nav-pills
+navbar-default -->
