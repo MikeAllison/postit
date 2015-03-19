@@ -57,7 +57,7 @@
             <p>
               <small>Posted by</small> <a href="#"><%= post.creator.username %></a> <small><%= post.created_at.strftime("on %m/%d/%Y at %l:%M %Z") %></small>
               <button class="btn btn-primary btn-xs pull-right" type="button">
-                <span class="badge"><%= post.comments.count %></span> Comments
+                <span class="badge"></span> Comments
               </button>
             </p>
           </span> <!-- END NON-MOBILE FOOTER -->
@@ -67,7 +67,7 @@
             </p>
             <p class="text-right">
               <button class="btn btn-primary btn-xs" type="button">
-                <span class="badge"><%= post.comments.count %></span> Comments
+                <span class="badge"></span> Comments
               </button>
             </p>
           </span> <!-- END NON-MOBILE FOOTER -->
