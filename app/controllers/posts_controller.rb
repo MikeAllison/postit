@@ -1,9 +1,48 @@
 class PostsController < ApplicationController
+  before_action :find_post, only: [:show, :edit]
+
   def index
     @posts = Post.includes(:creator, :categories, :comments)
   end
 
-  def show
-    @post = Post.find(params[:id])
+  def new
+    @post = Post.new
   end
+
+  def create
+    @post = Post.new(post_params)
+
+    if @post.save
+      flash[:notice] = "Your post was created."
+      redirect_to posts_path
+    else
+      flash.now[:danger] = "There was a problem creating the post."
+      render :new
+    end
+  end
+
+  def show
+  end
+
+  def edit
+  end
+
+  def update
+    if @post.update(post_params)
+      flash[:notice] = "Your post was updated."
+      redirect_to @post
+    else
+      render :edit
+    end
+  end
+
+  private
+
+    def find_post
+      @post = Post.find(params[:id])
+    end
+
+    def post_params
+      params.require(:post).permit(:title, :url, :description)
+    end
 end
