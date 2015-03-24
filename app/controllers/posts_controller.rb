@@ -13,7 +13,7 @@ class PostsController < ApplicationController
     @post = Post.new(post_params)
 
     if @post.save
-      flash[:notice] = "Your post was created."
+      flash[:success] = "Your post was created."
       redirect_to posts_path
     else
       flash.now[:danger] = "There was a problem creating the post."
@@ -29,7 +29,7 @@ class PostsController < ApplicationController
 
   def update
     if @post.update(post_params)
-      flash[:notice] = "Your post was updated."
+      flash[:success] = "Your post was updated."
       redirect_to @post
     else
       render :edit
