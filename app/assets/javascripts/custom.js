@@ -4,7 +4,7 @@ function adjustNavStyles(windowWidth) {
 
   $("ul.nav").removeClass("nav-pills navbar-default");
 
-  if (windowWidth >= 768) {
+  if (windowWidth >= 750) {
     $("ul.nav").addClass("nav-pills");
   } else {
     $("ul.nav").addClass("navbar-default");
