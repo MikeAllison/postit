@@ -55,7 +55,9 @@
         <div class="panel-footer"> <!-- BEGIN .panel-footer -->
           <span class="hidden-xs"> <!-- BEGIN NON-MOBILE FOOTER -->
             <p>
-              <small>Posted by</small> <a href="#">[Username]</a> <small><%= post.created_at.strftime("on %m/%d/%Y at %l:%M %Z") %></small>
+              <small>Posted by</small> <a href="#">Username</a> <small><%= post.created_at.strftime("on %m/%d/%Y at %l:%M %Z") %></small>
+              <br />
+              <small>[<%= link_to 'Edit Post', edit_post_path(post), class: 'text-muted' %>]</small>
               <button class="btn btn-primary btn-xs pull-right" type="button">
                 <span class="badge"></span> Comments
               </button>
@@ -63,7 +65,9 @@
           </span> <!-- END NON-MOBILE FOOTER -->
           <span class="visible-xs"> <!-- BEGIN MOBILE FOOTER -->
             <p>
-              <small>Posted by</small> <a href="#">[Username]</a> <small><%= post.created_at.strftime("on %m/%d/%Y at %l:%M %Z") %></small>
+              <small>Posted by</small> <a href="#">Username</a> <small><%= post.created_at.strftime("on %m/%d/%Y at %l:%M %Z") %></small>
+              <br />
+              <small>[<%= link_to 'Edit Post', edit_post_path(post), class: 'text-muted' %>]</small>
             </p>
             <p class="text-right">
               <button class="btn btn-primary btn-xs" type="button">
