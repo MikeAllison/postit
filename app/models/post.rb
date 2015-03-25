@@ -1,4 +1,6 @@
 class Post < ActiveRecord::Base
+  require 'uri'
+
   belongs_to :creator, foreign_key: 'user_id', class_name: 'User'
   has_many :comments
   has_many :post_categories
@@ -6,5 +8,6 @@ class Post < ActiveRecord::Base
 
   validates :title, presence: true, length: { minimum: 5 }
   validates :url, presence: true
+  validates_format_of :url, with: URI.regexp, message: ' must be a URL'
   validates :description, presence: true
 end
