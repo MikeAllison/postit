@@ -23,7 +23,7 @@ descriptions = [
 ]
 
 50.times do |i|
-  Post.create(url: "www.website#{i + 1}.com", title: "Title #{i + 1}", description: descriptions.sample, user_id: rand(1..10))
+  Post.create(url: "http://www.website#{i + 1}.com", title: "Title #{i + 1}", description: descriptions.sample, user_id: rand(1..10))
 end
 
 500.times do |i|

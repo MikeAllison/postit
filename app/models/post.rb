@@ -8,6 +8,7 @@ class Post < ActiveRecord::Base
 
   validates :title, presence: true, length: { minimum: 5 }
   validates :url, presence: true
-  validates_format_of :url, with: URI.regexp, message: ' must be a URL'
+  validates :url, uniqueness: { case_sensitive: false }
+  validates_format_of :url, with: URI.regexp, message: ' must be a URL (ex. http://www.example.com)'
   validates :description, presence: true
 end
