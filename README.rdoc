@@ -13,3 +13,4 @@ This is a Reddit-like app for Tealeaf Academy's Rapid Prototyping with Ruby on R
 * Comment links
 * Hide 'Edit Post' link for posts that don't belong to the logged in user
 * Fix duplicate code for responsive design
+* Write method to chomp whitespace from Post.url field before saving
