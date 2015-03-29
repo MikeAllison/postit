@@ -1,5 +1,5 @@
 class CategoriesController < ApplicationController
-  before_action :find_category, only: [:show, :edit]
+  before_action :find_category, only: [:edit, :update]
 
   def index
     @categories = Category.all
@@ -14,13 +14,10 @@ class CategoriesController < ApplicationController
 
     if @category.save
       flash[:success] = "A new category was created."
-      redirect_to @category
+      redirect_to categories_path
     else
       render :new
     end
-  end
-
-  def show
   end
 
   def edit
@@ -29,7 +26,7 @@ class CategoriesController < ApplicationController
   def update
     if @category.update(category_params)
       flash[:success] = "The category was updated."
-      redirect_to @category
+      redirect_to categories_path
     else
       render :new
     end

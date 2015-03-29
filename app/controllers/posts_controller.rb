@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  before_action :find_post, only: [:show, :edit]
+  before_action :find_post, only: [:show, :edit, :update]
 
   def index
     @posts = Post.includes(:creator, :categories, :comments)
@@ -31,7 +31,7 @@ class PostsController < ApplicationController
   def update
     if @post.update(post_params)
       flash[:success] = "Your post was updated."
-      redirect_to @post
+      redirect_to posts_path
     else
       render :edit
     end
