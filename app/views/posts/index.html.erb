@@ -62,7 +62,7 @@
               <small>Posted by</small> <a href="#"><%= post.creator.username %></a> <small><%= post.created_at.strftime("on %m/%d/%Y at %l:%M %Z") %></small>
               <br />
               <small>[<%= link_to 'Edit Post', edit_post_path(post), class: 'text-muted' %>]</small>
-              <%= link_to post_comments_path(post), class: 'btn btn-primary btn-xs pull-right' do %>
+              <%= link_to post_path(post), class: 'btn btn-primary btn-xs pull-right' do %>
                 <span class="badge"><%= comment_count %></span> Comments
               <% end %>
             </p>
@@ -74,7 +74,7 @@
               <small>[<%= link_to 'Edit Post', edit_post_path(post), class: 'text-muted' %>]</small>
             </p>
             <p class="text-right">
-              <%= link_to post_comments_path(post), class: 'btn btn-primary btn-xs' do %>
+              <%= link_to post_path(post), class: 'btn btn-primary btn-xs' do %>
                 <span class="badge"><%= comment_count %></span> Comments
               <% end %>
             </p>

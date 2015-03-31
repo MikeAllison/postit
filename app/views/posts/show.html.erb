@@ -1,0 +1,17 @@
+<h3><%= @post.title %></h3>
+<hr />
+<%= @post.description %>
+<hr />
+
+<%= render 'shared/errors', obj: @comment %>
+
+<%= render 'comments/form' %>
+
+<% @post.comments.each do |comment| %>
+  <div class="well well-sm">
+    <blockquote>
+      <p><%= comment.body %></p>
+      <footer><%= link_to comment.creator.username, '#' %> <cite><%= comment.created_at.strftime("on %m/%d/%Y at %l:%M %Z") %></cite></footer>
+    </blockquote>
+  </div>
+<% end %>
