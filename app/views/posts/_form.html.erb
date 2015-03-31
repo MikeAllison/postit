@@ -1,19 +1,4 @@
-<% if @post.errors.any? %>
-  <div class="row">
-    <div class="col-xs-12">
-      <div class="alert alert-danger alert-dismissible" role="alert">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <strong>Please fix the following errors:</strong>
-        <hr />
-        <ul>
-          <% @post.errors.each do |field, message| %>
-            <li><%= message %></li>
-          <% end %>
-        </ul>
-      </div>
-    </div>
-  </div>
-<% end %>
+<%= render 'shared/errors', obj: @post %>
 
 <div class="row">
   <div class="col-xs-12">
