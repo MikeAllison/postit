@@ -36,7 +36,7 @@
 
 <div class="row">
   <div class="col-xs-12">
-    <% @post.comments.each do |comment| %>
+    <% @post.comments.reload.each do |comment| %>
       <div class="well well-sm">
         <blockquote>
           <p><%= comment.body %></p>
