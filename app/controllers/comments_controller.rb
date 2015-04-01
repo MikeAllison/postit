@@ -5,10 +5,10 @@ class CommentsController < ApplicationController
     @comment.creator = User.first # Remove later
 
     if @comment.save
-      flash[:success] + "Your comment was added."
+      flash[:success] = 'Your comment was added.'
       redirect_to @post
     else
-      redirect_to post_path(@post)
+      render 'posts/show'
     end
   end
 end

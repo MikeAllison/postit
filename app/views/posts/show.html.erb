@@ -1,17 +1,48 @@
-<h3><%= @post.title %></h3>
-<hr />
-<%= @post.description %>
-<hr />
-
-<%= render 'shared/errors', obj: @comment %>
-
-<%= render 'comments/form' %>
-
-<% @post.comments.each do |comment| %>
-  <div class="well well-sm">
-    <blockquote>
-      <p><%= comment.body %></p>
-      <footer><%= link_to comment.creator.username, '#' %> <cite><%= comment.created_at.strftime("on %m/%d/%Y at %l:%M %Z") %></cite></footer>
-    </blockquote>
+<div class="row">
+  <div class="col-xs-12">
+    <h3><%= @post.title %></h3>
+    <hr />
   </div>
-<% end %>
+</div>
+
+
+<div class="row">
+  <div class="col-xs-12">
+    <%= @post.description %>
+    <hr />
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-xs-12">
+    <%= render 'shared/errors', obj: @comment %>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-xs-12">
+    <%= form_for [@post, @comment] do |f| %>
+      <div class="form-group">
+        <%= f.label :body, 'Leave a Comment' %>
+        <%= f.text_area :body, class: 'form-control' %>
+      </div>
+      <div class="form-group">
+        <%= f.submit 'Post Comment', class: 'btn btn-primary' %>
+      </div>
+    <% end %>
+    <hr />
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-xs-12">
+    <% @post.comments.each do |comment| %>
+      <div class="well well-sm">
+        <blockquote>
+          <p><%= comment.body %></p>
+          <footer><%= link_to comment.creator.username, '#' %> <cite><%= comment.created_at.strftime("on %m/%d/%Y at %l:%M %Z") %></cite></footer>
+        </blockquote>
+      </div>
+    <% end %>
+  </div>
+</div>
