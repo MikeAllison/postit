@@ -49,7 +49,7 @@
         <div class="panel-body"> <!-- BEGIN .panel-body -->
           <p class="text-right">
             <% post.categories.each do |category| %>
-              <button class="btn btn-default btn-sm"><%= category.name %></button>
+              <%= link_to category.name, category_path(category), class: 'btn btn-default btn-sm' %>
             <% end %>
           </p>
           <p class="description">

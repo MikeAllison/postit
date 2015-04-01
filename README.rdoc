@@ -14,3 +14,7 @@ This is a Reddit-like app for Tealeaf Academy's Rapid Prototyping with Ruby on R
 * Hide 'Edit Post' link for posts that don't belong to the logged in user
 * Fix duplicate code for responsive design
 * Write method to chomp whitespace from Post.url field before saving
+
+== Items to Blog About:
+
+* Checkboxes - https://www.youtube.com/watch?v=c2qwV0B9yfU
