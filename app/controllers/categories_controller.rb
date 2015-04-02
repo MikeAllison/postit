@@ -21,7 +21,7 @@ class CategoriesController < ApplicationController
   end
 
   def show
-    @posts = Post.includes(:creator, :categories, :comments).joins(:post_categories).where("category_id = ?", params[:id])
+    @posts = @category.posts.includes(:creator, :categories, :comments)
   end
 
   def edit
