@@ -4,15 +4,15 @@ This is a Reddit-like app for Tealeaf Academy's Rapid Prototyping with Ruby on R
 
 == To-Do
 
-* Error messages detailing what needs to be fixed after validations
+* Error messages detailing what needs to be fixed after validations (ongoing)
 * New Post button should be hidden unless logged in
-* Comment counter
-* Comment links
+* Comment voting buttons
 * Hide 'Edit Post' link for posts that don't belong to the logged in user
 * Fix duplicate code for responsive design
 * Write method to chomp whitespace from Post.url field before saving
 * Generate a message to show if there aren't any posts for a particular category
 * Maybe add category dropdown on posts#show without 'New Post' button
+* The post#show layout can probably be extracted into partial (but edit_post_path is different for posts#index and post#show)
 
 == Items to Blog About:
 
