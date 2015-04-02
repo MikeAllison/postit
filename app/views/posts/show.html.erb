@@ -5,11 +5,7 @@
         <h3><strong><%= link_to @post.title, @post.url %></strong></h3>
       </div>
       <div class="panel-body">
-        <p class="text-right">
-          <% @post.categories.each do |category| %>
-            <%= link_to category.name, category_path(category), class: 'btn btn-default btn-sm' %>
-          <% end %>
-        </p>
+        <%= render 'shared/category_buttons', obj: @post %>
         <p>
           <%= @post.description %>
         </p>

@@ -42,14 +42,9 @@
               <label class="label label-primary">0 Votes</label>
             </p>
           </span> <!-- END MOBILE VOTING BUTTONS -->
-
         </div> <!-- END .panel-heading -->
         <div class="panel-body"> <!-- BEGIN .panel-body -->
-          <p class="text-right">
-            <% post.categories.each do |category| %>
-              <%= link_to category.name, category_path(category), class: 'btn btn-default btn-sm' %>
-            <% end %>
-          </p>
+          <%= render 'shared/category_buttons', obj: post %>
           <p>
             <%= post.description %>
           </p>
