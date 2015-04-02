@@ -45,7 +45,7 @@
       <div class="well well-sm">
         <blockquote>
           <p><%= comment.body %></p>
-          <footer><%= link_to comment.creator.username, '#' %> <cite><%= comment.created_at.strftime("on %m/%d/%Y at %l:%M %Z") %></cite></footer>
+          <footer><%= link_to comment.creator.username, '#' %> <cite><%= formatted_date_time(comment) %></cite></footer>
         </blockquote>
       </div>
     <% end %>

@@ -4,4 +4,9 @@ module ApplicationHelper
   def page_title
     @category.nil? ? 'All Posts' : @category.name
   end
+
+  # Converts .created_at to a nicer format
+  def formatted_date_time(obj)
+    obj.created_at.strftime("on %m/%d/%Y at %l:%M %Z")
+  end
 end

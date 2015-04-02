@@ -52,7 +52,7 @@
         <div class="panel-footer"> <!-- BEGIN .panel-footer -->
           <span class="hidden-xs"> <!-- BEGIN NON-MOBILE FOOTER -->
             <p>
-              <small>Posted by</small> <a href="#"><%= post.creator.username %></a> <small><%= post.created_at.strftime("on %m/%d/%Y at %l:%M %Z") %></small>
+              <small>Posted by</small> <a href="#"><%= post.creator.username %></a> <small><%= formatted_date_time(post) %></small>
               <br />
               <small>[<%= link_to 'Edit Post', edit_post_path(post), class: 'text-muted' %>]</small>
               <%= link_to post_path(post), class: 'btn btn-primary btn-xs pull-right' do %>
@@ -62,7 +62,7 @@
           </span> <!-- END NON-MOBILE FOOTER -->
           <span class="visible-xs"> <!-- BEGIN MOBILE FOOTER -->
             <p>
-              <small>Posted by</small> <a href="#">Username</a> <small><%= post.created_at.strftime("on %m/%d/%Y at %l:%M %Z") %></small>
+              <small>Posted by</small> <a href="#">Username</a> <small><%= formatted_date_time(post) %></small>
               <br />
               <small>[<%= link_to 'Edit Post', edit_post_path(post), class: 'text-muted' %>]</small>
             </p>
