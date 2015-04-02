@@ -1,14 +1,20 @@
 <div class="row">
   <div class="col-xs-12">
-    <h3><%= link_to @post.title, @post.url %></h3>
-    <hr />
-  </div>
-</div>
-
-<div class="row">
-  <div class="col-xs-12">
-    <%= @post.description %>
-    <hr />
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3><strong><%= link_to @post.title, @post.url %></strong></h3>
+      </div>
+      <div class="panel-body">
+        <p class="text-right">
+          <% @post.categories.each do |category| %>
+            <%= link_to category.name, category_path(category), class: 'btn btn-default btn-sm' %>
+          <% end %>
+        </p>
+        <p>
+          <%= @post.description %>
+        </p>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -34,7 +40,7 @@
   </div>
 </div>
 
-<div class="row">
+<div id="post-comments" class="row">
   <div class="col-xs-12">
     <% @post.comments.reload.each do |comment| %>
       <div class="well well-sm">
