@@ -1,5 +1,5 @@
 class CategoriesController < ApplicationController
-  before_action :find_category, only: [:edit, :update]
+  before_action :find_category, only: [:show, :edit, :update]
 
   def index
     @categories = Category.all
@@ -18,6 +18,10 @@ class CategoriesController < ApplicationController
     else
       render :new
     end
+  end
+
+  def show
+    @posts = Post.includes(:creator, :categories, :comments).joins(:post_categories).where("category_id = ?", params[:id])
   end
 
   def edit
