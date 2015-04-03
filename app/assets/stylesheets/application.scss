@@ -15,6 +15,8 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
 
+$error-red: #a94442;
+
 .page-title {
   padding-bottom: 20px;
 }
@@ -26,24 +28,15 @@
 .navbar-custom {
   background-color: #fff;
   border-color: #fff #fff #ddd #fff;
-}
-
-.navbar-custom ul {
-  padding-top: 14px;
+  ul { padding-top: 14px; }
 }
 
 .field_with_errors {
-  color: #a94442;
+  color: $error-red;
+  input { border-color: $error-red; }
+  textarea { border-color: $error-red; }
 }
 
-.field_with_errors input {
-  border-color: #a94442;
-}
-
-.field_with_errors > textarea {
-  border-color: #a94442;
-}
-
-#post-comments blockquote {
+.post-comment blockquote {
   margin-bottom: 0;
 }

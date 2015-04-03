@@ -11,7 +11,7 @@
         </p>
       </div>
       <div class="panel-footer">
-        <small>[<%= link_to 'Edit Post', edit_post_path, class: 'text-muted' %>]</small>
+        <small>[<%= link_to 'Edit Post', edit_post_path(@post), class: 'text-muted' %>]</small>
       </div>
     </div>
   </div>
@@ -39,10 +39,10 @@
   </div>
 </div>
 
-<div id="post-comments" class="row">
+<div class="row">
   <div class="col-xs-12">
     <% @post.comments.reload.each do |comment| %>
-      <div class="well well-sm">
+      <div class="post-comment well well-sm">
         <blockquote>
           <p><%= comment.body %></p>
           <footer><%= link_to comment.creator.username, '#' %> <cite><%= formatted_date_time(comment) %></cite></footer>
