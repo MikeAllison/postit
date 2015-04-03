@@ -21,10 +21,10 @@ class Post < ActiveRecord::Base
 
   private
     def strip_url_whitespace
-      self.url = self.url.strip
+      self.url.strip!
     end
 
     def downcase_url
-      self.url = self.url.downcase
+      self.url.downcase!
     end
 end
