@@ -17,6 +17,7 @@ class Post < ActiveRecord::Base
   validates_format_of :url, without: /\s\b/, message: "URL field cannot contain spaces"
   #validates_format_of :url, with: /#{URI::regexp(['http', 'https'])}/, message: 'URL field must be a valid URL (ex. http://www.example.com)'
   validates_presence_of :description, message: "Description field can't be blank"
+  validates_presence_of :categories, message: "Please select at least one category"
 
   private
     def strip_url_whitespace
