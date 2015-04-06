@@ -9,4 +9,9 @@ module ApplicationHelper
   def formatted_date_time(obj)
     obj.created_at.strftime("on %m/%d/%Y at %l:%M %Z")
   end
+
+  # Tallies votes for posts and comments
+  def tally_votes
+    "# Votes"
+  end
 end
