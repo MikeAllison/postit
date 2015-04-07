@@ -7,7 +7,7 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 10.times do |i|
-  User.create(username: "User #{i + 1}", password: "password")
+  User.create(username: "user#{i + 1}", password: "password")
 end
 
 categories = ["Humor", "Sports", "Technology", "News", "TV & Movies", "Science", "Music", "Education"]
