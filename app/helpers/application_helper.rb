@@ -10,9 +10,18 @@ module ApplicationHelper
     obj.created_at.strftime("on %m/%d/%Y at %l:%M %Z")
   end
 
+  # Tallies votes for posts and comments
+  def tally_votes
+    "# Votes"
+  end
+
   # Sets 'Login/Logout' link on nav bar
   def login_link
-    link_to "Log In", login_path, class: 'text-muted'
+    if current_user
+      link_to "Log Out", logout_path, class: 'text-muted'
+    else
+      link_to "Log In", login_path, class: 'text-muted'
+    end
   end
 
 end

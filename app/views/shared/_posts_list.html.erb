@@ -1,10 +1,4 @@
-<!-- This mobile/non-mobile code needs to be refactored to avoid dupication -->
-
 <% @posts.each do |post| %>
-
-  <!-- PROBABLY WRONG -->
-  <% comment_count = post.comments.count %>
-
   <div class="row post">
     <span class="hidden-xs"> <!-- BEGIN NON-MOBILE VOTING COLUMN -->
       <div class="col-sm-2">
@@ -15,7 +9,7 @@
             </button>
           </p>
           <p>
-            <h4><span class="label label-primary">0 Votes</span></h4>
+            <h4><span class="label label-primary"><%= tally_votes %></span></h4>
           </p>
           <p>
             <button type="button" class="btn btn-default btn-lg">
@@ -39,7 +33,7 @@
               </button>
             </p>
             <p class="text-right">
-              <label class="label label-primary">0 Votes</label>
+              <label class="label label-primary"><%= tally_votes %></label>
             </p>
           </span> <!-- END MOBILE VOTING BUTTONS -->
         </div> <!-- END .panel-heading -->
@@ -50,32 +44,15 @@
           </p>
         </div> <!-- END .panel-body -->
         <div class="panel-footer"> <!-- BEGIN .panel-footer -->
-          <span class="hidden-xs"> <!-- BEGIN NON-MOBILE FOOTER -->
-            <p>
-              <small>Posted by</small> <a href="#"><%= post.creator.username %></a> <small><%= formatted_date_time(post) %></small>
-              <%= link_to edit_post_path(post), title: 'Edit Post' do %>
-                <small><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></small>
-              <% end %>
-            </p>
-            <p class="text-right">
-              <%= link_to post_path(post), class: 'btn btn-primary btn-xs' do %>
-                <span class="badge"><%= comment_count %></span> Comments
-              <% end %>
-            </p>
-          </span> <!-- END NON-MOBILE FOOTER -->
-          <span class="visible-xs"> <!-- BEGIN MOBILE FOOTER -->
-            <p>
-              <small>Posted by</small> <a href="#">Username</a> <small><%= formatted_date_time(post) %></small>
-              <%= link_to edit_post_path(post), title: 'Edit Post' do %>
-                <small><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></small>
-              <% end %>
-            </p>
-            <p class="text-right">
-              <%= link_to post_path(post), class: 'btn btn-primary btn-xs' do %>
-                <span class="badge"><%= comment_count %></span> Comments
-              <% end %>
-            </p>
-          </span> <!-- END NON-MOBILE FOOTER -->
+          <p>
+            <small>Posted by</small> <a href="#"><%= post.creator.username %></a> <small><%= formatted_date_time(post) %></small>
+            <%= edit_post_link(post) %>
+          </p>
+          <p class="text-right">
+            <%= link_to post_path(post), class: 'btn btn-primary btn-xs' do %>
+              <span class="badge"><%= post.comments.count %></span> Comments
+            <% end %>
+          </p>
         </div> <!-- END .panel-footer -->
       </div> <!-- END .panel -->
     </div> <!-- END RIGHT (POSTS) COLUMN -->
