@@ -9,4 +9,10 @@ module ApplicationHelper
   def formatted_date_time(obj)
     obj.created_at.strftime("on %m/%d/%Y at %l:%M %Z")
   end
+
+  # Sets 'Login/Logout' link on nav bar
+  def login_link
+    link_to "Log In", login_path, class: 'text-muted'
+  end
+
 end

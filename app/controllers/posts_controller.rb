@@ -11,7 +11,7 @@ class PostsController < ApplicationController
 
   def create
     @post = Post.new(post_params)
-    @post.creator = User.first # Remove later
+    @post.creator = current_user
 
     if @post.save
       flash[:success] = "Your post was created."
