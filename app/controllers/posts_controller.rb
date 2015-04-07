@@ -1,4 +1,5 @@
 class PostsController < ApplicationController
+  before_action :authenticate, except: [:index, :show]
   before_action :find_post, only: [:show, :edit, :update]
 
   def index
@@ -11,7 +12,7 @@ class PostsController < ApplicationController
 
   def create
     @post = Post.new(post_params)
-    @post.creator = User.first # Remove later
+    @post.creator = current_user
 
     if @post.save
       flash[:success] = "Your post was created."
