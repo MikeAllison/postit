@@ -1,4 +1,6 @@
 class SessionsController < ApplicationController
+  def new
+  end
 
   def create
     user = User.find_by(username: params[:username])
@@ -14,7 +16,7 @@ class SessionsController < ApplicationController
   end
 
   def destroy
-    @_current_user = session[:current_user_id] = nil
+    @current_user = session[:current_user_id] = nil
     flash[:success] = "You have been logged out successfully."
     redirect_to root_url
   end

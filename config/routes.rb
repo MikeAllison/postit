@@ -1,6 +1,6 @@
 PostitTemplate::Application.routes.draw do
   root to: 'posts#index'
-  
+
   get 'login',  to: 'sessions#new'
   get 'logout', to: 'sessions#destroy'
 
@@ -10,6 +10,6 @@ PostitTemplate::Application.routes.draw do
 
   resources :categories, except: [:destroy]
 
-  resources :sessions, only: [:create, :destroy]
+  resource :sessions, only: [:new, :create, :destroy]
 
 end
