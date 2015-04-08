@@ -1,6 +1,5 @@
 <%= @user.username %><br />
 Time Zone:<br />
 <br />
-<% @user.posts.each do |post| %>
-  <%= render 'shared/posts_list' %>
-<% end %>
+
+<%= render 'shared/posts_list', posts: @user.posts %>
