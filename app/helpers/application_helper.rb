@@ -15,12 +15,17 @@ module ApplicationHelper
     "# Votes"
   end
 
-  # Sets 'Login/Logout' link on nav bar
+  # Sets 'Register' link on navbar
+  def register_link
+    link_to 'Register', register_path, class: 'text-muted' unless current_user
+  end
+
+  # Sets 'Login/Logout' link on navbar
   def login_link
     if current_user
-      link_to "Log Out", logout_path, class: 'text-muted'
+      link_to 'Log Out', logout_path, class: 'text-muted'
     else
-      link_to "Log In", login_path, class: 'text-muted'
+      link_to 'Log In', login_path, class: 'text-muted'
     end
   end
 
