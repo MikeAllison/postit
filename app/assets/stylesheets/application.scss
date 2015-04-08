@@ -16,6 +16,7 @@
 @import "bootstrap";
 
 $error-red: #a94442;
+$primary: #337AB7;
 
 .page-title {
   padding-bottom: 20px;
@@ -39,4 +40,9 @@ $error-red: #a94442;
 
 .post-comment blockquote {
   margin-bottom: 0;
+}
+
+#register, #login {
+  background-color: $primary;
+  color: white;
 }
