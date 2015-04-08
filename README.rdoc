@@ -13,6 +13,8 @@ This is a Reddit-like app for Tealeaf Academy's Rapid Prototyping with Ruby on R
 * Maybe add category dropdown on posts#show without 'New Post' button
 * The post#show layout can probably be extracted into partial (but edit_post_path is different for posts#index and post#show)
 * Find better solution for cancel and back buttons (remember last place)
+* Downcased username column?
+* Add additional password validations
 
 == Items to Blog About:
 
