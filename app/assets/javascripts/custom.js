@@ -2,11 +2,14 @@
 function adjustNavStyles(windowWidth) {
   var windowWidth = $(window).width();
 
-  $("ul.nav").removeClass("nav-pills navbar-default");
+  // Remove both navbar classes on page load
+  $("ul#navbar-links").removeClass("nav-pills navbar-default");
 
+  // Use pills for nav links on screens >= 750
+  // Use Bootstrap responsive menu on screens < 750
   if (windowWidth >= 750) {
-    $("ul.nav").addClass("nav-pills");
+    $("ul#navbar-links").addClass("nav-pills");
   } else {
-    $("ul.nav").addClass("navbar-default");
+    $("ul#navbar-links").addClass("navbar-default");
   }
 }

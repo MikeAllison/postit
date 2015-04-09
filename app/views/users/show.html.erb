@@ -1,5 +1,36 @@
-<%= @user.username %><br />
-Time Zone:<br />
-<br />
+<div class="row">
+  <div class="col-xs-12">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <h3>Profile: <%= @user.username %></h3>
+        <hr />
+        <p><strong>Username: </strong><%= @user.username %></p>
+        <p><strong>Time Zone: </strong>Need Timezone</p>
+      </div>
+    </div>
+  </div>
+</div>
 
-<%= render 'shared/posts_list', posts: @user.posts %>
+<div class="row">
+  <div class="col-xs-12">
+    <div role="tabpanel">
+
+      <!-- Nav tabs -->
+      <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#posts" aria-controls="posts" role="tab" data-toggle="tab">Posts</a></li>
+        <li role="presentation"><a href="#comments" aria-controls="comments" role="tab" data-toggle="tab">Comments</a></li>
+      </ul>
+
+      <!-- Tab panes -->
+      <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="posts">
+          <%= render 'shared/posts_list', posts: @user.posts %>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="comments">
+          (Need Comments)
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

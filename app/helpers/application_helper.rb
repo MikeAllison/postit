@@ -18,7 +18,7 @@ module ApplicationHelper
   # Sets 'Register' or options for logged in user on navbar
   def user_options_link
     if current_user
-      render 'shared/user_options_menu'
+      render 'layouts/user_options_menu'
     else
       link_to 'Register', register_path, class: 'text-muted'
     end

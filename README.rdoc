@@ -14,7 +14,8 @@ This is a Reddit-like app for Tealeaf Academy's Rapid Prototyping with Ruby on R
 * The post#show layout can probably be extracted into partial (but edit_post_path is different for posts#index and post#show)
 * Find better solution for cancel and back buttons (remember last place)
 * Downcased username column?
-* Add additional password validations
+* Add additional password validations (Fix - 'passwords don't match' when both blank)
+* Fix size of navbar dropdown
 
 == Items to Blog About:
 

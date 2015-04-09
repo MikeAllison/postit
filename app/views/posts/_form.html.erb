@@ -29,7 +29,7 @@
           </div>
         </div>
         <div class="form-group">
-          <%= f.submit(@post.new_record? ? 'Create Post' : 'Update Post', class: 'btn btn-primary') %>
+          <%= f.submit @post.new_record? ? 'Create Post' : 'Update Post', class: 'btn btn-primary' %>
           <%= link_to 'Cancel', :back, class: 'btn btn-default' %>
         </div>
       <% end %>

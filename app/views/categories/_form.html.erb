@@ -9,7 +9,7 @@
           <%= f.text_field :name, class: 'form-control' %>
         </div>
         <div class="form-group">
-          <%= f.submit(@category.new_record? ? 'Add Category' : 'Update Category', class: 'btn btn-primary') %>
+          <%= f.submit @category.new_record? ? 'Add Category' : 'Update Category', class: 'btn btn-primary' %>
           <%= link_to 'Cancel', :back, class: 'btn btn-default' %>
         </div>
       <% end %>
