@@ -2,7 +2,7 @@
   <div class="col-xs-12">
     <div class="panel panel-default">
       <div class="panel-body">
-        <h3>Profile: <%= @user.username %></h3>
+        <h3><strong>Profile: </strong><%= @user.username %></h3>
         <hr />
         <p><strong>Username: </strong><%= @user.username %></p>
         <p><strong>Time Zone: </strong>Need Timezone</p>
@@ -21,13 +21,15 @@
         <li role="presentation"><a href="#comments" aria-controls="comments" role="tab" data-toggle="tab">Comments</a></li>
       </ul>
 
+      <br/>
+
       <!-- Tab panes -->
       <div class="tab-content">
         <div role="tabpanel" class="tab-pane active" id="posts">
           <%= render 'shared/posts_list', posts: @user.posts %>
         </div>
         <div role="tabpanel" class="tab-pane" id="comments">
-          (Need Comments)
+          <%= render 'comments/comments_list', obj: @user %>
         </div>
       </div>
 

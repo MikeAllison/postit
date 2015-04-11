@@ -32,13 +32,6 @@
 
 <div class="row">
   <div class="col-xs-12">
-    <% @post.comments.reload.each do |comment| %>
-      <div class="post-comment well well-sm">
-        <blockquote>
-          <p><%= comment.body %></p>
-          <footer><%= link_to comment.creator.username, '#' %> <cite><%= formatted_date_time(comment) %></cite></footer>
-        </blockquote>
-      </div>
-    <% end %>
+    <%= render 'comments/comments_list', obj: @post %>
   </div>
 </div>
