@@ -16,6 +16,7 @@ This is a Reddit-like app for Tealeaf Academy's Rapid Prototyping with Ruby on R
 * Downcased username column?
 * Add additional password validations (Fix - 'passwords don't match' when both blank)
 * Fix size of navbar dropdown
+* Timezone
 
 == Items to Blog About:
 
