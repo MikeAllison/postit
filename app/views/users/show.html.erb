@@ -29,7 +29,7 @@
           <%= render 'shared/posts_list', posts: @user.posts %>
         </div>
         <div role="tabpanel" class="tab-pane" id="comments">
-          <%= render 'comments/comments_list', obj: @user %>
+          <%= render partial: 'comments/comments_list', locals: { obj: @user, user_profile_page: true } %>
         </div>
       </div>
 
