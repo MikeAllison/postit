@@ -4,10 +4,15 @@ class VotesController < ApplicationController
   def create
 
     @post = Post.find(params[:post_id])
-    @vote = @post.votes.build(vote: params[:vote], creator: current_user)
-    #@vote.vote = params[:vote]
-    #@vote.creator = current_user
+    @vote = @post.votes.build(vote_params)
+    @vote.creator = current_user
 
     binding.pry
   end
+
+  private
+
+    def vote_params
+      params.permit(:vote)
+    end
 end
