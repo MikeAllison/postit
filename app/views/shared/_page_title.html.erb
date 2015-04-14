@@ -16,7 +16,7 @@
           <% Category.all.each do |category| %>
             <li><%= link_to category.name, category_path(category) %></li>
           <% end %>
-          <% if current_user # Show 'Add Category' link if logged in %>
+          <% if logged_in? # Show 'Add Category' link if logged in %>
             <li class="divider"></li>
             <li>
               <%= link_to new_category_path do %>

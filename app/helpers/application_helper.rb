@@ -17,7 +17,7 @@ module ApplicationHelper
 
   # Sets 'Register' or options for logged in user on navbar
   def user_options_link
-    if current_user
+    if logged_in?
       render 'layouts/user_options_menu'
     else
       link_to 'Register', register_path, class: 'text-muted'
@@ -26,7 +26,7 @@ module ApplicationHelper
 
   # Sets 'Login/Logout' link on navbar
   def login_link
-    if current_user
+    if logged_in?
       link_to 'Log Out', logout_path, class: 'text-muted'
     else
       link_to 'Log In', login_path, class: 'text-muted'

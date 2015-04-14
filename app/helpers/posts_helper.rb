@@ -2,12 +2,12 @@ module PostsHelper
 
   # Show 'New Post' button in shared/page_title if logged in
   def new_post_button
-    link_to 'New Post', new_post_path, class: 'btn btn-lg btn-primary' if current_user
+    link_to 'New Post', new_post_path, class: 'btn btn-lg btn-primary' if logged_in?
   end
 
   # Show comment form on posts#show page if logged in
   def comments_form
-    render 'comments/form' if current_user
+    render 'comments/form' if logged_in?
   end
 
   # Show link to edit post if current_user is the creator of the post
