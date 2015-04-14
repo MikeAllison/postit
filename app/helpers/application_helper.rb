@@ -12,7 +12,7 @@ module ApplicationHelper
 
   # Tallies votes for posts and comments
   def tally_votes
-    "# Votes"
+    nil || '0 Votes'
   end
 
   # Sets 'Register' or options for logged in user on navbar
