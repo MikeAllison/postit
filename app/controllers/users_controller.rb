@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   before_action :authenticate, except: [:new, :create]
   before_action :find_user, only: [:show, :edit, :update]
+  before_action :restrict_profile_access, except: [:new, :create]
 
   def new
     @user = User.new
@@ -41,5 +42,12 @@ class UsersController < ApplicationController
 
     def find_user
       @user = User.find(params[:id])
+    end
+
+    def restrict_profile_access
+      if @user != current_user
+        flash[:danger] = "You are not authorized to view that page."
+        redirect_to user_path(current_user)
+      end
     end
 end
