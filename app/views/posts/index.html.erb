@@ -1,5 +1,3 @@
 <%= render 'shared/page_title' %>
 
-<% @posts.each do |post| %>
-  <%= render 'shared/post', post: post, show_comments_link: true %>
-<% end %>
+<%= render partial: 'shared/post', collection: @posts, locals: { show_comments_link: true } %>
