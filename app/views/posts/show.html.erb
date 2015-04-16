@@ -1,24 +1,4 @@
-<div class="row">
-  <div class="col-xs-12">
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3><strong><%= link_to @post.title, @post.url %></strong></h3>
-      </div>
-      <div class="panel-body">
-        <%= render 'shared/category_buttons', obj: @post %>
-        <p>
-          <%= @post.description %>
-        </p>
-      </div>
-      <div class="panel-footer">
-        <p>
-          <small>Posted by</small> <a href="#"><%= @post.creator.username %></a> <small><%= formatted_date_time(@post) %></small>
-          <%= edit_post_link(@post) %>
-        </p>
-      </div>
-    </div>
-  </div>
-</div>
+<%= render 'shared/posts_list', post: @post %>
 
 <div class="row">
   <div class="col-xs-12">

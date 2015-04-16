@@ -8,6 +8,7 @@ class Post < ActiveRecord::Base
   has_many :comments
   has_many :post_categories
   has_many :categories, through: :post_categories
+  has_many :votes, as: :voteable
 
   validates_presence_of :title, message: "Title field can't be blank"
   validates_length_of :title, minimum: 5, message: "Title is too short (minimum is 5 characters)"
