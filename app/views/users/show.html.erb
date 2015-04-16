@@ -27,7 +27,7 @@
       <div class="tab-content">
         <div role="tabpanel" class="tab-pane active" id="posts">
           <% @user.posts.each do |post| %>
-            <%= render 'shared/posts_list', post: post %>
+            <%= render 'shared/posts_list', post: post, show_comments_link: true %>
           <% end %>
         </div>
         <div role="tabpanel" class="tab-pane" id="comments">
