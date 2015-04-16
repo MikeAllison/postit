@@ -1,2 +1,4 @@
 <%= render 'shared/page_title' %>
-<%= render 'shared/posts_list', posts: @posts %>
+<% @posts.each do |post| %>
+  <%= render 'shared/posts_list', post: post %>
+<% end %>
