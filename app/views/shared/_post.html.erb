@@ -1,0 +1,32 @@
+<div class="row post">
+  <span class="hidden-xs"> <!-- BEGIN NON-MOBILE VOTING COLUMN -->
+    <div class="col-sm-2">
+      <%= render 'shared/voting_box', post: post %>
+    </div>
+  </span> <!-- END NON-MOBILE VOTING COLUMN -->
+  <div class="col-sm-10">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3><strong><%= link_to post.title, post.url %></strong></h3> <!-- POST TITLE -->
+        <%= render 'shared/voting_box_mobile', post: post %>
+      </div> <!-- END .panel-heading -->
+      <div class="panel-body"> <!-- BEGIN .panel-body -->
+        <%= render 'shared/category_buttons', obj: post %>
+        <p>
+          <%= post.description %>
+        </p>
+      </div> <!-- END .panel-body -->
+      <div class="panel-footer"> <!-- BEGIN .panel-footer -->
+        <p>
+          <small>Posted by</small> <a href="#"><%= post.creator.username %></a> <small><%= formatted_date_time(post) %></small>
+          <%= edit_post_link(post) %>
+        </p>
+        <p class="text-right">
+          <%= link_to post_path(post), class: 'btn btn-primary btn-xs' do %>
+            <span class="badge"><%= post.comments.count %></span> Comments
+          <% end %>
+        </p>
+      </div> <!-- END .panel-footer -->
+    </div> <!-- END .panel -->
+  </div> <!-- END RIGHT (POSTS) COLUMN -->
+</div> <!-- END .post -->

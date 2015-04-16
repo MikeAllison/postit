@@ -1,0 +1,15 @@
+<div class="voting-box well text-center">
+  <p>
+    <%= link_to post_votes_path(post, vote: true), method: :post, class: 'btn btn-default btn-lg' do %>
+      <span class="glyphicon glyphicon-thumbs-up text-success" aria-hidden="true"></span>
+    <% end %>
+  </p>
+  <p>
+    <h4><span class="label label-primary"><%= tally_votes(post) %></span></h4>
+  </p>
+  <p>
+    <%= link_to post_votes_path(post, vote: false), method: :post, class: 'btn btn-default btn-lg' do %>
+      <span class="glyphicon glyphicon-thumbs-down text-danger" aria-hidden="true"></span>
+    <% end %>
+  </p>
+</div>

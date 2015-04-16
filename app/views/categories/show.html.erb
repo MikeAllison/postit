@@ -1,4 +1,4 @@
 <%= render 'shared/page_title' %>
 <% @category.posts.each do |post| %>
-  <%= render 'shared/posts_list', post: post, show_comments_link: true %>
+  <%= render 'shared/post', post: post, show_comments_link: true %>
 <% end %>
