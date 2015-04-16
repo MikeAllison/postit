@@ -11,8 +11,14 @@ module ApplicationHelper
   end
 
   # Tallies votes for posts and comments
-  def tally_votes
-    nil || '0 Votes'
+  def tally_votes(obj)
+    total_votes = 0
+    upvotes = obj.votes.where("vote = ?", true).count
+    downvotes = obj.votes.where("vote = ?", false).count
+
+    total_votes = upvotes - downvotes
+
+    "#{total_votes} Votes"
   end
 
   # Sets 'Register' or options for logged in user on navbar

@@ -9,7 +9,7 @@
             <% end %>
           </p>
           <p>
-            <h4><span class="label label-primary"><%= tally_votes %></span></h4>
+            <h4><span class="label label-primary"><%= tally_votes(post) %></span></h4>
           </p>
           <p>
             <%= link_to post_votes_path(post, vote: false), method: :post, class: 'btn btn-default btn-lg' do %>
@@ -25,15 +25,15 @@
           <h3><strong><%= link_to post.title, post.url %></strong></h3> <!-- POST TITLE -->
           <span class="visible-xs"> <!-- BEGIN MOBILE VOTING BUTTONS -->
             <p class="text-right">
-              <button type="button" class="btn btn-default btn-md">
+              <%= link_to post_votes_path(post, vote: true), method: :post, class: 'btn btn-default btn-md' do %>
                 <span class="glyphicon glyphicon-thumbs-up text-success" aria-hidden="true"></span>
-              </button>
-              <button type="button" class="btn btn-default btn-md">
+              <% end %>
+              <%= link_to post_votes_path(post, vote: false), method: :post, class: 'btn btn-default btn-md' do %>
                 <span class="glyphicon glyphicon-thumbs-down text-danger" aria-hidden="true"></span>
-              </button>
+              <% end %>
             </p>
             <p class="text-right">
-              <label class="label label-primary"><%= tally_votes %></label>
+              <label class="label label-primary"><%= tally_votes(post) %></label>
             </p>
           </span> <!-- END MOBILE VOTING BUTTONS -->
         </div> <!-- END .panel-heading -->

@@ -7,7 +7,7 @@ class VotesController < ApplicationController
     @vote.vote = params[:vote]
     @vote.creator = current_user
 
-    binding.pry
+    @vote.save
 
     redirect_to posts_path
   end
