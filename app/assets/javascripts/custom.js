@@ -7,7 +7,8 @@ function adjustNavStyles(windowWidth) {
 
   // Use pills for nav links on screens >= 750
   // Use Bootstrap responsive menu on screens < 750
-  if (windowWidth >= 750) {
+  // Needs to be set to 747 to fix a display issue 
+  if (windowWidth >= 747) {
     $("ul#navbar-links").addClass("nav-pills");
   } else {
     $("ul#navbar-links").addClass("navbar-default");
