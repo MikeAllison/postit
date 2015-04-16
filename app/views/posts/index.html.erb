@@ -1,4 +1,5 @@
 <%= render 'shared/page_title' %>
+
 <% @posts.each do |post| %>
   <%= render 'shared/post', post: post, show_comments_link: true %>
 <% end %>
