@@ -17,6 +17,8 @@ This is a Reddit-like app for Tealeaf Academy's Rapid Prototyping with Ruby on R
 * Add additional password validations (Fix - 'passwords don't match' when both blank)
 * Fix size of navbar dropdown
 * Timezone
+* Remove voting buttons if not logged in
+* Try to move posts#show to 'shared/posts_list'
 
 == Items to Blog About:
 
