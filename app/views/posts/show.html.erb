@@ -3,7 +3,6 @@
 <div class="row">
   <div class="col-xs-12">
     <h3><strong>Comments</strong></h3>
-    <%= render 'shared/errors', obj: @comment %>
     <hr />
   </div>
 </div>
@@ -12,6 +11,6 @@
 
 <div class="row">
   <div class="col-xs-12">
-    <%= render partial: 'comments/comment', collection: @post.comments, locals: { user_profile_page: false } %>
+    <%= render partial: 'shared/comment', collection: @post.comments.reload, locals: { user_profile_page: false } %>
   </div>
 </div>
