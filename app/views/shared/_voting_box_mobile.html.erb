@@ -1,12 +1,16 @@
 <span class="voting-box visible-xs">
-  <p class="text-right">
-    <%= link_to post_votes_path(post, vote: true), method: :post, class: 'btn btn-default btn-md' do %>
-      <span class="glyphicon glyphicon-thumbs-up text-success" aria-hidden="true"></span>
-    <% end %>
-    <%= link_to post_votes_path(post, vote: false), method: :post, class: 'btn btn-default btn-md' do %>
-      <span class="glyphicon glyphicon-thumbs-down text-danger" aria-hidden="true"></span>
-    <% end %>
-  </p>
+  
+  <% if logged_in? %>
+    <p class="text-right">
+      <%= link_to post_votes_path(post, vote: true), method: :post, class: 'btn btn-default btn-md' do %>
+        <span class="glyphicon glyphicon-thumbs-up text-success" aria-hidden="true"></span>
+      <% end %>
+      <%= link_to post_votes_path(post, vote: false), method: :post, class: 'btn btn-default btn-md' do %>
+        <span class="glyphicon glyphicon-thumbs-down text-danger" aria-hidden="true"></span>
+      <% end %>
+    </p>
+  <% end %>
+
   <p class="text-right">
     <label class="label label-primary"><%= tally_votes(post) %></label>
   </p>
