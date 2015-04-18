@@ -28,7 +28,7 @@ class ApplicationController < ActionController::Base
     def catch_not_found
       yield
       rescue ActiveRecord::RecordNotFound
-        flash[:warning] = "We're sorry but the page that you are looking for doesn't exist."
+        flash[:warning] = "Sorry, the page that you are looking for doesn't exist."
         redirect_to root_path
     end
 end
