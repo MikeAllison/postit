@@ -18,6 +18,7 @@ This is a Reddit-like app for Tealeaf Academy's Rapid Prototyping with Ruby on R
 * Fix size of navbar dropdown
 * Timezone
 * Remove voting buttons if not logged in
+* Compare SQL queries on users#show for @users.posts (and comments) vs. creating a @posts.includes in the UsersController
 
 == Items to Blog About:
 

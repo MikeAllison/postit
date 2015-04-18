@@ -1,3 +1,5 @@
 <%= render 'shared/page_title' %>
 
-<%= render partial: 'shared/post', collection: @category.posts, locals: { show_comments_link: true } %>
+<%= render 'shared/no_posts' if @posts.empty? %>
+
+<%= render partial: 'shared/post', collection: @posts, locals: { show_comments_link: true } %>

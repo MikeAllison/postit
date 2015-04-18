@@ -1,0 +1,8 @@
+<div class="row">
+  <div class="col-xs-12">
+    <div class="well text-center">
+      <h2><strong>Sorry, there are no posts<%= @category.nil? ? '.' : ' for this category.' %></strong></h2>
+      <h3>Would you like to <%= link_to 'create', new_post_path %> one?</h3>
+    </div>
+  </div>
+</div>
