@@ -31,7 +31,7 @@
           <%= render @user.posts, show_comments_link: true %>
         </div>
         <div role="tabpanel" class="tab-pane" id="comments">
-          <%= render partial: 'shared/comment', collection: @user.comments, locals: { user_profile_page: true } %>
+          <%= render @user.comments, user_profile_page: true %>
         </div>
       </div>
 
