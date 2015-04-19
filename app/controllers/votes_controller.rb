@@ -1,5 +1,6 @@
 class VotesController < ApplicationController
   before_action :authenticate
+  respond_to :js
 
   def create
     @post = Post.find(params[:post_id])
@@ -8,8 +9,6 @@ class VotesController < ApplicationController
     @vote.creator = current_user
 
     @vote.save
-
-    redirect_to posts_path
   end
 
 end

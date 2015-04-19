@@ -1,11 +1,11 @@
 <span class="voting-box visible-xs">
-  
+
   <% if logged_in? %>
     <p class="text-right">
-      <%= link_to post_votes_path(post, vote: true), method: :post, class: 'btn btn-default btn-md' do %>
+      <%= link_to post_votes_path(post, vote: true), method: :post, class: 'btn btn-default btn-md', remote: true do %>
         <span class="glyphicon glyphicon-thumbs-up text-success" aria-hidden="true"></span>
       <% end %>
-      <%= link_to post_votes_path(post, vote: false), method: :post, class: 'btn btn-default btn-md' do %>
+      <%= link_to post_votes_path(post, vote: false), method: :post, class: 'btn btn-default btn-md', remote: true do %>
         <span class="glyphicon glyphicon-thumbs-down text-danger" aria-hidden="true"></span>
       <% end %>
     </p>
