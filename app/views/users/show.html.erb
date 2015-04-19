@@ -28,7 +28,7 @@
       <!-- Tab panes -->
       <div class="tab-content">
         <div role="tabpanel" class="tab-pane active" id="posts">
-          <%= render partial: 'shared/post', collection: @user.posts, locals: { show_comments_link: true } %>
+          <%= render @user.posts, show_comments_link: true %>
         </div>
         <div role="tabpanel" class="tab-pane" id="comments">
           <%= render partial: 'shared/comment', collection: @user.comments, locals: { user_profile_page: true } %>
