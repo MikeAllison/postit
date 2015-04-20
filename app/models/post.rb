@@ -20,6 +20,14 @@ class Post < ActiveRecord::Base
   validates_presence_of :description, message: "Description field can't be blank"
   validates_presence_of :categories, message: "Please select at least one category"
 
+  def has_vote_from?(user, vote)
+    return true if self.votes.where("user_id = ? and vote = ?", user, vote).exists?
+  end
+
+  def can_update_vote?(user, vote)
+    return true if self.votes.where("user_id = ? and vote != ?", user, vote).exists?
+  end
+
   private
     def strip_url_whitespace
       self.url.strip!
