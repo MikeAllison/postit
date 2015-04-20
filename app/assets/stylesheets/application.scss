@@ -24,6 +24,7 @@ $primary: #337AB7;
 
 .post {
   padding-bottom: 10px;
+  .category-btn { margin-bottom: 5px; }
 }
 
 .navbar-custom {
@@ -36,10 +37,6 @@ $primary: #337AB7;
   color: $error-red;
   input { border-color: $error-red; }
   textarea { border-color: $error-red; }
-}
-
-.category-btn {
-  margin-bottom: 5px;
 }
 
 .post-comment blockquote {
