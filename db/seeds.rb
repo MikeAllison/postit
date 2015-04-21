@@ -7,12 +7,12 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 10.times do |i|
-  User.create(username: "user#{i + 1}", password: "password")
+  User.create(username: "user#{i + 1}", password: "pw")
 end
 
-categories = ["Humor", "Sports", "Technology", "News", "TV & Movies", "Science", "Music", "Education"]
+categories = ["Humor", "Sports", "Technology", "News", "TV & Movies", "Science", "Music", "Education", "Politics"]
 
-8.times do |i|
+9.times do |i|
   Category.create(name: categories[i])
 end
 
@@ -23,7 +23,7 @@ descriptions = [
 ]
 
 50.times do |i|
-  Post.create(url: "http://www.website#{i + 1}.com", title: "Title #{i + 1}", description: descriptions.sample, user_id: rand(1..10), category_ids: rand(1..5))
+  Post.create(url: "http://www.website#{i + 1}.com", title: "Post Title #{i + 1}", description: descriptions.sample, user_id: rand(1..10), category_ids: rand(1..5))
 end
 
 500.times do |i|
