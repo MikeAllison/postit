@@ -21,7 +21,7 @@ module ApplicationHelper
 
   # Sets downvote button on posts and comments
   def downvote_button(obj, btn_size)
-    disabled = 'disabled' if !logged_in? 
+    disabled = 'disabled' if !logged_in? || obj.has_vote_from?(current_user, false)
 
     link_to post_votes_path(obj, vote: false), method: :post, class: "btn btn-default #{btn_size} #{disabled}", remote: true do
       content_tag :span, nil, class: 'glyphicon glyphicon-thumbs-down text-danger', aria_hidden: true
