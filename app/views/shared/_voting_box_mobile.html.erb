@@ -1,7 +1,7 @@
 <span class="voting-box visible-xs">
   <p class="text-right">
-    <%= upvote_button(post, 'btn-md') %>
-    <%= downvote_button(post, 'btn-md') %>
+    <%= upvote_downvote_button(post, 'btn-md', true, 'thumbs-up', 'text-success') %>
+    <%= upvote_downvote_button(post, 'btn-md', true, 'thumbs-down', 'text-warning') %>
   </p>
 
   <p class="text-right">

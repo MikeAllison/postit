@@ -10,21 +10,13 @@ module ApplicationHelper
     obj.created_at.strftime("on %m/%d/%Y at %l:%M %Z")
   end
 
-  # Sets upvote button on posts and comments
-  def upvote_button(obj, btn_size)
-    disabled = 'disabled' if !logged_in? || obj.has_vote_from?(current_user, true)
+  # Sets upvote/downvote buttons on posts and comments
+  # obj: Post or Comment, btn_size: 'btn-md/lg', vote: t/f, glyph_type: 'thumbs-up/down', color: 'text-primary/warning'
+  def upvote_downvote_button(obj, btn_size, vote, glyph_type, text_color)
+    disabled = 'disabled' if !logged_in? || obj.has_vote_from?(current_user, vote)
 
-    link_to post_votes_path(obj, vote: true), method: :post, class: "btn btn-default #{btn_size} #{disabled}", remote: true do
-      content_tag :span, nil, class: 'glyphicon glyphicon-thumbs-up text-success', aria_hidden: true
-    end
-  end
-
-  # Sets downvote button on posts and comments
-  def downvote_button(obj, btn_size)
-    disabled = 'disabled' if !logged_in? 
-
-    link_to post_votes_path(obj, vote: false), method: :post, class: "btn btn-default #{btn_size} #{disabled}", remote: true do
-      content_tag :span, nil, class: 'glyphicon glyphicon-thumbs-down text-danger', aria_hidden: true
+    link_to post_votes_path(obj, vote: vote), method: :post, class: "btn btn-default #{btn_size} #{disabled}", remote: true do
+      content_tag :span, nil, class: "glyphicon glyphicon-#{glyph_type} #{text_color}", aria_hidden: true
     end
   end
 

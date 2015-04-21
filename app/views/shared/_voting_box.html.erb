@@ -1,11 +1,11 @@
 <div class="well text-center">
   <p>
-    <%= upvote_button(post, 'btn-lg') %>
+    <%= upvote_downvote_button(post, 'btn-lg', true, 'thumbs-up', 'text-success') %>
   </p>
 <p>
   <h4><span class="label label-primary"><%= tally_votes(post) %></span></h4>
 </p>
   <p>
-    <%= downvote_button(post, 'btn-lg') %>
+    <%= upvote_downvote_button(post, 'btn-lg', false, 'thumbs-down', 'text-warning') %>
   </p>
 </div>
