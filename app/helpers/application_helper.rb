@@ -13,7 +13,7 @@ module ApplicationHelper
   # Sets upvote/downvote buttons on posts and comments
   # obj: Post or Comment, vote: t/f, btn_size: 'btn-md/lg', glyph_type: 'thumbs-up/down', color: 'text-primary/warning'
   def upvote_downvote_button(obj, vote, btn_size, glyph_type, text_color)
-    disabled = 'disabled' if !logged_in? || obj.has_vote_from?(current_user, vote)
+    (disabled = 'disabled') && (text_color = 'text-default') if !logged_in? || obj.has_vote_from?(current_user, vote)
 
     link_to post_votes_path(obj, vote: vote), method: :post, class: "btn btn-default #{btn_size} #{disabled}", remote: true do
       content_tag :span, nil, class: "glyphicon glyphicon-#{glyph_type} #{text_color}", aria_hidden: true
