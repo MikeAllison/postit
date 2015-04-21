@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   before_action :authenticate, except: [:new, :create, :show]
   before_action :find_user, only: [:show, :edit, :update]
-  before_action :restrict_profile_access, except: [:new, :create, :show]
+  before_action :restrict_profile_access, only: [:edit, :update]
 
   def new
     @user = User.new
