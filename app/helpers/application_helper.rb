@@ -10,6 +10,24 @@ module ApplicationHelper
     obj.created_at.strftime("on %m/%d/%Y at %l:%M %Z")
   end
 
+  # Sets upvote button on posts and comments
+  def upvote_button(obj, btn_size)
+    disabled = 'disabled' if !logged_in? || obj.has_vote_from?(current_user, true)
+
+    link_to post_votes_path(obj, vote: true), method: :post, class: "btn btn-default #{btn_size} #{disabled}", remote: true do
+      content_tag :span, nil, class: 'glyphicon glyphicon-thumbs-up text-success', aria_hidden: true
+    end
+  end
+
+  # Sets downvote button on posts and comments
+  def downvote_button(obj, btn_size)
+    disabled = 'disabled' if !logged_in? 
+
+    link_to post_votes_path(obj, vote: false), method: :post, class: "btn btn-default #{btn_size} #{disabled}", remote: true do
+      content_tag :span, nil, class: 'glyphicon glyphicon-thumbs-down text-danger', aria_hidden: true
+    end
+  end
+
   # Tallies votes for posts and comments
   def tally_votes(obj)
     total_votes = 0
