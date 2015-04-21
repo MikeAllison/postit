@@ -11,7 +11,7 @@ module ApplicationHelper
   end
 
   # Sets upvote/downvote buttons on posts and comments
-  # obj: Post or Comment, vote: t/f, btn_size: 'btn-md/lg', glyph_type: 'thumbs-up/down', color: 'text-primary/warning'
+  # obj: post/comment, vote: t/f, btn_size: 'btn-md/lg', glyph_type: 'thumbs-up/down', color: 'text-primary/warning'
   def upvote_downvote_button(obj, vote, btn_size, glyph_type, text_color)
     (disabled = 'disabled') && (text_color = 'text-default') if !logged_in? || obj.has_vote_from?(current_user, vote)
 
