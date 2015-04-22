@@ -20,7 +20,7 @@ class Post < ActiveRecord::Base
   validates_presence_of :description, message: "Description field can't be blank"
   validates_presence_of :categories, message: "Please select at least one category"
 
-  def total_votes
+  def tallied_votes
     total_votes = 0
     upvotes = self.votes.where("vote = ?", true).count
     downvotes = self.votes.where("vote = ?", false).count

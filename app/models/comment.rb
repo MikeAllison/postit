@@ -5,7 +5,7 @@ class Comment < ActiveRecord::Base
 
   validates_presence_of :body, message: "Comment cannot be blank"
 
-  def total_votes
+  def tallied_votes
     total_votes = 0
     upvotes = self.votes.where("vote = ?", true).count
     downvotes = self.votes.where("vote = ?", false).count
