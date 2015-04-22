@@ -2,7 +2,7 @@ module ApplicationHelper
 
   # Populates category selection dropdown
   def page_title
-    @category.nil? ? 'All Posts' : @category.name
+    @category.nil? ? 'All Posts' : "#{@category.name} (#{@category.posts.size})" 
   end
 
   # Converts .created_at to a nicer format
