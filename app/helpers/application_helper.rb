@@ -2,7 +2,7 @@ module ApplicationHelper
 
   # Populates category selection dropdown
   def page_title
-    @category.nil? ? 'All Posts' : "#{@category.name} (#{@category.posts.size})" 
+    @category.nil? ? 'All Posts' : "#{@category.name} (#{@category.posts.size})"
   end
 
   # Converts .created_at to a nicer format
@@ -28,17 +28,6 @@ module ApplicationHelper
     link_to post_comment_votes_path(obj1, obj2, vote: vote), method: :post, class: "btn btn-default #{btn_size} #{disabled}", remote: true do
       content_tag :span, nil, class: "glyphicon glyphicon-#{glyph_type} #{text_color}", :'aria-hidden' => true
     end
-  end
-
-  # Tallies votes for posts and comments
-  def tally_votes(obj)
-    total_votes = 0
-    upvotes = obj.votes.where("vote = ?", true).count
-    downvotes = obj.votes.where("vote = ?", false).count
-
-    total_votes = upvotes - downvotes
-
-    "#{total_votes} Votes"
   end
 
   # Sets 'Register' or options for logged in user on navbar

@@ -5,6 +5,14 @@ class Comment < ActiveRecord::Base
 
   validates_presence_of :body, message: "Comment cannot be blank"
 
+  def total_votes
+    total_votes = 0
+    upvotes = self.votes.where("vote = ?", true).count
+    downvotes = self.votes.where("vote = ?", false).count
+
+    total_votes = upvotes - downvotes
+  end
+
   def has_same_vote_from?(user, vote)
     return true if self.votes.where("user_id = ? and vote = ?", user, vote).exists?
   end
