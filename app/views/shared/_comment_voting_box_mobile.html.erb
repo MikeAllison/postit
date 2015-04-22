@@ -1,0 +1,10 @@
+<!-- Called from 'comments/_comment' -->
+<span class="comment-voting-btns-mobile visible-xs">
+  <p class="text-right">
+    <%= comment_voting_button(obj1, obj2, true, 'btn-md', 'thumbs-up', 'text-success') %>
+    <%= comment_voting_button(obj1, obj2, false, 'btn-md', 'thumbs-down', 'text-danger') %>
+  </p>
+  <p class="text-right">
+    <label class="label label-primary"><%= tally_votes(obj2) %></label>
+  </p>
+</span>

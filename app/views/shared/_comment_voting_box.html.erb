@@ -1,0 +1,12 @@
+<!-- Called from 'comments/_comment' -->
+<div class="well text-center">
+  <p>
+    <%= comment_voting_button(obj1, obj2, true, 'btn-md', 'thumbs-up', 'text-success') %>
+  </p>
+  <p>
+    <h4><span class="label label-primary"><%= tally_votes(obj2) %></span></h4>
+  </p>
+  <p>
+    <%= comment_voting_button(obj1, obj2, false, 'btn-md', 'thumbs-down', 'text-danger') %>
+  </p>
+</div>

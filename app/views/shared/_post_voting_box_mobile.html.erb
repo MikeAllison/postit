@@ -1,0 +1,10 @@
+<!-- Called from 'posts/_post' -->
+<span class="visible-xs">
+  <p class="text-right">
+    <%= post_voting_button(obj, true, 'btn-md', 'thumbs-up', 'text-success') %>
+    <%= post_voting_button(obj, false, 'btn-md', 'thumbs-down', 'text-danger') %>
+  </p>
+  <p class="text-right">
+    <label class="label label-primary"><%= tally_votes(obj) %></label>
+  </p>
+</span>
