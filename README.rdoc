@@ -6,13 +6,9 @@ This is a Reddit-like app for Tealeaf Academy's Rapid Prototyping with Ruby on R
 
 * Error messages detailing what needs to be fixed after validations (ongoing)
 * Fix duplicate code for responsive design
-* Generate a message to show if there aren't any posts for a particular category
-* Maybe add category dropdown on posts#show without 'New Post' button
-* The post#show layout can probably be extracted into partial (but edit_post_path is different for posts#index and post#show)
 * Find better solution for cancel and back buttons (remember last place)
 * Downcased username column?
 * Add additional password validations (Fix - 'passwords don't match' when both blank)
-* Fix size of navbar dropdown
 * Timezone
 * Remove voting buttons if not logged in
 * Compare SQL queries on users#show for @users.posts (and comments) vs. creating a @posts.includes in the UsersController
