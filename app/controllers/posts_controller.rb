@@ -1,6 +1,7 @@
 class PostsController < ApplicationController
   before_action :authenticate, except: [:index, :show]
   before_action :find_post, only: [:show, :edit, :update]
+  before_action :restrict_post_editing, only: [:edit, :update, :destroy]
 
   def index
     @posts = Post.includes(:creator, :categories, :comments)
@@ -42,6 +43,13 @@ class PostsController < ApplicationController
 
     def find_post
       @post = Post.find(params[:id])
+    end
+
+    def restrict_post_editing
+      if @post.creator != current_user
+        flash[:danger] = "You can only edit posts that you've created."
+        redirect_to @post
+      end
     end
 
     def post_params

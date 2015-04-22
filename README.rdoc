@@ -5,9 +5,6 @@ This is a Reddit-like app for Tealeaf Academy's Rapid Prototyping with Ruby on R
 == To-Do
 
 * Error messages detailing what needs to be fixed after validations (ongoing)
-* New Post button should be hidden unless logged in
-* Comment voting buttons
-* Hide 'Edit Post' link for posts that don't belong to the logged in user
 * Fix duplicate code for responsive design
 * Generate a message to show if there aren't any posts for a particular category
 * Maybe add category dropdown on posts#show without 'New Post' button
