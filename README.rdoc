@@ -10,7 +10,6 @@ This is a Reddit-like app for Tealeaf Academy's Rapid Prototyping with Ruby on R
 * Downcased username column?
 * Add additional password validations (Fix - 'passwords don't match' when both blank)
 * Timezone
-* Remove voting buttons if not logged in
 * Compare SQL queries on users#show for @users.posts (and comments) vs. creating a @posts.includes in the UsersController
 * Pass variable on 'shared/no_posts' to auto-select checkbox on form if link is clicked
 * Message for no categories on new post form
