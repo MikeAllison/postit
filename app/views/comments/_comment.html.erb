@@ -1,6 +1,22 @@
-<div class="post-comment well well-sm">
-  <blockquote>
-    <p><q><%= comment.body %></q> <em><%= post_link(comment) if user_profile_page %></em></p>
-    <footer><%= link_to comment.creator.username, comment.creator %> <cite><%= formatted_date_time(comment) %></cite></footer>
-  </blockquote>
-</div>
+<!-- @comment.each do |comment| -->
+  <div class="row">
+    <span class="hidden-xs"> <!-- BEGIN NON-MOBILE VOTING COLUMN -->
+      <div class="col-sm-2">
+        <div id="<%= dom_id(comment) %>-voting-box">
+          <%= render 'shared/comment_voting_box', obj1: comment.post, obj2: comment %>
+        </div>
+      </div>
+    </span> <!-- END NON-MOBILE VOTING COLUMN -->
+    <div class="col-sm-10">
+      <div class="post-comment well well-sm">
+        <blockquote>
+          <p><q><%= comment.body %></q> <em><%= post_link(comment) if user_profile_page %></em></p>
+          <footer><%= link_to comment.creator.username, comment.creator %> <cite><%= formatted_date_time(comment) %></cite></footer>
+          <div id="<%= dom_id(comment) %>-voting-box-mobile">
+            <%= render 'shared/comment_voting_box_mobile', obj1: comment.post, obj2: comment %>
+          </div>
+        </blockquote>
+      </div>
+    </div> <!-- END RIGHT (POSTS) COLUMN -->
+  </div>
+<!-- end -->
