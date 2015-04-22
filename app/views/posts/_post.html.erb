@@ -30,7 +30,7 @@
             <small><%= formatted_date_time(post) %></small> <!-- AppHelper -->
             <%= edit_post_link(post) %> <!-- PostsHelper -->
           </p>
-          <% if show_comments_link %>
+          <% if show_comments_link %> <!-- Passed as render variable -->
             <p class="text-right">
               <%= link_to post, class: 'btn btn-primary btn-xs' do %>
                 <span class="badge"><%= post.comments.count %></span> Comments
