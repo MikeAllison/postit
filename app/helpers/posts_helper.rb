@@ -20,5 +20,5 @@ module PostsHelper
       end
     end
   end
-  
+
 end
