@@ -9,4 +9,8 @@
 
 <%= comments_form %>
 
-<%= render @post.comments.reload, user_profile_page: false %>
+<div class="row">
+  <div class="col-xs-12">
+    <%= render @post.comments.reload, user_profile_page: false %>
+  </div>
+</div>

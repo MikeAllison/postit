@@ -1,0 +1,9 @@
+<span class="voting-box visible-xs">
+  <p class="text-right">
+    <%= upvote_downvote_button(post, true, 'btn-md', 'thumbs-up', 'text-success') %>
+    <%= upvote_downvote_button(post, false, 'btn-md', 'thumbs-down', 'text-danger') %>
+  </p>
+  <p class="text-right">
+    <label class="label label-primary"><%= tally_votes(post) %></label>
+  </p>
+</span>

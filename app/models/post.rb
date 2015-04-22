@@ -20,11 +20,11 @@ class Post < ActiveRecord::Base
   validates_presence_of :description, message: "Description field can't be blank"
   validates_presence_of :categories, message: "Please select at least one category"
 
-  def has_same_vote_from?(user, vote)
+  def has_vote_from?(user, vote)
     return true if self.votes.where("user_id = ? and vote = ?", user, vote).exists?
   end
 
-  def has_opposite_vote_from?(user, vote)
+  def can_update_vote?(user, vote)
     return true if self.votes.where("user_id = ? and vote != ?", user, vote).exists?
   end
 
