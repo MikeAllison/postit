@@ -7,6 +7,6 @@
   </div>
 </div>
 
-<%= comments_form %>
+<%= comments_form if logged_in? %>
 
 <%= render @post.comments.reload, user_profile_page: false %>

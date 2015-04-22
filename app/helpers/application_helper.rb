@@ -16,7 +16,7 @@ module ApplicationHelper
     (disabled = 'disabled') && (text_color = 'text-default') if !logged_in? || obj.has_same_vote_from?(current_user, vote)
 
     link_to post_votes_path(obj, vote: vote), method: :post, class: "btn btn-default #{btn_size} #{disabled}", remote: true do
-      content_tag :span, nil, class: "glyphicon glyphicon-#{glyph_type} #{text_color}", aria_hidden: true
+      content_tag :span, nil, class: "glyphicon glyphicon-#{glyph_type} #{text_color}", :'aria-hidden' => true
     end
   end
 
@@ -26,7 +26,7 @@ module ApplicationHelper
     (disabled = 'disabled') && (text_color = 'text-default') if !logged_in? || obj2.has_same_vote_from?(current_user, vote)
 
     link_to post_comment_votes_path(obj1, obj2, vote: vote), method: :post, class: "btn btn-default #{btn_size} #{disabled}", remote: true do
-      content_tag :span, nil, class: "glyphicon glyphicon-#{glyph_type} #{text_color}", aria_hidden: true
+      content_tag :span, nil, class: "glyphicon glyphicon-#{glyph_type} #{text_color}", :'aria-hidden' => true
     end
   end
 

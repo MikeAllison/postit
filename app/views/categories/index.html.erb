@@ -15,13 +15,17 @@
           <tbody>
             <% @categories.each do |category| %>
               <tr>
-                <td><%= category.name %></td><td><%= link_to 'Edit', edit_category_path(category) %></td>
+                <td><%= category.name %></td>
+                <td>
+                  <%= link_to 'Edit', edit_category_path(category), class: 'btn btn-default btn-xs' %>
+                  <%= link_to 'Show', category_path(category), class: 'btn btn-default btn-xs' %>
+                </td>
               </tr>
             <% end %>
           </tbody>
         </table>
-        <hr />
         <%= link_to 'Add a Category', new_category_path, class: 'btn btn-primary' %>
+        <%= link_to 'All Posts', posts_path, class: 'btn btn-default' %>
       </div>
     </div>
   </div>

@@ -15,7 +15,7 @@ module PostsHelper
     if obj.creator == current_user
       link_to edit_post_path(obj), title: 'Edit Post' do
         content_tag :small do
-          content_tag :span, '', class: 'glyphicon glyphicon-pencil', aria_hidden: true
+          content_tag :span, '', class: 'glyphicon glyphicon-pencil', :'aria-hidden' => true
         end
       end
     end
