@@ -21,4 +21,9 @@ module PostsHelper
     end
   end
 
+  # Displays 'Comments (#)'
+  def comments_header(post)
+    "Comments (#{post.comments.size})"
+  end
+
 end
