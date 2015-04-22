@@ -4,4 +4,6 @@ class Category < ActiveRecord::Base
 
   validates_presence_of :name, message: "Name cannot be blank"
   validates_uniqueness_of :name, case_sensitive: false, message: "This category already exists"
+
+  default_scope { order(name: :asc) }
 end
