@@ -11,6 +11,6 @@ module Votingable
   end
 
   def has_opposite_vote_from?(user, vote)
-    self.votes.where("user_id = ? and vote = ?", user, !!vote).exists?
+    self.votes.where("user_id = ? and vote = ?", user, !vote).exists?
   end
 end
