@@ -1,5 +1,5 @@
 class Post < ActiveRecord::Base
-  include Votingable
+  include Votingable # In 'lib/modules'
 
   before_validation :strip_url_whitespace
   before_validation :downcase_url
