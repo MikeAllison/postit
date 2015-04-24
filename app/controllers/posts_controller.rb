@@ -1,7 +1,8 @@
 class PostsController < ApplicationController
   before_action :authenticate, except: [:index, :show]
-  before_action :find_post, only: [:show, :edit, :update]
+  before_action :find_post, only: [:show, :edit, :update, :vote]
   before_action :restrict_post_editing, only: [:edit, :update, :destroy]
+  respond_to :html, :js
 
   def index
     @posts = Post.includes(:creator, :categories, :comments)
@@ -42,6 +43,22 @@ class PostsController < ApplicationController
     else
       render :edit
     end
+  end
+
+  def vote
+    @vote = @post.votes.find_or_initialize_by(creator: current_user)
+
+    binding.pry
+
+    if @vote.new_record?
+      @vote.vote = params[:vote]
+      @vote.save
+      render js: 'alert("Your vote has been saved.")'
+    else
+      @vote.update(vote: params[:vote])
+      render js: 'alert("Your vote has been updated.")'
+    end
+
   end
 
   private

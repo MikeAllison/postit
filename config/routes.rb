@@ -8,9 +8,9 @@ PostitTemplate::Application.routes.draw do
   get   'logout', to: 'sessions#destroy'
 
   resources :posts, except: [:destroy] do
-    resources :votes, only: [:create], to: 'votes#create_post_vote'
+    post 'vote', on: :member
     resources :comments, only: [:create] do
-      resources :votes, only: [:create], to: 'votes#create_comment_vote'
+      post 'vote', on: :member
     end
   end
 

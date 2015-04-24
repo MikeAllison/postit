@@ -1,0 +1,7 @@
+bootbox.alert("You\'ve already voted on this item.");
+
+$("#<%= j dom_id(@post) %>-voting-box").html("<%= j render 'votes/post_voting_box', obj: @post %>");
+$("#<%= j dom_id(@post) %>-voting-box-mobile").html("<%= j render 'votes/post_voting_box_mobile', obj: @post %>");
+
+$("#<%= j dom_id(@comment) %>-voting-box").html("<%= j render 'votes/comment_voting_box', obj: @comment %>");
+$("#<%= j dom_id(@comment) %>-voting-box-mobile").html("<%= j render 'votes/comment_voting_box_mobile', obj: @comment %>");

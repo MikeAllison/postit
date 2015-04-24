@@ -15,7 +15,7 @@ module ApplicationHelper
   def post_voting_button(obj, vote, btn_size, glyph_type, text_color)
     (disabled = 'disabled') && (text_color = 'text-default') if !logged_in? || obj.has_same_vote_from?(current_user, vote)
 
-    link_to post_votes_path(obj, vote: vote), method: :post, class: "btn btn-default #{btn_size} #{disabled}", remote: true do
+    link_to vote_post_path(obj, vote: vote), method: :post, class: "btn btn-default #{btn_size} #{disabled}", remote: true do
       content_tag :span, nil, class: "glyphicon glyphicon-#{glyph_type} #{text_color}", :'aria-hidden' => true
     end
   end
