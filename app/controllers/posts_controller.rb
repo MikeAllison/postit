@@ -48,17 +48,19 @@ class PostsController < ApplicationController
   def vote
     @vote = @post.votes.find_or_initialize_by(creator: current_user)
 
-    binding.pry
+    # Convert params[:vote] into boolean for comparison
+    vote = params[:vote] == 'true' ? true : false
 
     if @vote.new_record?
-      @vote.vote = params[:vote]
+      @vote.vote = vote
       @vote.save
-      render js: 'alert("Your vote has been saved.")'
+      render 'votes/post_reload_voting'
+    elsif @vote.persisted? && @vote.vote == vote
+      render 'votes/already_voted_msg'
     else
       @vote.update(vote: params[:vote])
-      render js: 'alert("Your vote has been updated.")'
+      render 'votes/post_reload_voting'
     end
-
   end
 
   private

@@ -1,2 +1,2 @@
-$("#<%= j dom_id(@post) %>-voting-box").html("<%= j render 'shared/post_voting_box', obj: @post %>");
-$("#<%= j dom_id(@post) %>-voting-box-mobile").html("<%= j render 'shared/post_voting_box_mobile', obj: @post %>");
+$("#<%= j dom_id(@post) %>-voting-box").html("<%= j render 'votes/post_voting_box', obj: @post %>");
+$("#<%= j dom_id(@post) %>-voting-box-mobile").html("<%= j render 'votes/post_voting_box_mobile', obj: @post %>");
