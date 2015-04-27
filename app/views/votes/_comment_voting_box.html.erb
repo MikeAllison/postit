@@ -1,10 +1,10 @@
 <!-- Called from 'comments/_comment' -->
 <div class="well text-center">
   <p>
-    <%= comment_voting_button(obj1, obj2, true, 'btn-md', 'thumbs-up', 'text-success') %> <!-- AppHelper -->
+    <%= comment_voting_button(obj, true, 'btn-md', 'thumbs-up', 'text-success') %> <!-- AppHelper -->
   </p>
-  <h4><span class="label label-primary"><%= "#{obj2.tally_votes} Votes" %></span></h4>
+  <h4><span class="label label-primary"><%= "#{obj.tally_votes} Votes" %></span></h4>
   <p>
-    <%= comment_voting_button(obj1, obj2, false, 'btn-md', 'thumbs-down', 'text-danger') %> <!-- AppHelper -->
+    <%= comment_voting_button(obj, false, 'btn-md', 'thumbs-down', 'text-danger') %> <!-- AppHelper -->
   </p>
 </div>

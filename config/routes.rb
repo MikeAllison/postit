@@ -9,10 +9,10 @@ PostitTemplate::Application.routes.draw do
 
   resources :posts, except: [:destroy] do
     post :vote, on: :member
-    resources :comments, only: [:create] do
-      post :vote, on: :member
-    end
+    resources :comments, only: [:create]
   end
+
+  post 'comments/:id/vote', to: 'comments#vote', as: 'vote_comment'
 
   resources :categories, except: [:destroy]
   resources :users, except: [:index, :destroy]
