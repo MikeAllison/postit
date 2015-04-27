@@ -21,11 +21,11 @@ module ApplicationHelper
   end
 
   # Sets upvote/downvote buttons on comments
-  # obj1. comment.post, obj2: comment, vote: t/f, btn_size: 'btn-md/lg', glyph_type: 'thumbs-up/down', color: 'text-primary/danger'
+  # obj1: comment.post, obj2: comment, vote: t/f, btn_size: 'btn-md/lg', glyph_type: 'thumbs-up/down', color: 'text-primary/danger'
   def comment_voting_button(obj1, obj2, vote, btn_size, glyph_type, text_color)
     (disabled = 'disabled') && (text_color = 'text-default') if !logged_in? || obj2.has_same_vote_from?(current_user, vote)
 
-    link_to post_comment_votes_path(obj1, obj2, vote: vote), method: :post, class: "btn btn-default #{btn_size} #{disabled}", remote: true do
+    link_to vote_post_comment_path(obj1, obj2, vote: vote), method: :post, class: "btn btn-default #{btn_size} #{disabled}", remote: true do
       content_tag :span, nil, class: "glyphicon glyphicon-#{glyph_type} #{text_color}", :'aria-hidden' => true
     end
   end

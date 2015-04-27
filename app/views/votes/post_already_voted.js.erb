@@ -1,4 +1,4 @@
-bootbox.alert("You\'ve already voted on this item.");
+bootbox.alert("You have already voted on this post.");
 
 $("#<%= j dom_id(@post) %>-voting-box").html("<%= j render 'votes/post_voting_box', obj: @post %>");
 $("#<%= j dom_id(@post) %>-voting-box-mobile").html("<%= j render 'votes/post_voting_box_mobile', obj: @post %>");
