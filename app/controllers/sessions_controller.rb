@@ -11,7 +11,7 @@ class SessionsController < ApplicationController
       redirect_to posts_path
     else
       flash[:danger] = "The username or password was incorrect."
-      redirect_to login_path
+      render :new
     end
   end
 
