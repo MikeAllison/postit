@@ -23,7 +23,6 @@
           <div class="form-group">
             <%= f.label :category, 'Select Categories' %>
             <div class="checkbox">
-              <%= hidden_field_tag "post[category_ids][]", nil %>
               <% Category.all.each do |category| %>
                 <%= label_tag dom_id(category) do %>
                   <%= check_box_tag "post[category_ids][]", category.id, @post.category_ids.include?(category.id), id: dom_id(category) %>

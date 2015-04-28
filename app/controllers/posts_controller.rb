@@ -5,7 +5,7 @@ class PostsController < ApplicationController
   respond_to :html, :js
 
   def index
-    @posts = Post.includes(:creator, :categories, :comments)
+    @posts = Post.includes(:creator, :categories, :comments).sort_by { |post| post.tally_votes }.reverse
   end
 
   def new
@@ -71,7 +71,7 @@ class PostsController < ApplicationController
 
     def restrict_post_editing
       if @post.creator != current_user
-        flash[:danger] = "You can only edit posts that you've created."
+        flash[:danger] = "Access Denied - You may only edit posts that you've created."
         redirect_to @post
       end
     end
