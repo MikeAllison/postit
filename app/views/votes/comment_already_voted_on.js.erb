@@ -1,3 +1,0 @@
-bootbox.alert("You\'ve already voted on this comment.");
-$("#<%= j dom_id(@comment) %>-voting-box").html("<%= j render 'shared/comment_voting_box', obj1: @comment.post, obj2: @comment %>");
-$("#<%= j dom_id(@comment) %>-voting-box-mobile").html("<%= j render 'shared/comment_voting_box_mobile', obj1: @comment.post, obj2: @comment %>");

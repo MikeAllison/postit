@@ -1,8 +1,0 @@
-<!-- Called from 'posts/_post' -->
-<p class="text-right">
-  <%= post_voting_button(obj, true, 'btn-md', 'thumbs-up', 'text-success') %> <!-- AppHelper -->
-  <%= post_voting_button(obj, false, 'btn-md', 'thumbs-down', 'text-danger') %> <!-- AppHelper -->
-</p>
-<p class="text-right">
-  <label class="label label-primary"><%= "#{obj.tally_votes} Votes" %></label> <!-- AppHelper -->
-</p>

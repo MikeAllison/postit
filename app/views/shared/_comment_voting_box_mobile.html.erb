@@ -1,9 +1,0 @@
-<!-- Called from 'comments/_comment' -->
-<hr />
-<p class="text-right">
-  <%= comment_voting_button(obj1, obj2, true, 'btn-md', 'thumbs-up', 'text-success') %> <!-- AppHelper -->
-  <%= comment_voting_button(obj1, obj2, false, 'btn-md', 'thumbs-down', 'text-danger') %> <!-- AppHelper -->
-</p>
-<p class="text-right">
-  <label class="label label-primary"><%= "#{obj2.tally_votes} Votes" %></label> <!-- AppHelper -->
-</p>

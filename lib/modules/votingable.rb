@@ -4,7 +4,7 @@ module Votingable
     upvotes = self.votes.where("vote = ?", true).count
     downvotes = self.votes.where("vote = ?", false).count
 
-    upvotes - downvotes || 0
+    upvotes - downvotes
   end
 
   def has_same_vote_from?(user, vote)

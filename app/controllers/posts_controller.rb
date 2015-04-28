@@ -1,7 +1,8 @@
 class PostsController < ApplicationController
   before_action :authenticate, except: [:index, :show]
-  before_action :find_post, only: [:show, :edit, :update]
+  before_action :find_post, only: [:show, :edit, :update, :vote]
   before_action :restrict_post_editing, only: [:edit, :update, :destroy]
+  respond_to :html, :js
 
   def index
     @posts = Post.includes(:creator, :categories, :comments)
@@ -41,6 +42,24 @@ class PostsController < ApplicationController
       redirect_to posts_path
     else
       render :edit
+    end
+  end
+
+  def vote
+    @vote = @post.votes.find_or_initialize_by(creator: current_user)
+
+    # Convert params[:vote] into boolean for comparison
+    vote = params[:vote] == 'true' ? true : false
+
+    if @vote.new_record?
+      @vote.vote = vote
+      @vote.save
+      render 'votes/post_reload_voting'
+    elsif @vote.persisted? && @vote.vote == vote
+      render 'votes/post_already_voted'
+    else
+      @vote.update(vote: params[:vote])
+      render 'votes/post_reload_voting'
     end
   end
 
