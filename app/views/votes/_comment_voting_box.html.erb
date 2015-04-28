@@ -2,9 +2,7 @@
 <div class="well text-center">
   <p>
     <%= comment_voting_button(obj, true, 'btn-md', 'thumbs-up', 'text-success') %> <!-- AppHelper -->
-  </p>
-  <h4><span class="label label-primary"><%= "#{obj.tally_votes} Votes" %></span></h4>
-  <p>
     <%= comment_voting_button(obj, false, 'btn-md', 'thumbs-down', 'text-danger') %> <!-- AppHelper -->
   </p>
+  <h4><span class="label label-primary"><%= "#{obj.tally_votes} Votes" %></span></h4>
 </div>
