@@ -30,9 +30,16 @@ end
   Comment.create(body: "This is comment #{i + 1}", user_id: rand(1..10), post_id: rand(1..50))
 end
 
-# Assign an extra category to the first 25 posts
+# Assign a 2nd category to the first 25 posts
 25.times do |i|
-  c = Category.find(rand(5..8))
+  c = Category.find(rand(5..7))
+  p = Post.find(i + 1)
+  p.categories << c
+end
+
+# Assign a 3rd category to the first 10 posts
+10.times do |i|
+  c = Category.find(8)
   p = Post.find(i + 1)
   p.categories << c
 end
