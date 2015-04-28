@@ -55,11 +55,13 @@ class PostsController < ApplicationController
       @vote.vote = vote
       @vote.save
       render 'votes/post_reload_voting'
+    elsif @vote.persisted? && @vote.vote == !vote
+      @vote.update(vote: params[:vote])
+      render 'votes/post_reload_voting'
     elsif @vote.persisted? && @vote.vote == vote
       render 'votes/post_already_voted'
     else
-      @vote.update(vote: params[:vote])
-      render 'votes/post_reload_voting'
+      render 'votes/error'
     end
   end
 

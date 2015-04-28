@@ -25,11 +25,13 @@ class CommentsController < ApplicationController
       @vote.vote = vote
       @vote.save
       render 'votes/comment_reload_voting'
+    elsif @vote.persisted? && @vote.vote == !vote
+      @vote.update(vote: params[:vote])
+      render 'votes/comment_reload_voting'
     elsif @vote.persisted? && @vote.vote == vote
       render 'votes/comment_already_voted'
     else
-      @vote.update(vote: params[:vote])
-      render 'votes/comment_reload_voting'
+      render 'votes/error'
     end
   end
 
