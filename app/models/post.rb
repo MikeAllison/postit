@@ -11,7 +11,7 @@ class Post < ActiveRecord::Base
   has_many :votes, as: :voteable
 
   validates_presence_of :title, message: "Title field can't be blank"
-  validates_length_of :title, minimum: 5, message: "Title is too short (minimum is 5 characters)"
+  validates_length_of :title, minimum: 2, message: "Title is too short (minimum is 2 characters)"
   validates_presence_of :url, message: "URL field can't be blank"
   validates_uniqueness_of :url, case_sensitive: false, message: "This URL has already been posted"
   validates_format_of :url, with: /https?:\/\/[\S]+/, message: "URL field must be a valid URL (ex. http://www.example.com)"
