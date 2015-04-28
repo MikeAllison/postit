@@ -11,7 +11,7 @@ class PostsController < ApplicationController
   def new
     @post = Post.new
 
-    if Category.count.eql?(0)
+    if !Category.any?
       flash[:danger] = "Please add a category before creating a post."
       redirect_to new_category_path
     end
