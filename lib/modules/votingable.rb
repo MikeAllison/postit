@@ -1,6 +1,6 @@
 module Votingable
 
-  def tally_votes
+  def tallied_votes
     upvotes = self.votes.where("vote = ?", true).count
     downvotes = self.votes.where("vote = ?", false).count
 

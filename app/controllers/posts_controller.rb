@@ -5,7 +5,7 @@ class PostsController < ApplicationController
   respond_to :html, :js
 
   def index
-    @posts = Post.includes(:creator, :categories, :comments).sort_by { |post| post.tally_votes }.reverse
+    @posts = Post.includes(:creator, :categories, :comments).sort_by { |post| post.tallied_votes }.reverse
   end
 
   def new
