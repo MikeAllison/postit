@@ -22,6 +22,7 @@
           </div>
           <div class="form-group">
             <%= f.label :category, 'Select Categories' %>
+            <%= link_to '(Add a Category)', new_category_path, class: 'small' %>
             <div class="checkbox">
               <% Category.all.each do |category| %>
                 <%= label_tag dom_id(category) do %>
