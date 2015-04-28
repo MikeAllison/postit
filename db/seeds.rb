@@ -23,14 +23,16 @@ descriptions = [
 ]
 
 50.times do |i|
-  Post.create(url: "http://www.website#{i + 1}.com", title: "Post Title #{i + 1}", description: descriptions.sample, user_id: rand(1..10), category_ids: rand(1..5))
+  Post.create(url: "http://www.website#{i + 1}.com", title: "Post Title #{i + 1}", description: descriptions.sample, user_id: rand(1..10), category_ids: rand(1..4))
 end
 
 500.times do |i|
   Comment.create(body: "This is comment #{i + 1}", user_id: rand(1..10), post_id: rand(1..50))
 end
 
-# Assign extra categories to a random posts
-40.times do |i|
-  PostCategory.create(post_id: rand(1..50), category_id: rand(6..8))
+# Assign an extra category to the first 25 posts
+25.times do |i|
+  c = Category.find(rand(5..8))
+  p = Post.find(i + 1)
+  p.categories << c
 end
