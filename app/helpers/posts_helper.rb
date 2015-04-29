@@ -2,7 +2,7 @@ module PostsHelper
 
   # Show 'New Post' button in shared/page_title if logged in
   def new_post_button
-    link_to 'New Post', new_post_path, class: 'btn btn-lg btn-primary' if logged_in?
+    link_to 'New Post', new_post_path, class: 'btn btn-lg btn-primary' unless !logged_in? || @posts.empty?
   end
 
   # Show comment form on posts#show page if logged in
