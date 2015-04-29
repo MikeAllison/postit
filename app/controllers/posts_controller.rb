@@ -73,7 +73,7 @@ class PostsController < ApplicationController
 
     def restrict_post_editing
       if @post.creator != current_user
-        flash[:danger] = "Access Denied - You may only edit posts that you've created."
+        flash[:danger] = "Access Denied! - You may only edit posts that you've created."
         redirect_to @post
       end
     end

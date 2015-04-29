@@ -46,7 +46,7 @@ class UsersController < ApplicationController
 
     def restrict_profile_access
       if @user != current_user
-        flash[:danger] = "Acess Denied - You may only edit your own profile."
+        flash[:danger] = "Acess Denied! - You may only edit your own profile."
         redirect_to user_path(current_user)
       end
     end
