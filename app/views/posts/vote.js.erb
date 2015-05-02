@@ -1,0 +1,17 @@
+// Convert params[:vote] into boolean for comparison
+<% vote = params[:vote] == 'true' ? true : false %>
+
+<% if @vote.new_record? %>
+  <% @vote.vote = vote %>
+  <% @vote.save %>
+<% elsif @vote.persisted? && @vote.vote == !vote %>
+  <% @vote.update(vote: vote) %>
+<% elsif @vote.persisted? && @vote.vote == vote %>
+  bootbox.alert("You have already voted on this post.");
+<% else %>
+  bootbox.alert("Sorry, your vote couldn't be added.");
+<% end %>
+
+// Reload the vote partials
+$("#<%= dom_id(@post) %>_voting_box").html("<%= j render 'voting_box', obj: @post %>");
+$("#<%= dom_id(@post) %>_voting_box_mobile").html("<%= j render 'voting_box_mobile', obj: @post %>");

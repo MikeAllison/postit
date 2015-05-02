@@ -16,23 +16,7 @@ class CommentsController < ApplicationController
 
   def vote
     @comment = Comment.find(params[:id])
-    @vote = @comment.votes.find_or_initialize_by(creator: current_user)
-
-    # Convert params[:vote] into boolean for comparison
-    vote = params[:vote] == 'true' ? true : false
-
-    if @vote.new_record?
-      @vote.vote = vote
-      @vote.save
-      render 'votes/comment_reload_voting'
-    elsif @vote.persisted? && @vote.vote == !vote
-      @vote.update(vote: params[:vote])
-      render 'votes/comment_reload_voting'
-    elsif @vote.persisted? && @vote.vote == vote
-      render 'votes/comment_already_voted'
-    else
-      render 'votes/error'
-    end
+    @vote = @comment.votes.find_or_initialize_by(creator: current_user) 
   end
 
 end
