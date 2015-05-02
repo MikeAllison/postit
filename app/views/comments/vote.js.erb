@@ -1,12 +1,15 @@
+<% @comment = Comment.find(params[:id]) %>
+<% @vote = @comment.votes.find_or_initialize_by(creator: current_user) %>
+
 // Convert params[:vote] into boolean for comparison
-<% vote = params[:vote] == 'true' ? true : false %>
+<% submitted_vote = params[:vote] == 'true' ? true : false %>
 
 <% if @vote.new_record? %>
-  <% @vote.vote = vote %>
+  <% @vote.vote = submitted_vote %>
   <% @vote.save %>
-<% elsif @vote.persisted? && @vote.vote == !vote %>
-  <% @vote.update(vote: vote) %>
-<% elsif @vote.persisted? && @vote.vote == vote %>
+<% elsif @vote.persisted? && @vote.vote == !submitted_vote %>
+  <% @vote.update(vote: submitted_vote) %>
+<% elsif @vote.persisted? && @vote.vote == submitted_vote %>
   bootbox.alert("You have already voted on this comment.");
 <% else %>
   bootbox.alert("Sorry, your vote couldn't be added.");

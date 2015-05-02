@@ -15,8 +15,6 @@ class CommentsController < ApplicationController
   end
 
   def vote
-    @comment = Comment.find(params[:id])
-    @vote = @comment.votes.find_or_initialize_by(creator: current_user) 
   end
 
 end

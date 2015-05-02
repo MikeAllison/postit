@@ -45,7 +45,6 @@ class PostsController < ApplicationController
   end
 
   def vote
-    @vote = @post.votes.find_or_initialize_by(creator: current_user)
   end
 
   private
