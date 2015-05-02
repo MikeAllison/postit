@@ -1,10 +1,8 @@
 <!-- @comment.each do |comment| -->
   <div class="row">
 
-    <div class="col-sm-2 hidden-xs"> <!-- BEGIN NON-MOBILE VOTING COLUMN -->
-      <div id="<%= dom_id(comment) %>-voting-box">
-        <%= render 'votes/comment_voting_box', obj: comment %>
-      </div>
+    <div id="<%= dom_id(comment) %>_voting_box" class="col-sm-2 hidden-xs"> <!-- BEGIN NON-MOBILE VOTING COLUMN -->
+      <%= render 'comments/voting_box', obj: comment %>
     </div> <!-- END NON-MOBILE VOTING COLUMN -->
 
     <div class="col-sm-10"> <!-- BEGIN EACH COMMENT COLUMN -->
@@ -12,8 +10,8 @@
         <blockquote>
           <p><q><%= comment.body %></q> <em><%= post_link(comment) if user_profile_page %></em></p> <!-- CommentsHelper-->
           <footer><%= link_to comment.creator.username, comment.creator %> <cite><%= formatted_date_time(comment) %></cite></footer>
-          <div id="<%= dom_id(comment) %>-voting-box-mobile" class="visible-xs comment-voting-btns-mobile"> <!-- BEGIN MOBILE VOTING COLUMN -->
-            <%= render 'votes/comment_voting_box_mobile', obj: comment %>
+          <div id="<%= dom_id(comment) %>_voting_box_mobile" class="visible-xs comment-voting-btns-mobile"> <!-- BEGIN MOBILE VOTING COLUMN -->
+            <%= render 'comments/voting_box_mobile', obj: comment %>
           </div> <!-- END MOBILE VOTING COLUMN -->
         </blockquote>
       </div>
