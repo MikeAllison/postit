@@ -6,7 +6,7 @@
 <% elsif @vote.persisted? && @vote.vote == @submitted_vote %>
   bootbox.alert("You have already voted on this comment.");
 <% else %>
-  bootbox.alert("Sorry, your vote couldn't be added.");
+  bootbox.alert("Sorry, your vote couldn't be counted.");
 <% end %>
 
 // Reload the vote partials
