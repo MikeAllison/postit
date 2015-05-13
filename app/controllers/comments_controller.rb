@@ -15,6 +15,11 @@ class CommentsController < ApplicationController
   end
 
   def vote
+    @comment = Comment.find(params[:id])
+    @vote = @comment.votes.find_or_initialize_by(creator: current_user)
+
+    # Convert params[:vote] into boolean for comparison
+    @submitted_vote = params[:vote] == 'true' ? true : false
   end
 
 end
