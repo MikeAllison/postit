@@ -2,7 +2,7 @@
   <div class="row post">
 
     <div id="<%= dom_id(post) %>_voting_box" class="col-sm-2 hidden-xs"> <!-- BEGIN NON-MOBILE VOTING COLUMN -->
-      <%= render 'voting_box', obj: post %>
+      <%= render 'posts/voting_box', obj: post %>
     </div> <!-- END NON-MOBILE VOTING COLUMN -->
 
     <div class="col-sm-10"> <!-- BEGIN EACH POST COLUMN -->
@@ -10,7 +10,7 @@
         <div class="panel-heading">
           <h3><strong><%= link_to post.title, post.url %></strong></h3> <!-- POST TITLE -->
           <div id="<%= dom_id(post) %>_voting_box_mobile" class="visible-xs"> <!-- BEGIN MOBILE VOTING COLUMN -->
-            <%= render 'voting_box_mobile', obj: post %>
+            <%= render 'posts/voting_box_mobile', obj: post %>
           </div> <!-- END MOBILE VOTING COLUMN -->
         </div> <!-- END .panel-heading -->
 
