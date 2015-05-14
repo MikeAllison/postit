@@ -15,7 +15,7 @@ class CommentsController < ApplicationController
   end
 
   def vote
-    @already_voted = @misc_error == false
+    @already_voted = @misc_error = false
 
     @comment = Comment.find(params[:id])
     @vote = @comment.votes.find_or_initialize_by(creator: current_user)

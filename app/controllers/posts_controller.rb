@@ -45,7 +45,7 @@ class PostsController < ApplicationController
   end
 
   def vote
-    @already_voted = @misc_error == false
+    @already_voted = @misc_error = false
 
     @vote = @post.votes.find_or_initialize_by(creator: current_user)
 
@@ -60,7 +60,7 @@ class PostsController < ApplicationController
     elsif @vote.persisted? && @vote.vote == submitted_vote
       @already_voted = true
     else
-      @generic_error = true
+      @misc_error = true
     end
 
     render 'shared/vote', locals: { obj: @post }
