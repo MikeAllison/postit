@@ -1,0 +1,9 @@
+<% if @already_voted == true %>
+  bootbox.alert("You've already voted on this <%= j obj.class.model_name.to_s.downcase %>.");
+<% elsif @generic_error == true %>
+  bootbox.alert("Sorry, your vote couldn't be counted.");
+<% end %>
+
+// Reload the vote partials
+$("#<%= dom_id(obj) %>_voting_box").html("<%= j render 'voting_box', obj: obj %>");
+$("#<%= dom_id(obj) %>_voting_box_mobile").html("<%= j render 'voting_box_mobile', obj: obj %>");
