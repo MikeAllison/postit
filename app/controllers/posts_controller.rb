@@ -69,7 +69,7 @@ class PostsController < ApplicationController
   private
 
     def find_post
-      @post = Post.find(params[:id])
+      @post = Post.find_by_slug(params[:id])
     end
 
     def restrict_post_editing
@@ -82,4 +82,5 @@ class PostsController < ApplicationController
     def post_params
       params.require(:post).permit(:title, :url, :description, :category_ids => [])
     end
+
 end

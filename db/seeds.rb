@@ -6,7 +6,7 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-10.times do |i|
+100.times do |i|
   User.create(username: "user#{i + 1}", password: "pw")
 end
 
@@ -22,12 +22,12 @@ descriptions = [
   "attenuation alcohol final gravity biere de garde, brew kettle. pitching beer cask wheat beer glass draft (draught); keg. bung malt extract ester yeast. ibu hand pump malt extract hops anaerobic. mouthfeel aau, chocolate malt kolsch ibu copper, lauter tun bung barrel bock fermentation!"
 ]
 
-50.times do |i|
+100.times do |i|
   Post.create(url: "http://www.website#{i + 1}.com", title: "Post Title #{i + 1}", description: descriptions.sample, user_id: rand(1..10), category_ids: rand(1..4))
 end
 
-500.times do |i|
-  Comment.create(body: "This is comment #{i + 1}", user_id: rand(1..10), post_id: rand(1..50))
+300.times do |i|
+  Comment.create(body: "This is comment #{i + 1}", user_id: rand(1..10), post_id: rand(1..100))
 end
 
 # Assign a 2nd category to the first 25 posts
@@ -42,4 +42,16 @@ end
   c = Category.find(8)
   p = Post.find(i + 1)
   p.categories << c
+end
+
+# Create votes for posts
+100.times do |i|
+  Vote.create(vote: true, user_id: i, voteable_id: rand(1..100), voteable_type: 'Post')
+  Vote.create(vote: false, user_id: i, voteable_id: rand(1..100), voteable_type: 'Post')
+end
+
+# Create votes for comments
+100.times do |i|
+  Vote.create(vote: true, user_id: i, voteable_id: rand(1..300), voteable_type: 'Comment')
+  Vote.create(vote: false, user_id: i, voteable_id: rand(1..300), voteable_type: 'Comment')
 end

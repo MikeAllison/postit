@@ -28,7 +28,7 @@ class UsersController < ApplicationController
   def update
     if @user.update(user_params)
       flash[:success] = "Your account was updated successfully."
-      redirect_to user_path(current_user)
+      redirect_to user_path(current_user.reload)
     else
       render :edit
     end
@@ -41,7 +41,7 @@ class UsersController < ApplicationController
     end
 
     def find_user
-      @user = User.find(params[:id])
+      @user = User.find_by_slug(params[:id])
     end
 
     def restrict_profile_access
@@ -50,4 +50,5 @@ class UsersController < ApplicationController
         redirect_to user_path(current_user)
       end
     end
+
 end

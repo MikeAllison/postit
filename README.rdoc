@@ -12,6 +12,8 @@ This is a Reddit-like app for Tealeaf Academy's Rapid Prototyping with Ruby on R
 * Timezone
 * Compare SQL queries on users#show for @users.posts (and comments) vs. creating a @posts.includes in the UsersController
 * Pass variable on 'shared/no_posts' to auto-select checkbox on form if link is clicked
+* Add a tallied_votes column to posts and comments (calculate from Votingable)
+* Use the tallied_votes database column to display votes
 
 == Items to Blog About:
 

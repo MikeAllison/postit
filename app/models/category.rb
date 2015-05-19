@@ -1,4 +1,6 @@
 class Category < ActiveRecord::Base
+  before_save :set_slug
+  
   has_many :post_categories
   has_many :posts, through: :post_categories
 
@@ -7,4 +9,15 @@ class Category < ActiveRecord::Base
   validates_length_of :name, maximum: 14, message: "Category name must be less than 15 characters"
 
   default_scope { order(name: :asc) }
+
+  def to_param
+    self.slug
+  end
+
+  private
+
+    def set_slug
+      self.slug = self.name.squish.gsub(/\s/, '-').downcase
+    end
+
 end

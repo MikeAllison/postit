@@ -22,7 +22,7 @@ class CategoriesController < ApplicationController
   end
 
   def show
-    @posts = @category.posts.includes(:creator, :categories, :comments)
+    @posts = @category.posts.includes(:creator, :categories, :comments).sort_by { |post| post.tallied_votes }.reverse
   end
 
   def edit
@@ -40,7 +40,7 @@ class CategoriesController < ApplicationController
   private
 
     def find_category
-      @category = Category.find(params[:id])
+      @category = Category.find_by_slug(params[:id])
     end
 
     def category_params

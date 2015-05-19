@@ -3,6 +3,7 @@ class Post < ActiveRecord::Base
 
   before_validation :strip_url_whitespace
   before_validation :downcase_url
+  before_save :set_slug
 
   belongs_to :creator, foreign_key: 'user_id', class_name: 'User'
   has_many :comments
@@ -19,7 +20,12 @@ class Post < ActiveRecord::Base
   validates_presence_of :description, message: "Description field can't be blank"
   validates_presence_of :categories, message: "Please select at least one category"
 
+  def to_param
+    self.slug
+  end
+
   private
+
     def strip_url_whitespace
       self.url.strip!
     end
@@ -27,4 +33,9 @@ class Post < ActiveRecord::Base
     def downcase_url
       self.url.downcase!
     end
+
+    def set_slug
+      self.slug = self.title.squish.gsub(/\s/, '-').downcase
+    end
+
 end
