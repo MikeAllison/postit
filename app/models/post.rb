@@ -1,5 +1,5 @@
 class Post < ActiveRecord::Base
-  
+
   include Votingable # In 'lib/modules'
 
   belongs_to :creator, foreign_key: 'user_id', class_name: 'User'
@@ -36,7 +36,7 @@ class Post < ActiveRecord::Base
     end
 
     def set_slug
-      self.slug = self.title.squish.gsub(/\s/, '-').downcase
+      self.slug = self.title.squish.gsub(/\s*[^A-Za-z0-9]\s*/, '-').gsub(/-+/, '-').downcase
     end
 
 end

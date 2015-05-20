@@ -18,7 +18,7 @@ class Category < ActiveRecord::Base
   private
 
     def set_slug
-      self.slug = self.name.squish.gsub(/\s/, '-').downcase
+      self.slug = self.name.squish.gsub(/\s*[^A-Za-z0-9]\s*/, '-').gsub(/-+/, '-').downcase
     end
 
 end
