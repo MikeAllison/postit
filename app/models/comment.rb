@@ -1,4 +1,5 @@
 class Comment < ActiveRecord::Base
+  
   include Votingable # In 'lib/modules'
 
   belongs_to :creator, foreign_key: 'user_id', class_name: 'User'

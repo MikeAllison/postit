@@ -9,4 +9,4 @@
 
 <%= comments_form if logged_in? %> <!-- Shortcut for render 'comments/form' -->
 
-<%= render @post.comments.reload.sort_by { |comment| comment.tallied_votes }.reverse, user_profile_page: false %>
+<%= render @post.reload.comments.sort_by { |comment| comment.tallied_votes }.reverse, user_profile_page: false %>

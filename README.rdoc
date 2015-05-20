@@ -7,7 +7,7 @@ This is a Reddit-like app for Tealeaf Academy's Rapid Prototyping with Ruby on R
 * Error messages detailing what needs to be fixed after validations (ongoing)
 * Fix duplicate code for responsive design
 * Find better solution for cancel and back buttons (remember last place)
-* Downcased username column?
+* Username:  No spaces, compare against downcased version in DB
 * Add additional password validations (Fix - 'passwords don't match' when both blank)
 * Timezone
 * Compare SQL queries on users#show for @users.posts (and comments) vs. creating a @posts.includes in the UsersController

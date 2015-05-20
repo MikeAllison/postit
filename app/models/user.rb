@@ -1,7 +1,6 @@
 class User < ActiveRecord::Base
-  has_secure_password validations: false
 
-  before_save :set_slug
+  has_secure_password validations: false
 
   has_many :posts
   has_many :comments
@@ -11,6 +10,8 @@ class User < ActiveRecord::Base
   validates_uniqueness_of :username, case_sensitive: false, message: "This username has already been taken"
   validates_presence_of :password, message: "Password can't be blank"
   validates_confirmation_of :password, message: "The passwords don't match"
+
+  before_save :set_slug
 
   def to_param
     self.slug
