@@ -11,7 +11,7 @@ class User < ActiveRecord::Base
   validates_presence_of :password, message: "Password can't be blank"
   validates_confirmation_of :password, message: "The passwords don't match"
 
-  before_save :set_slug
+  before_save :save_slug
 
   def to_param
     self.slug
@@ -19,7 +19,7 @@ class User < ActiveRecord::Base
 
   private
 
-    def set_slug
+    def save_slug
       self.slug = self.username.squish.gsub(/\s*[^A-Za-z0-9]\s*/, '-').gsub(/-+/, '-').downcase
     end
 

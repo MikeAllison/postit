@@ -7,7 +7,7 @@ class Category < ActiveRecord::Base
   validates_uniqueness_of :name, case_sensitive: false, message: "This category already exists"
   validates_length_of :name, maximum: 14, message: "Category name must be less than 15 characters"
 
-  before_save :set_slug
+  before_save :save_slug
 
   default_scope { order(name: :asc) }
 
@@ -17,7 +17,7 @@ class Category < ActiveRecord::Base
 
   private
 
-    def set_slug
+    def save_slug
       self.slug = self.name.squish.gsub(/\s*[^A-Za-z0-9]\s*/, '-').gsub(/-+/, '-').downcase
     end
 

@@ -19,7 +19,7 @@ class Post < ActiveRecord::Base
 
   before_validation :strip_url_whitespace
   before_validation :downcase_url
-  before_save :set_slug
+  before_save :save_slug
 
   def to_param
     self.slug
@@ -35,7 +35,7 @@ class Post < ActiveRecord::Base
       self.url.downcase!
     end
 
-    def set_slug
+    def save_slug
       self.slug = self.title.squish.gsub(/\s*[^A-Za-z0-9]\s*/, '-').gsub(/-+/, '-').downcase
     end
 
