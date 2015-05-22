@@ -17,6 +17,7 @@ class Post < ActiveRecord::Base
   validates_presence_of :description, message: "Description field can't be blank"
   validates_presence_of :categories, message: "Please select at least one category"
 
+  before_validation :squish_title_whitespace
   before_validation :strip_url_whitespace
   before_validation :downcase_url
   before_save :save_slug
@@ -26,6 +27,10 @@ class Post < ActiveRecord::Base
   end
 
   private
+
+    def squish_title_whitespace
+      self.title.squish!
+    end
 
     def strip_url_whitespace
       self.url.strip!

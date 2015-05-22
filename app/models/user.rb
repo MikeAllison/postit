@@ -7,10 +7,12 @@ class User < ActiveRecord::Base
   has_many :votes
 
   validates_presence_of :username, message: "Please enter a username"
+  validates_format_of :username, without: /\s\b/, message: "Username cannot contain spaces"
   validates_uniqueness_of :username, case_sensitive: false, message: "This username has already been taken"
   validates_presence_of :password, message: "Password can't be blank"
   validates_confirmation_of :password, message: "The passwords don't match"
 
+  before_validation :strip_username_whitespace
   before_save :save_slug
 
   def to_param
@@ -18,6 +20,10 @@ class User < ActiveRecord::Base
   end
 
   private
+
+    def strip_username_whitespace
+      self.username.strip!
+    end
 
     def save_slug
       self.slug = self.username.squish.gsub(/\s*[^A-Za-z0-9]\s*/, '-').gsub(/-+/, '-').downcase
