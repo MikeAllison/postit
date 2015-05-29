@@ -9,8 +9,7 @@ module Slugable
     temp_slug = slug
 
     loop do
-      slug_query = self.class.find_by_slug(temp_slug)
-      break if slug_query.nil?
+      break if self.class.find_by_slug(temp_slug).nil?
       temp_slug = slug + "-#{count}"
       count += 1
     end
