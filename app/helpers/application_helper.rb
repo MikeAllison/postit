@@ -12,7 +12,7 @@ module ApplicationHelper
 
   # Sets upvote/downvote buttons on posts/comments
   # obj: post/comment, vote: t/f, btn_size: 'btn-md/lg', glyph_type: 'thumbs-up/down', color: 'text-primary/danger'
-  # .has_same_vote_from? in Votingable
+  # .has_same_vote_from? in Voteable
   def voting_button(obj, vote, btn_size, glyph_type, text_color)
     (disabled = 'disabled') && (text_color = 'text-default') if !logged_in? || obj.has_same_vote_from?(current_user, vote)
 

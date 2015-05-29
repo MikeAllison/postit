@@ -1,6 +1,7 @@
 class Post < ActiveRecord::Base
 
-  include Votingable # In 'lib/modules'
+  include Voteable # In 'lib/modules'
+  include Slugable # In 'lib/modules'
 
   belongs_to :creator, foreign_key: 'user_id', class_name: 'User'
   has_many :comments
@@ -17,20 +18,15 @@ class Post < ActiveRecord::Base
   validates_presence_of :description, message: "Description field can't be blank"
   validates_presence_of :categories, message: "Please select at least one category"
 
-  before_validation :squish_title_whitespace
   before_validation :strip_url_whitespace
   before_validation :downcase_url
-  before_save :save_slug
+  before_save :create_slug
 
   def to_param
     self.slug
   end
 
   private
-
-    def squish_title_whitespace
-      self.title.squish!
-    end
 
     def strip_url_whitespace
       self.url.strip!
@@ -40,8 +36,9 @@ class Post < ActiveRecord::Base
       self.url.downcase!
     end
 
-    def save_slug
-      self.slug = self.title.squish.gsub(/\s*[^A-Za-z0-9]\s*/, '-').gsub(/-+/, '-').downcase
+    def create_slug
+      self.slug = to_slug(self.title)
+      check_slug_uniqueness(self.slug)
     end
 
 end
