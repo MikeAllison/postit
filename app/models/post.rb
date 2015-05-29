@@ -37,8 +37,7 @@ class Post < ActiveRecord::Base
     end
 
     def create_slug
-      self.slug = to_slug(self.title)
-      check_slug_uniqueness(self.slug)
+      check_slug_uniqueness(to_slug(self.title))
     end
 
 end
