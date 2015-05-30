@@ -2,6 +2,7 @@ module Slugable
 
   def to_slug(str)
     str = str.squish.gsub(/[^A-Za-z0-9]/, '-').gsub(/-+/, '-').downcase
+    self.slug = str
   end
 
   def check_slug_uniqueness(slug)

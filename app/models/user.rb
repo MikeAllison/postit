@@ -29,7 +29,7 @@ class User < ActiveRecord::Base
 
     def create_slug
       # Usernames are unique so this doesn't need to verify uniqueness
-      self.slug = to_slug(self.username)
+      to_slug(self.username)
     end
 
 end
