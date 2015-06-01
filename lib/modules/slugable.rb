@@ -7,15 +7,19 @@ module Slugable
 
   def check_slug_uniqueness(slug)
     count = 2
-    temp_slug = slug
 
     loop do
-      break if self.class.find_by_slug(temp_slug).nil?
-      temp_slug = slug + "-#{count}"
+      # Break the loop if no slug with the same value isn't found
+      # Also break the loop if a slug with that value is found...
+      # ...if it is the same object
+      query = self.class.find_by_slug(slug)
+      binding.pry
+      break if query.nil?
+      slug += "-#{count}"
       count += 1
     end
 
-    self.slug = temp_slug
+    self.slug = slug
   end
 
 end

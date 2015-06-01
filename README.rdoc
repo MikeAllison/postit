@@ -17,6 +17,7 @@ This is a Reddit-like app for Tealeaf Academy's Rapid Prototyping with Ruby on R
 * Don't like how you can make slugs like: -slug-title-
 * Should usernames allow spaces?
 * Add a limit to username length
+* Prevent usernames from using non-alphanumeric characters
 
 == Items to Blog About:
 
