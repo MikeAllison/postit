@@ -15,7 +15,7 @@ class User < ActiveRecord::Base
   validates_confirmation_of :password, message: "The passwords don't match"
 
   before_validation :strip_username_whitespace
-  before_save :create_slug
+  before_save :slug_username
 
   def to_param
     self.slug
@@ -27,9 +27,8 @@ class User < ActiveRecord::Base
       self.username.strip!
     end
 
-    def create_slug
-      # Usernames are unique so this doesn't need to verify uniqueness
-      to_slug(self.username)
+    def slug_username
+      self.slug = to_slug(username) if username_changed?
     end
 
 end

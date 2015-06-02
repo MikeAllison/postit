@@ -19,6 +19,11 @@ This is a Reddit-like app for Tealeaf Academy's Rapid Prototyping with Ruby on R
 * Add a limit to username length
 * Prevent usernames from using non-alphanumeric characters
 
+* Slug problems
+You can create a user that has a username/slug of mike 2 (or mike.2)/mike-2 but then also have a user create a
+username/slug of mike-2/mike-2...Ideally, you shouldn't be able to create a username if there is a user
+whose username converts to the same slug.
+
 == Items to Blog About:
 
 * Checkboxes - https://www.youtube.com/watch?v=c2qwV0B9yfU

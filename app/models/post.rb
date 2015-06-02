@@ -20,7 +20,7 @@ class Post < ActiveRecord::Base
 
   before_validation :strip_url_whitespace
   before_validation :downcase_url
-  before_save :create_slug
+  before_save :slug_title
 
   def to_param
     self.slug
@@ -36,8 +36,9 @@ class Post < ActiveRecord::Base
       self.url.downcase!
     end
 
-    def create_slug
-      check_slug_uniqueness(to_slug(self.title))
+    def slug_title
+      # Only change the slug if the title changed
+      self.slug = check_slug_uniqueness(to_slug(title)) if title_changed?
     end
 
 end

@@ -1,25 +1,20 @@
 module Slugable
 
   def to_slug(str)
-    str = str.squish.gsub(/[^A-Za-z0-9]/, '-').gsub(/-+/, '-').downcase
-    self.slug = str
+    str.squish.gsub(/[^A-Za-z0-9]/, '-').gsub(/-+/, '-').downcase
   end
 
-  def check_slug_uniqueness(slug)
+  def check_slug_uniqueness(post_title)
     count = 2
+    slug = post_title
 
     loop do
-      # Break the loop if no slug with the same value isn't found
-      # Also break the loop if a slug with that value is found...
-      # ...if it is the same object
-      query = self.class.find_by_slug(slug)
-      binding.pry
-      break if query.nil?
-      slug += "-#{count}"
+      break if self.class.find_by(slug: slug).nil?
+      slug = post_title + "-#{count}"
       count += 1
     end
 
-    self.slug = slug
+    return slug
   end
 
 end
