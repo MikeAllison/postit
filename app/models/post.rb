@@ -1,7 +1,7 @@
 class Post < ActiveRecord::Base
 
-  include Voteable # In 'lib/modules'
-  include Slugable # In 'lib/modules'
+  include Voteable # In 'models/concerns'
+  include Slugable # In 'models/concerns'
 
   belongs_to :creator, foreign_key: 'user_id', class_name: 'User'
   has_many :comments
@@ -26,7 +26,7 @@ class Post < ActiveRecord::Base
     self.slug
   end
 
-  private
+  protected
 
     def strip_url_whitespace
       self.url.strip!
@@ -37,8 +37,7 @@ class Post < ActiveRecord::Base
     end
 
     def slug_title
-      # Only change the slug if the title changed
-      self.slug = check_slug_uniqueness(to_slug(title)) if title_changed?
+      to_slug(title) if title_changed?
     end
 
 end

@@ -20,9 +20,9 @@ This is a Reddit-like app for Tealeaf Academy's Rapid Prototyping with Ruby on R
 * Prevent usernames from using non-alphanumeric characters
 
 * Slug problems
-You can create a user that has a username/slug of mike 2 (or mike.2)/mike-2 but then also have a user create a
-username/slug of mike-2/mike-2...Ideally, you shouldn't be able to create a username if there is a user
-whose username converts to the same slug.
+You can create a user/category that has a username/slug of mike 2 (or mike.2)/mike-2 but then also have a 2nd user
+create a username/slug of mike-2/mike-2.  Ideally, you shouldn't be able to create a username/category if it will
+convert to the slug of one that already exists.
 
 == Items to Blog About:
 

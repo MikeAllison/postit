@@ -1,6 +1,6 @@
 class User < ActiveRecord::Base
 
-  include Slugable # In 'lib/modules'
+  include Slugable # In 'models/concerns'
 
   has_secure_password validations: false
 
@@ -21,14 +21,14 @@ class User < ActiveRecord::Base
     self.slug
   end
 
-  private
+  protected
 
     def strip_username_whitespace
       self.username.strip!
     end
 
     def slug_username
-      self.slug = to_slug(username) if username_changed?
+      to_slug(username) if username_changed?
     end
 
 end
