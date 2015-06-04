@@ -1,5 +1,13 @@
 module Slugable
 
+  def slug_same?(str)
+    self.slug == str
+  end
+
+  def slug_unique?(str)
+    self.class.find_by(slug: str).nil?
+  end
+
   def to_slug(str)
     slug = str = str.squish.gsub(/[^A-Za-z0-9]/, '-').gsub(/-+/, '-').downcase
 
@@ -11,14 +19,6 @@ module Slugable
     end
 
     self.slug = slug
-  end
-
-  def slug_same?(str)
-    self.slug == str
-  end
-
-  def slug_unique?(str)
-    self.class.find_by(slug: str).nil?
   end
 
 end
