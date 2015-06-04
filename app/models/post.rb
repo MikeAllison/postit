@@ -29,7 +29,7 @@ class Post < ActiveRecord::Base
   protected
 
     def strip_url_whitespace
-      self.url.strip!
+      self.url.gsub!(/\s+/,'')
     end
 
     def downcase_url
