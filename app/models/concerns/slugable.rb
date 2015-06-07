@@ -1,9 +1,11 @@
 module Slugable
 
-  def slug_same?(str)
+  # Check to see if the object's slug has changed
+  def slug_unchanged?(str)
     self.slug == str
   end
 
+  # Check database to see if the slug doesn't already exist
   def slug_unique?(str)
     self.class.find_by(slug: str).nil?
   end
@@ -13,7 +15,7 @@ module Slugable
 
     count = 2
     loop do
-      break if slug_same?(slug) || slug_unique?(slug)
+      break if slug_unchanged?(slug) || slug_unique?(slug)
       slug = str + "-#{count}"
       count += 1
     end
