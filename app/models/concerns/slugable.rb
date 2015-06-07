@@ -1,5 +1,9 @@
 module Slugable
 
+  def to_param
+    self.slug
+  end
+
   # Check to see if the object's slug has changed
   def slug_unchanged?(str)
     self.slug == str

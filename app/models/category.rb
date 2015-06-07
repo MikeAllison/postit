@@ -13,10 +13,6 @@ class Category < ActiveRecord::Base
 
   default_scope { order(name: :asc) }
 
-  def to_param
-    self.slug
-  end
-
   protected
 
     def slug_name

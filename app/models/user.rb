@@ -17,10 +17,6 @@ class User < ActiveRecord::Base
   before_validation :strip_username_whitespace
   before_save :slug_username
 
-  def to_param
-    self.slug
-  end
-
   protected
 
     def strip_username_whitespace

@@ -22,10 +22,6 @@ class Post < ActiveRecord::Base
   before_validation :downcase_url
   before_save :slug_title
 
-  def to_param
-    self.slug
-  end
-
   protected
 
     def strip_url_whitespace
