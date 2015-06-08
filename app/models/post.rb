@@ -19,7 +19,8 @@ class Post < ActiveRecord::Base
 
   before_validation :strip_url_whitespace
   before_validation :downcase_url
-  before_save :slug_title
+
+  slugable_attribute :title
 
   protected
 
@@ -29,10 +30,6 @@ class Post < ActiveRecord::Base
 
     def downcase_url
       self.url.downcase!
-    end
-
-    def slug_title
-      to_slug(title) if title_changed?
     end
 
 end

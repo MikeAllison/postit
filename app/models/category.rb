@@ -9,14 +9,8 @@ class Category < ActiveRecord::Base
   validates_uniqueness_of :name, case_sensitive: false, message: "This category already exists"
   validates_length_of :name, maximum: 14, message: "Category name must be less than 15 characters"
 
-  before_save :slug_name
+  slugable_attribute :name
 
   default_scope { order(name: :asc) }
-
-  protected
-
-    def slug_name
-      to_slug(name) if name_changed?
-    end
 
 end

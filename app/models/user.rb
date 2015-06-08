@@ -15,16 +15,13 @@ class User < ActiveRecord::Base
   validates_confirmation_of :password, message: "The passwords don't match"
 
   before_validation :strip_username_whitespace
-  before_save :slug_username
+
+  slugable_attribute :username
 
   protected
 
     def strip_username_whitespace
       self.username.strip!
-    end
-
-    def slug_username
-      to_slug(username) if username_changed?
     end
 
 end
