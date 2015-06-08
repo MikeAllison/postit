@@ -1,4 +1,9 @@
 module Voteable
+  extend ActiveSupport::Concern
+
+  included do
+    has_many :votes, as: :voteable    
+  end
 
   def tallied_votes
     upvotes = self.votes.where("vote = ?", true).count
