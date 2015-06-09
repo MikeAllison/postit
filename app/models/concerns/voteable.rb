@@ -2,7 +2,7 @@ module Voteable
   extend ActiveSupport::Concern
 
   included do
-    has_many :votes, as: :voteable    
+    has_many :votes, as: :voteable
   end
 
   def tallied_votes
