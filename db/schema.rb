@@ -53,7 +53,7 @@ ActiveRecord::Schema.define(version: 20150610144226) do
     t.datetime "updated_at"
     t.string   "password_digest"
     t.string   "slug"
-    t.string   "time_zone"
+    t.string   "time_zone",       default: "Eastern Time (US & Canada)"
   end
 
   create_table "votes", force: true do |t|
