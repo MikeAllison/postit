@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
+  around_action :set_time_zone, if: :logged_in?
   around_action :catch_not_found
 
   helper_method :current_user, :logged_in?
@@ -22,6 +23,10 @@ class ApplicationController < ActionController::Base
         flash[:danger] = "You must sign in to access that page."
         redirect_to login_path
       end
+    end
+
+    def set_time_zone
+      Time.use_zone(current_user.time_zone) { yield }
     end
 
     # Redirects ActiveRecord::RecordNotFound to root_path

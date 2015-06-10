@@ -13,6 +13,7 @@ class User < ActiveRecord::Base
   validates_uniqueness_of :username, case_sensitive: false, message: "This username has already been taken"
   validates_presence_of :password, message: "Password can't be blank"
   validates_confirmation_of :password, message: "The passwords don't match"
+  validates_inclusion_of :time_zone, in: ActiveSupport::TimeZone.zones_map.keys, message: "The time zone is not valid"
 
   before_validation :strip_username_whitespace
 
