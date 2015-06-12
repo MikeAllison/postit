@@ -4,10 +4,31 @@
       <div class="panel-heading text-center">
         <h3><strong><%= "#{@user.username}'s Profile" %></strong></h3>
       </div>
-      <div class="panel-body">
-        <p><strong>Total Posts: </strong><%= @user.posts.count %></p>
-        <p><strong>Total Comments: </strong><%= @user.comments.count %></p>
-        <p><strong>Time Zone: </strong><%= @user.time_zone %></p>
+      <div class="panel-body table-responsive">
+        <table class="table user-profile-table">
+          <thead>
+            <tr>
+              <th>User Type</th>
+              <th>Total Posts</th>
+              <th>Total Comments</th>
+              <th>Time Zone</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="user-role"><%= @user.role.titleize %></td>
+              <td><%= @user.posts.count %></td>
+              <td><%= @user.comments.count %></td>
+              <td><%= @user.time_zone %></td>
+              <td class="user-role-btn">
+                <%= link_to toggle_moderator_path, method: :post, class: 'btn btn-default btn-xs' do %>
+                  <%= @user.user? ? "Make Moderator" : "Make User" %>
+                <% end %>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>

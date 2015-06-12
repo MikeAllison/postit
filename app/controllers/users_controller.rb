@@ -1,7 +1,8 @@
 class UsersController < ApplicationController
   before_action :authenticate, except: [:new, :create, :show]
-  before_action :find_user, only: [:show, :edit, :update]
+  before_action :find_user, only: [:show, :edit, :update, :toggle_moderator]
   before_action :restrict_profile_access, only: [:edit, :update, :destroy]
+  before_action :restrict_to_admins, only: [:toggle_moderator]
 
   def new
     @user = User.new
@@ -31,6 +32,14 @@ class UsersController < ApplicationController
       redirect_to user_path(current_user.reload)
     else
       render :edit
+    end
+  end
+
+  def toggle_moderator
+    if @user.user?
+      @user.moderator!
+    else
+      @user.user!
     end
   end
 

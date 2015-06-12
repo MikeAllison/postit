@@ -24,7 +24,7 @@
         <div class="panel-footer"> <!-- BEGIN .panel-footer -->
           <p>
             <small>Posted by</small>
-            <%= link_to post.creator.username, post.creator %>
+            <%= link_to post.creator.username_role, post.creator, class: 'user-role' %>
             <small><%= formatted_date_time(post) %></small> <!-- AppHelper -->
             <%= edit_post_link(post) %> <!-- PostsHelper -->
           </p>
