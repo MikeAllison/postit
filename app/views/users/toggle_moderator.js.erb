@@ -1,4 +1,3 @@
-<% if current_user.admin? %>
-  $(".user-role").text("<%= @user.username_role %>");
-  $(".user-role-btn a").text("<%= @user.user? ? "Make Moderator" : "Make User" %>");
-<% end %>
+$(".user-role").text("<%= @user.role.titleize %>");
+$(".user-name-role").text("<%= @user.username_role %>");
+$(".user-role-btn a").text("<%= @user.user? ? "Make Moderator" : "Make User" %>");

@@ -21,8 +21,10 @@ class ApplicationController < ActionController::Base
 
     def authenticate
       unless logged_in?
-        flash[:danger] = "You must sign in to access that page."
-        redirect_to login_path
+        respond_to do |format|
+          format.html { redirect_to login_path, flash: { danger: "You must log in to access that page." } }
+          format.js { render js: 'bootbox.alert("You must log in to access that page.");' }
+        end
       end
     end
 
