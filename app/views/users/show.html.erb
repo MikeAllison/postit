@@ -12,7 +12,9 @@
               <th>Total Posts</th>
               <th>Total Comments</th>
               <th>Time Zone</th>
-              <th>Actions</th>
+              <% if current_user && current_user.admin? %>
+                <th>Actions</th>
+              <% end %>
             </tr>
           </thead>
           <tbody>
@@ -21,7 +23,11 @@
               <td><%= @user.posts.count %></td>
               <td><%= @user.comments.count %></td>
               <td><%= @user.time_zone %></td>
-              <td id="user-role-selection"><%= render 'user_role_selection' %></td>
+              <% if current_user && current_user.admin? %>
+                <td id="user-role-selection">
+                  <%= render 'user_role_selection' %>
+                </td>
+              <% end %>
             </tr>
           </tbody>
         </table>
