@@ -46,7 +46,7 @@ class UsersController < ApplicationController
     end
 
     respond_to do |format|
-      format.html { redirect_to :back }
+      format.html { redirect_to @user }
       format.js
     end
   end
