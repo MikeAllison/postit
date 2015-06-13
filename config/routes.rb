@@ -9,10 +9,9 @@ PostitTemplate::Application.routes.draw do
   get   'logout', to: 'sessions#destroy'
 
   # Sets vote_post_path and vote_comment_path (could also use 'member')
-  post 'posts/:id/vote',              to: 'posts#vote',             as: 'vote_post'
-  post 'comments/:id/vote',           to: 'comments#vote',          as: 'vote_comment'
-  post 'users/:id/toggle_moderator',  to: 'users#toggle_moderator', as: 'toggle_moderator'
-  post 'users/:id/toggle_admin',      to: 'users#toggle_admin',     as: 'toggle_admin'
+  post 'posts/:id/vote',        to: 'posts#vote',         as: 'vote_post'
+  post 'comments/:id/vote',     to: 'comments#vote',      as: 'vote_comment'
+  post 'users/:id/update_role', to: 'users#update_role',  as: 'update_role'
 
   resources :posts, except: [:destroy] do
     resources :comments, only: [:create]

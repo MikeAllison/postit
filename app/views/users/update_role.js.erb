@@ -1,3 +1,8 @@
+<% if @invalid_role == true %>
+  bootbox.alert("That is not a valid role.");
+  $("#user-role-selection").html("<%= j render 'user_role_selection' %>")
+<% end %>
+
 $(".user-role").text("<%= @user.role.titleize %>");
 $(".user-name-role").text("<%= @user.username_role %>");
 $(".make-moderator").text("<%= !@user.moderator? ? "Make Moderator" : "Make User" %>");

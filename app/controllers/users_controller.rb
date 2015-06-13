@@ -1,8 +1,8 @@
 class UsersController < ApplicationController
   before_action :authenticate, except: [:new, :create, :show]
-  before_action :find_user, only: [:show, :edit, :update, :toggle_moderator, :toggle_admin]
+  before_action :find_user, only: [:show, :edit, :update, :update_role]
   before_action :restrict_profile_access, only: [:edit, :update, :destroy]
-  before_action :restrict_to_admins, only: [:toggle_moderator, :toggle_admin]
+  before_action :restrict_to_admins, only: [:update_role]
 
   def new
     @user = User.new
@@ -35,21 +35,19 @@ class UsersController < ApplicationController
     end
   end
 
-  def toggle_moderator
-    !@user.moderator? ? @user.moderator! : @user.user!
-
-    respond_to do |format|
-      format.html { redirect_to :back }
-      format.js { render 'update_role' }
+  def update_role
+    if params[:role] == 'moderator'
+      !@user.moderator? ? @user.moderator! : @user.user!
+    elsif params[:role] == 'admin'
+      !@user.admin? ? @user.admin! : @user.user!
+    else
+      flash[:danger] = "That is not a valid role."
+      @invalid_role = true
     end
-  end
-
-  def toggle_admin
-    !@user.admin? ? @user.admin! : @user.user!
 
     respond_to do |format|
       format.html { redirect_to :back }
-      format.js { render 'update_role' }
+      format.js
     end
   end
 
@@ -65,7 +63,7 @@ class UsersController < ApplicationController
 
     def restrict_profile_access
       if @user != current_user
-        flash[:danger] = "Acess Denied! - You may only edit your own profile."
+        flash[:danger] = "Access Denied! - You may only edit your own profile."
         redirect_to user_path(current_user)
       end
     end
