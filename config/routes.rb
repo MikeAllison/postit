@@ -12,6 +12,7 @@ PostitTemplate::Application.routes.draw do
   post 'posts/:id/vote',              to: 'posts#vote',             as: 'vote_post'
   post 'comments/:id/vote',           to: 'comments#vote',          as: 'vote_comment'
   post 'users/:id/toggle_moderator',  to: 'users#toggle_moderator', as: 'toggle_moderator'
+  post 'users/:id/toggle_admin',      to: 'users#toggle_admin',     as: 'toggle_admin'
 
   resources :posts, except: [:destroy] do
     resources :comments, only: [:create]

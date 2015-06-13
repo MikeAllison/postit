@@ -1,8 +1,8 @@
 class UsersController < ApplicationController
   before_action :authenticate, except: [:new, :create, :show]
-  before_action :find_user, only: [:show, :edit, :update, :toggle_moderator]
+  before_action :find_user, only: [:show, :edit, :update, :toggle_moderator, :toggle_admin]
   before_action :restrict_profile_access, only: [:edit, :update, :destroy]
-  before_action :restrict_to_admins, only: [:toggle_moderator]
+  before_action :restrict_to_admins, only: [:toggle_moderator, :toggle_admin]
 
   def new
     @user = User.new
@@ -36,15 +36,20 @@ class UsersController < ApplicationController
   end
 
   def toggle_moderator
-    if @user.user?
-      @user.moderator!
-    else
-      @user.user!
-    end
+    !@user.moderator? ? @user.moderator! : @user.user!
 
     respond_to do |format|
       format.html { redirect_to :back }
-      format.js
+      format.js { render 'update_role' }
+    end
+  end
+
+  def toggle_admin
+    !@user.admin? ? @user.admin! : @user.user!
+
+    respond_to do |format|
+      format.html { redirect_to :back }
+      format.js { render 'update_role' }
     end
   end
 

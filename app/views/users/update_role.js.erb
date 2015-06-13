@@ -1,0 +1,4 @@
+$(".user-role").text("<%= @user.role.titleize %>");
+$(".user-name-role").text("<%= @user.username_role %>");
+$(".make-moderator").text("<%= !@user.moderator? ? "Make Moderator" : "Make User" %>");
+$(".make-admin").text("<%= !@user.admin? ? "Make Admin" : "Make User" %>");

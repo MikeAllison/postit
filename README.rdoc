@@ -20,7 +20,6 @@ This is a Reddit-like app for Tealeaf Academy's Rapid Prototyping with Ruby on R
 * Prevent usernames from using non-alphanumeric characters
 * Give admins ability to give users moderator roles
 * Fix password validation
-* Respond_to in VotesContoller and UsersController
 * Hide Users#show actions if not logged in
 
 * Slug problems

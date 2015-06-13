@@ -21,9 +21,12 @@
               <td><%= @user.posts.count %></td>
               <td><%= @user.comments.count %></td>
               <td><%= @user.time_zone %></td>
-              <td class="user-role-btn">
-                <%= link_to toggle_moderator_path, method: :post, class: 'btn btn-default btn-xs', remote: true do %>
-                  <%= @user.user? ? "Make Moderator" : "Make User" %>
+              <td>
+                <%= link_to toggle_moderator_path, method: :post, class: 'btn btn-default btn-xs make-moderator', remote: true do %>
+                  <%= @user.moderator? ? "Make User" : "Make Moderator" %>
+                <% end %>
+                <%= link_to toggle_admin_path, method: :post, class: 'btn btn-default btn-xs make-admin', remote: true do %>
+                  <%= @user.admin? ? "Make User" : "Make Admin" %>
                 <% end %>
               </td>
             </tr>
