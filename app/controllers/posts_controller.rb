@@ -59,11 +59,19 @@ class PostsController < ApplicationController
       @vote.update(vote: submitted_vote)
     elsif @vote.persisted? && @vote.vote == submitted_vote
       @already_voted = true
+      message = "You've already voted on this post."
     else
       @misc_error = true
+      message = "Sorry, your vote couldn't be counted."
     end
 
-    render 'shared/vote', locals: { obj: @post }
+    respond_to do |format|
+      format.html do
+        flash[:danger] = message if message
+        redirect_to :back
+      end
+      format.js { render 'shared/vote', locals: { obj: @post } }
+    end
   end
 
   private
