@@ -2,7 +2,7 @@ class CommentsController < ApplicationController
   before_action :authenticate
 
   def create
-    @post = Post.find_by_slug(params[:post_id])
+    @post = Post.find_by(slug: params[:post_id])
     @comment = @post.comments.build(params.require(:comment).permit(:body))
     @comment.creator = current_user
 

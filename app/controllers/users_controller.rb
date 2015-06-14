@@ -58,7 +58,7 @@ class UsersController < ApplicationController
     end
 
     def find_user
-      @user = User.find_by_slug(params[:id])
+      @user = User.find_by(slug: params[:id])
     end
 
     def restrict_profile_access
