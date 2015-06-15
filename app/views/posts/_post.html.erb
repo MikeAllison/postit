@@ -8,14 +8,19 @@
     <div class="col-sm-10"> <!-- BEGIN EACH POST COLUMN -->
       <div class="panel panel-default">
         <div class="panel-heading">
-          <h3><strong><%= link_to post.title, post.url %></strong></h3> <!-- POST TITLE -->
+          <h3><strong><%= link_to post.title, post %></strong></h3> <!-- POST TITLE -->
           <div id="<%= dom_id(post) %>_voting_box_mobile" class="visible-xs"> <!-- BEGIN MOBILE VOTING COLUMN -->
             <%= render 'posts/voting_box_mobile', obj: post %>
           </div> <!-- END MOBILE VOTING COLUMN -->
         </div> <!-- END .panel-heading -->
 
-        <div class="panel-body"> <!-- BEGIN .panel-body -->
+        <div class="panel-body post-body"> <!-- BEGIN .panel-body -->
           <%= render 'shared/category_buttons', obj: post %>
+          <blockquote>
+            <p>
+              <%= link_to post.url, post.url %>
+            </p>
+          </blockquote>
           <p>
             <%= post.description %>
           </p>
