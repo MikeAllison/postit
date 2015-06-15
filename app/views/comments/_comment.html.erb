@@ -6,7 +6,7 @@
     </div> <!-- END NON-MOBILE VOTING COLUMN -->
 
     <div class="col-sm-10"> <!-- BEGIN EACH COMMENT COLUMN -->
-      <div class="post-comment well well-sm">
+      <div class="well well-sm post-comment">
         <blockquote>
           <p><q><%= comment.body %></q> <em><%= post_link(comment) if user_profile_page %></em></p> <!-- CommentsHelper-->
           <footer><%= link_to comment.creator.username_role, comment.creator, class: 'user-name-role' %> <cite><%= formatted_date_time(comment) %></cite></footer>

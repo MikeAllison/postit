@@ -28,6 +28,15 @@ class ApplicationController < ActionController::Base
       end
     end
 
+    def restrict_from_current_user
+      if @user == current_user
+        respond_to do |format|
+          format.html { redirect_to :back, flash: { danger: "This action cannot be performed under your account." } }
+          format.js { render js: 'bootbox.alert("This action cannot be performed under your account.");' }
+        end
+      end
+    end
+
     def restrict_to_moderators
       unless current_user.moderator?
         respond_to do |format|

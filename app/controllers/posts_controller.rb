@@ -45,8 +45,6 @@ class PostsController < ApplicationController
   end
 
   def vote
-    @already_voted = @misc_error = false
-
     @vote = @post.votes.find_or_initialize_by(creator: current_user)
 
     # Convert params[:vote] into boolean for comparison
@@ -58,16 +56,14 @@ class PostsController < ApplicationController
     elsif @vote.persisted? && @vote.vote == !submitted_vote
       @vote.update(vote: submitted_vote)
     elsif @vote.persisted? && @vote.vote == submitted_vote
-      @already_voted = true
-      message = "You've already voted on this post."
+      @voted_already = "You've already voted on this post."
     else
-      @misc_error = true
-      message = "Sorry, your vote couldn't be counted."
+      @error = "Sorry, your vote couldn't be counted."
     end
 
     respond_to do |format|
       format.html do
-        flash[:danger] = message if message
+        flash[:danger] = @voted_already || @error if @voted_already || @error
         redirect_to :back
       end
       format.js { render 'shared/vote', locals: { obj: @post } }

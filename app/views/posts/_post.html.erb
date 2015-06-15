@@ -14,11 +14,11 @@
           </div> <!-- END MOBILE VOTING COLUMN -->
         </div> <!-- END .panel-heading -->
 
-        <div class="panel-body"> <!-- BEGIN .panel-body -->
+        <div class="panel-body post-body"> <!-- BEGIN .panel-body -->
           <%= render 'shared/category_buttons', obj: post %>
           <blockquote>
             <p>
-              <%= link_to post.url %>
+              <%= link_to post.url, post.url %>
             </p>
           </blockquote>
           <p>
