@@ -19,7 +19,6 @@ This is a Reddit-like app for Tealeaf Academy's Rapid Prototyping with Ruby on R
 * Prevent usernames from using non-alphanumeric characters
 * Fix password validation
 * Give moderators ability to censor posts or comments
-* Fix voting buttons
 
 * Slug problems
 You can create a user/category that has a username/slug of mike 2 (or mike.2)/mike-2 but then also have a 2nd user
