@@ -2,6 +2,7 @@ class UsersController < ApplicationController
   before_action :authenticate, except: [:new, :create, :show]
   before_action :find_user, only: [:show, :edit, :update, :update_role]
   before_action :restrict_profile_access, only: [:edit, :update, :destroy]
+  before_action :restrict_from_current_user, only: [:update_role]
   before_action :restrict_to_admins, only: [:update_role]
 
   def new
@@ -29,7 +30,7 @@ class UsersController < ApplicationController
   def update
     if @user.update(user_params)
       flash[:success] = "Your account was updated successfully."
-      redirect_to user_path(current_user.reload)
+      redirect_to current_user.reload
     else
       render :edit
     end
@@ -64,7 +65,7 @@ class UsersController < ApplicationController
     def restrict_profile_access
       if @user != current_user
         flash[:danger] = "Access Denied! - You may only edit your own profile."
-        redirect_to user_path(current_user)
+        redirect_to current_user
       end
     end
 
