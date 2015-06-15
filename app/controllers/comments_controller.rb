@@ -29,17 +29,17 @@ class CommentsController < ApplicationController
     elsif @vote.persisted? && @vote.vote == !submitted_vote
       @vote.update(vote: submitted_vote)
     elsif @vote.persisted? && @vote.vote == submitted_vote
-      @already_voted = true
-      message = "You've already voted on this comment."
+      @voted_already = "You've already voted on this comment."
     else
-      @misc_error = true
-      message = "Sorry, your vote couldn't be counted."
+      @error = "Sorry, your vote couldn't be counted."
     end
+
+    binding.pry
 
     respond_to do |format|
       format.html do
         redirect_to :back
-        flash[:danger] = message if message
+        flash[:danger] = @voted_already || @error if @voted_already || @error
       end
       format.js { render 'shared/vote', locals: { obj: @comment } }
     end

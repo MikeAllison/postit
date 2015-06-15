@@ -1,6 +1,6 @@
-<% if @already_voted == true %>
+<% if @voted_already %>
   bootbox.alert("You've already voted on this <%= j obj.class.model_name.to_s.downcase %>.");
-<% elsif @generic_error == true %>
+<% elsif @error %>
   bootbox.alert("Sorry, your vote couldn't be counted.");
 <% end %>
 
