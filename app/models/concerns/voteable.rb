@@ -25,7 +25,7 @@ module Voteable
     self.save
   end
 
-  def has_same_vote_from?(user, vote)
+  def vote_exists?(user, vote)
     self.votes.where("user_id = ? and vote = ?", user, vote).exists?
   end
 
