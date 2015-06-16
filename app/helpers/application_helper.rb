@@ -1,5 +1,18 @@
 module ApplicationHelper
 
+  # Sets glyphicon in flash messages
+  def glyphicon(type)
+    if type == 'danger'
+      glyph_type = 'exclamation'
+    elsif type == 'success'
+      glyph_type = 'ok'
+    else
+      glyph_type = 'info'
+    end
+
+    content_tag :span, nil, class: "glyphicon glyphicon-#{glyph_type}-sign", :'aria-hidden' => true
+  end
+
   # Populates category selection dropdown
   def category_title
     @category.nil? ? 'All Posts' : "#{@category.name} (#{@category.posts_count})"

@@ -75,7 +75,7 @@ class PostsController < ApplicationController
   private
 
     def find_post
-      @post = Post.find_by(slug: params[:id])
+      @post = Post.find_by!(slug: params[:id])
     end
 
     def restrict_post_editing
