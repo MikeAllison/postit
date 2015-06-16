@@ -4,7 +4,7 @@ class PostsController < ApplicationController
   before_action :restrict_post_editing, only: [:edit, :update, :destroy]
 
   def index
-    @posts = Post.includes(:creator, :categories, :comments).sort_by { |post| post.tallied_votes }.reverse
+    @posts = Post.includes(:creator, :categories, :comments).votes_created_desc
   end
 
   def new
@@ -60,6 +60,8 @@ class PostsController < ApplicationController
     else
       @error_msg = "Sorry, your vote couldn't be counted."
     end
+
+    @post.calculate_tallied_votes # Voteable
 
     respond_to do |format|
       format.html do

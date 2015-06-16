@@ -17,10 +17,11 @@ class Post < ActiveRecord::Base
   validates_presence_of :description, message: "Description field can't be blank"
   validates_presence_of :categories, message: "Please select at least one category"
 
+  after_initialize :set_default_votes, if: :new_record? # Voteable
   before_validation :strip_url_whitespace
   before_validation :downcase_url
 
-  slugable_attribute :title
+  slugable_attribute :title # Slugable
 
   protected
 

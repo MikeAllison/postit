@@ -7,4 +7,6 @@ class Comment < ActiveRecord::Base
 
   validates_presence_of :body, message: "Comment cannot be blank"
 
+  after_initialize :set_default_votes, if: :new_record? # Voteable
+
 end

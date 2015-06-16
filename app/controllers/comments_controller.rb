@@ -1,5 +1,6 @@
 class CommentsController < ApplicationController
   before_action :authenticate
+  before_action :find_comment, only: [:vote]
 
   def create
     @post = Post.find_by(slug: params[:post_id])
@@ -15,7 +16,6 @@ class CommentsController < ApplicationController
   end
 
   def vote
-    @comment = Comment.find(params[:id])
     @vote = @comment.votes.find_or_initialize_by(creator: current_user)
 
     # Convert params[:vote] into boolean for comparison
@@ -32,6 +32,8 @@ class CommentsController < ApplicationController
       @error_msg = "Sorry, your vote couldn't be counted."
     end
 
+    @comment.calculate_tallied_votes # Voteable
+
     respond_to do |format|
       format.html do
         redirect_to :back
@@ -40,5 +42,11 @@ class CommentsController < ApplicationController
       format.js { render 'shared/vote', locals: { obj: @comment } }
     end
   end
+
+  private
+
+    def find_comment
+      @comment = Comment.find(params[:id])
+    end
 
 end

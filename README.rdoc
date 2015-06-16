@@ -2,29 +2,6 @@
 
 This is a Reddit-like app for Tealeaf Academy's Rapid Prototyping with Ruby on Rails course.
 
-== To-Do
-
-* Error messages detailing what needs to be fixed after validations (ongoing)
-* Fix duplicate code for responsive design
-* Find better solution for cancel and back buttons (remember last place)
-* Username:  Compare against downcased version in DB when logging in
-* Add additional password validations (Fix - 'passwords don't match' when both blank)
-* Compare SQL queries on users#show for @users.posts (and comments) vs. creating a @posts.includes in the UsersController
-* Pass variable on 'shared/no_posts' to auto-select checkbox on form if link is clicked
-* Add a tallied_votes column to posts and comments (calculate from Voteable)
-* Use the tallied_votes database column to display votes
-* Don't like how you can make slugs like: -slug-title-
-* Should usernames allow spaces?
-* Add a limit to username length
-* Prevent usernames from using non-alphanumeric characters
-* Fix password validation
-* Give moderators ability to censor posts or comments
-
-* Slug problems
-You can create a user/category that has a username/slug of mike 2 (or mike.2)/mike-2 but then also have a 2nd user
-create a username/slug of mike-2/mike-2.  Ideally, you shouldn't be able to create a username/category if it will
-convert to the slug of one that already exists.
-
 == Items to Blog About:
 
 * Checkboxes - https://www.youtube.com/watch?v=c2qwV0B9yfU

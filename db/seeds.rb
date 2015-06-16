@@ -56,8 +56,14 @@ end
   Vote.create(vote: false, user_id: i, voteable_id: rand(1..100), voteable_type: 'Post')
 end
 
+# Update Post.tallied_votes
+Post.all.each { |p| p.calculate_tallied_votes }
+
 # Create votes for comments
 100.times do |i|
   Vote.create(vote: true, user_id: i, voteable_id: rand(1..300), voteable_type: 'Comment')
   Vote.create(vote: false, user_id: i, voteable_id: rand(1..300), voteable_type: 'Comment')
 end
+
+# Update Comment.tallied_votes
+Comment.all.each { |c| c.calculate_tallied_votes }

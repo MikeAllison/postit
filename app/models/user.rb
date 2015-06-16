@@ -20,7 +20,7 @@ class User < ActiveRecord::Base
   after_initialize :set_default_role, if: :new_record?
   before_validation :strip_username_whitespace
 
-  slugable_attribute :username
+  slugable_attribute :username # Slugable
 
   def username_role
     self.user? ? "#{username}" : "#{username} [#{role}]"
