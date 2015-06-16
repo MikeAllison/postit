@@ -4,7 +4,7 @@ class PostsController < ApplicationController
   before_action :restrict_post_editing, only: [:edit, :update, :destroy]
 
   def index
-    @posts = Post.includes(:creator, :categories, :comments).votes_created_desc
+    @posts = Post.includes(:creator, :categories, :comments, :votes).votes_created_desc
   end
 
   def new

@@ -5,7 +5,7 @@
   <div class="col-sm-9">
     <div class="pull-right page-title">
       <div class="btn-group">
-        <button type="button" class="btn btn-default btn-lg"><%= page_title %></button> <!-- AppHelper -->
+        <button type="button" class="btn btn-default btn-lg"><%= category_title %></button> <!-- AppHelper -->
         <button type="button" class="btn btn-default btn-lg dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
           <span class="caret"></span>
           <span class="sr-only">Toggle Dropdown</span>
@@ -16,7 +16,7 @@
             <li class="divider"></li>
           <% end %>
           <% Category.all.each do |category| %>
-            <li><%= link_to category.name, category %></li>
+            <li><%= link_to "#{category.name} (#{category.posts_count})", category %></li>
           <% end %>
           <% if logged_in? && current_user.admin? # Show 'Add Category' link if logged in and admin %>
             <li class="divider"></li>

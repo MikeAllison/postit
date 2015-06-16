@@ -7,7 +7,7 @@ module Voteable
     scope :votes_created_desc, -> { order(tallied_votes: :desc, created_at: :desc) }
   end
 
-  def set_default_votes
+  def initialize_tallied_votes
     self.tallied_votes = 0
   end
 

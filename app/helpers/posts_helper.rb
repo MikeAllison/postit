@@ -1,6 +1,6 @@
 module PostsHelper
 
-  # Show 'New Post' button in shared/page_title if logged in
+  # Show 'New Post' button in shared/category_selection if logged in
   def new_post_button
     link_to 'New Post', new_post_path, class: 'btn btn-lg btn-primary' unless !logged_in? || @posts.empty?
   end

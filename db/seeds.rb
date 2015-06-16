@@ -7,13 +7,13 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 100.times do |i|
-  User.create(username: "user#{i + 1}", password: "pw", time_zone: Time.zone.name, role: rand(0..1))
+  User.create(username: "User#{i + 1}", password: "pw", time_zone: Time.zone.name, role: rand(0..1))
 end
 
 # Create an admin and moderator
 User.create([
-  { username: "admin", password: "pw", time_zone: Time.zone.name, role: 2 },
-  { username: "moder", password: "pw", time_zone: Time.zone.name, role: 1 }
+  { username: "Admin", password: "pw", time_zone: Time.zone.name, role: 2 },
+  { username: "Moder", password: "pw", time_zone: Time.zone.name, role: 1 }
 ])
 
 categories = ["Humor", "Sports", "Technology", "News", "TV & Movies", "Science", "Music", "Education", "Politics"]

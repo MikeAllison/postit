@@ -23,7 +23,7 @@ class CategoriesController < ApplicationController
   end
 
   def show
-    @posts = @category.posts.includes(:creator, :categories, :comments).sort_by { |post| post.tallied_votes }.reverse
+    @posts = @category.posts.includes(:creator, :categories, :comments, :votes).sort_by { |post| post.tallied_votes }.reverse
   end
 
   def edit

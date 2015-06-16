@@ -36,7 +36,7 @@
           <% if show_comments_link %> <!-- Passed as render variable -->
             <p class="text-right">
               <%= link_to post, class: 'btn btn-primary btn-xs' do %>
-                <span class="badge"><%= post.comments.size %></span> Comments
+                <span class="badge"><%= post.comments_count %></span> Comments
               <% end %>
             </p>
           <% end %>

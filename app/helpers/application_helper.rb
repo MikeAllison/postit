@@ -1,8 +1,8 @@
 module ApplicationHelper
 
   # Populates category selection dropdown
-  def page_title
-    @category.nil? ? 'All Posts' : "#{@category.name} (#{@category.posts.size})"
+  def category_title
+    @category.nil? ? 'All Posts' : "#{@category.name} (#{@category.posts_count})"
   end
 
   # Converts .created_at to a nicer format
