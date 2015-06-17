@@ -39,7 +39,7 @@ module ApplicationHelper
     if logged_in?
       render 'layouts/user_options_menu'
     else
-      link_to 'Register', register_path, class: 'text-muted'
+      link_to 'Register', register_path, class: 'text-muted', data: { no_turbolink: true }
     end
   end
 
