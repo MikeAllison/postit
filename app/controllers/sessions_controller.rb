@@ -10,7 +10,7 @@ class SessionsController < ApplicationController
       flash[:success] = "You have logged in successfully."
       redirect_to posts_path
     else
-      flash[:danger] = "The username or password was incorrect."
+      flash.now[:danger] = "The username or password was incorrect."
       render :new
     end
   end

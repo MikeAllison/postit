@@ -36,8 +36,8 @@ class CommentsController < ApplicationController
 
     respond_to do |format|
       format.html do
-        redirect_to :back
         flash[:danger] = @error_msg if @error_msg
+        redirect_to :back
       end
       format.js { render 'shared/vote', locals: { obj: @comment } }
     end
