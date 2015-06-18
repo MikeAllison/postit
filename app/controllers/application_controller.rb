@@ -28,7 +28,7 @@ class ApplicationController < ActionController::Base
       end
     end
 
-    def restrict_from_current_user
+    def block_current_user
       if @user == current_user
         respond_to do |format|
           format.html { redirect_to :back, flash: { danger: "This action cannot be performed under your account." } }
@@ -37,7 +37,7 @@ class ApplicationController < ActionController::Base
       end
     end
 
-    def restrict_to_moderators
+    def reqiuire_moderator
       unless current_user.moderator?
         respond_to do |format|
           format.html { redirect_to :back, flash: { danger: "This action requires moderator rights." } }
@@ -46,7 +46,7 @@ class ApplicationController < ActionController::Base
       end
     end
 
-    def restrict_to_admins
+    def require_admin
       unless current_user.admin?
         respond_to do |format|
           format.html { redirect_to :back, flash: { danger: "This action requires administrator rights." } }

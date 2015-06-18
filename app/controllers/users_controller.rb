@@ -1,9 +1,9 @@
 class UsersController < ApplicationController
-  before_action :authenticate, except: [:new, :create, :show]
+  before_action :authenticate, except: [:new, :create, :show] # AppController
   before_action :find_user, only: [:show, :edit, :update, :update_role]
-  before_action :restrict_profile_access, only: [:edit, :update, :destroy]
-  before_action :restrict_from_current_user, only: [:update_role]
-  before_action :restrict_to_admins, only: [:update_role]
+  before_action :require_admin, only: [:update_role] # AppController
+  before_action :require_current_user, only: [:edit, :update]
+  before_action :block_current_user, only: [:update_role] # AppController
 
   def new
     @user = User.new
@@ -60,10 +60,9 @@ class UsersController < ApplicationController
 
     def find_user
       @user = User.find_by!(slug: params[:id])
-
     end
 
-    def restrict_profile_access
+    def require_current_user
       if @user != current_user
         flash[:danger] = "Access Denied! - You may only edit your own profile."
         redirect_to current_user

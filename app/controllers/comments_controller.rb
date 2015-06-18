@@ -1,5 +1,5 @@
 class CommentsController < ApplicationController
-  before_action :authenticate
+  before_action :authenticate # AppController
   before_action :find_comment, only: [:vote]
 
   def create
