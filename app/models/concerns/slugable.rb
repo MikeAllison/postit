@@ -9,12 +9,26 @@ module Slugable
 
   included do
     class_attribute :slugged_attribute
-    before_save :to_slug
+    before_save :create_slug
   end
 
   def to_param
     self.slug
   end
+
+  protected
+
+    def to_slug
+      slug = self.send(self.class.slugged_attribute)
+
+      # Remove excess whitespace and downcase
+      slug = slug.squish.downcase
+
+      # Sub non-alphanumeric chars with '-'
+      # Condense multiple '-' with one
+      # Remove leading and trailing '-'
+      slug = slug.gsub(/[^A-Za-z0-9]/, '-').gsub(/-+/, '-').gsub(/\A-|-\z/, '')
+    end
 
   private
 
@@ -28,8 +42,8 @@ module Slugable
       self.class.find_by(slug: slug).nil?
     end
 
-    def to_slug
-      slug = temp_slug = self.send(self.class.slugged_attribute).squish.gsub(/[^A-Za-z0-9]/, '-').gsub(/-+/, '-').downcase
+    def create_slug
+      slug = temp_slug = self.to_slug
 
       count = 2
       loop do
