@@ -12,7 +12,7 @@ module PostsHelper
 
   # Show link to edit post if current_user is the creator of the post
   def edit_post_link(obj)
-    if obj.creator == current_user
+    if current_user && (obj.creator == current_user || current_user.admin?)
       link_to edit_post_path(obj), title: 'Edit Post' do
         content_tag :small do
           content_tag :span, '', class: 'glyphicon glyphicon-pencil', :'aria-hidden' => true

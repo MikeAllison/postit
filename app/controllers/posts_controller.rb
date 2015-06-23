@@ -1,7 +1,7 @@
 class PostsController < ApplicationController
   before_action :authenticate, except: [:index, :show] # AppController
   before_action :find_post, only: [:show, :edit, :update, :vote]
-  before_action :require_current_user, only: [:edit, :update]
+  before_action :require_current_user_or_admin, only: [:edit, :update]
 
   def index
     @posts = Post.includes(:creator, :categories, :comments, :votes).votes_created_desc
@@ -78,8 +78,8 @@ class PostsController < ApplicationController
       @post = Post.find_by!(slug: params[:id])
     end
 
-    def require_current_user
-      if @post.creator != current_user
+    def require_current_user_or_admin
+      if @post.creator != current_user && !current_user.admin?
         flash[:danger] = "Access Denied! - You may only edit posts that you've created."
         redirect_to @post
       end
