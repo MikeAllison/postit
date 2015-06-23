@@ -1,6 +1,7 @@
 class PostsController < ApplicationController
   before_action :authenticate, except: [:index, :show] # AppController
-  before_action :find_post, only: [:show, :edit, :update, :vote]
+  #before_action :require_moderator, only: [:flag]
+  before_action :find_post, only: [:show, :edit, :update, :vote, :flag]
   before_action :require_current_user_or_admin, only: [:edit, :update]
 
   def index
@@ -70,6 +71,9 @@ class PostsController < ApplicationController
       end
       format.js { render 'shared/vote', locals: { obj: @post } }
     end
+  end
+
+  def flag
   end
 
   private

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150616141330) do
+ActiveRecord::Schema.define(version: 20150623203555) do
 
   create_table "categories", force: true do |t|
     t.string   "name"
@@ -28,6 +28,16 @@ ActiveRecord::Schema.define(version: 20150616141330) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "tallied_votes"
+    t.integer  "flags_count"
+  end
+
+  create_table "flags", force: true do |t|
+    t.boolean  "flag"
+    t.integer  "user_id"
+    t.integer  "flagable_id"
+    t.string   "flagable_type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "post_categories", force: true do |t|
@@ -47,6 +57,7 @@ ActiveRecord::Schema.define(version: 20150616141330) do
     t.integer  "comments_count"
     t.string   "slug"
     t.integer  "tallied_votes"
+    t.integer  "flags_count"
   end
 
   create_table "users", force: true do |t|

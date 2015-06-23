@@ -1,6 +1,7 @@
 class CommentsController < ApplicationController
   before_action :authenticate # AppController
-  before_action :find_comment, only: [:vote]
+  #before_action :require_moderator, only: [:flag]
+  before_action :find_comment, only: [:vote, :flag]
 
   def create
     @post = Post.find_by(slug: params[:post_id])
@@ -41,6 +42,13 @@ class CommentsController < ApplicationController
       end
       format.js { render 'shared/vote', locals: { obj: @comment } }
     end
+  end
+
+  def flag
+    binding.pry
+    @flag = @comment.flags.find_or_initialize_by(flagger: current_user)
+
+    # Convert params[:vote] into boolean for comparison
   end
 
   private
