@@ -1,0 +1,16 @@
+<% if @error_msg %>
+  bootbox.alert("<%= @error_msg %>");
+<% else %>
+  //$("#<%= dom_id(obj, :flag) %>").attr("href", "<%= flag_link(obj) %>");
+  var text = $("#<%= dom_id(obj, :flag) %>").text();
+
+  // /posts/post-title-24/flag?flag=true
+
+  if (text === "Flag Post") {
+    $("#<%= dom_id(obj, :flag) %>").text("Unflag <%= obj.class %>");
+    //alert($("#<%= dom_id(obj, :flag) %>").attr("href"));
+  } else {
+    $("#<%= dom_id(obj, :flag) %>").text("Flag <%= obj.class %>");
+    //alert($("#<%= dom_id(obj, :flag) %>").attr("href"));
+  }
+<% end %>

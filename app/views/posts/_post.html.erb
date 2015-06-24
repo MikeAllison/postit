@@ -1,9 +1,9 @@
 <!-- @posts.each do |post| -->
   <div class="row post">
 
-    <div id="<%= dom_id(post) %>_voting_box" class="col-sm-2 hidden-xs"> <!-- BEGIN NON-MOBILE VOTING COLUMN -->
+    <div id="<%= dom_id(post) %>_voting_box" class="col-sm-2 hidden-xs"> <!-- BEGIN REGULAR VOTING COLUMN -->
       <%= render 'posts/voting_box', obj: post %>
-    </div> <!-- END NON-MOBILE VOTING COLUMN -->
+    </div> <!-- END REGULAR VOTING COLUMN -->
 
     <div class="col-sm-10"> <!-- BEGIN EACH POST COLUMN -->
       <div class="panel panel-default">
@@ -32,6 +32,7 @@
             <%= link_to post.creator.username_role, post.creator, class: 'user-name-role' %>
             <small><%= formatted_date_time(post) %></small> <!-- AppHelper -->
             <%= edit_post_link(post) %> <!-- PostsHelper -->
+            <%= flag_link(post) %> <!-- AppHelper -->
           </p>
           <% if show_comments_link %> <!-- Passed as render variable -->
             <p class="text-right">

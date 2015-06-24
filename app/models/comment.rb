@@ -1,5 +1,6 @@
 class Comment < ActiveRecord::Base
 
+  include Flagable # In 'models/concerns'
   include Voteable # In 'models/concerns'
 
   belongs_to :creator, foreign_key: 'user_id', class_name: 'User'
