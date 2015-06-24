@@ -56,7 +56,7 @@ class CommentsController < ApplicationController
     elsif @flag.persisted? && @flag.flag == !submitted_flag
       @flag.update(flag: submitted_flag)
     else
-      @error_msg = "Sorry, there was a problem flagging this post."
+      @error_msg = "Sorry, there was a problem flagging this comment."
     end
 
     respond_to do |format|
@@ -64,7 +64,7 @@ class CommentsController < ApplicationController
         flash[:danger] = @error_msg if @error_msg
         redirect_to :back
       end
-      format.js { render 'shared/flag' }
+      format.js { render 'shared/flag', locals: { obj: @comment } }
     end
   end
 

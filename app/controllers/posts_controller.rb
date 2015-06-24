@@ -74,6 +74,27 @@ class PostsController < ApplicationController
   end
 
   def flag
+    @flag = @post.flags.find_or_initialize_by(flagger: current_user)
+
+    # Convert params[:flag] into boolean for comparison
+    submitted_flag = params[:flag] == 'true' ? true : false
+
+    if @flag.new_record?
+      @flag.flag = submitted_flag
+      @flag.save
+    elsif @flag.persisted? && @flag.flag == !submitted_flag
+      @flag.update(flag: submitted_flag)
+    else
+      @error_msg = "Sorry, there was a problem flagging this post."
+    end
+
+    respond_to do |format|
+      format.html do
+        flash[:danger] = @error_msg if @error_msg
+        redirect_to :back
+      end
+      format.js { render 'shared/flag', locals: { obj: @post } }
+    end
   end
 
   private

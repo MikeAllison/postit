@@ -1,9 +1,9 @@
 <!-- @posts.each do |post| -->
   <div class="row post">
 
-    <div id="<%= dom_id(post) %>_voting_box" class="col-sm-2 hidden-xs"> <!-- BEGIN NON-MOBILE VOTING COLUMN -->
+    <div id="<%= dom_id(post) %>_voting_box" class="col-sm-2 hidden-xs"> <!-- BEGIN REGULAR VOTING COLUMN -->
       <%= render 'posts/voting_box', obj: post %>
-    </div> <!-- END NON-MOBILE VOTING COLUMN -->
+    </div> <!-- END REGULAR VOTING COLUMN -->
 
     <div class="col-sm-10"> <!-- BEGIN EACH POST COLUMN -->
       <div class="panel panel-default">

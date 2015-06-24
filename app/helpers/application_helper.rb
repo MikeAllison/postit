@@ -35,7 +35,12 @@ module ApplicationHelper
   end
 
   def flag_link(obj)
-    link_to "Flag #{obj.class}"
+    #binding.pry
+    if obj.flag_exists?(current_user) # In Flagable
+      link_to "Unflag #{obj.class}", [:flag, obj, flag: false], method: :post, remote: true, id: dom_id(obj, :flag)
+    else
+      link_to "Flag #{obj.class}", [:flag, obj, flag: true], method: :post, remote: true, id: dom_id(obj, :flag)
+    end
   end
 
   # Sets 'Register' or options for logged in user on navbar
