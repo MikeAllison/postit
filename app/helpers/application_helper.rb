@@ -37,9 +37,9 @@ module ApplicationHelper
   def flag_link(obj)
     #binding.pry
     if obj.flag_exists?(current_user) # In Flagable
-      link_to "Unflag #{obj.class}", [:flag, obj, flag: false], method: :post, remote: true, id: dom_id(obj, :flag)
+      link_to "Unflag #{obj.class}", [:flag, obj, flag: false], method: :post, remote: true
     else
-      link_to "Flag #{obj.class}", [:flag, obj, flag: true], method: :post, remote: true, id: dom_id(obj, :flag)
+      link_to "Flag #{obj.class}", [:flag, obj, flag: true], method: :post, remote: true
     end
   end
 
