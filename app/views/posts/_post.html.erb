@@ -32,7 +32,7 @@
             <%= link_to post.creator.username_role, post.creator, class: 'user-name-role' %>
             <small><%= formatted_date_time(post) %></small> <!-- AppHelper -->
             <%= edit_post_link(post) %> <!-- PostsHelper -->
-            <%= link_to 'Flag Post', flag_post_path(post, flag: true), method: :post %> <!-- AppHelper -->
+            <%= flag_link(post) %> <!-- AppHelper -->
           </p>
           <% if show_comments_link %> <!-- Passed as render variable -->
             <p class="text-right">

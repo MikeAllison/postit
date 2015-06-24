@@ -34,6 +34,10 @@ module ApplicationHelper
     end
   end
 
+  def flag_link(obj)
+    link_to "Flag #{obj.class}"
+  end
+
   # Sets 'Register' or options for logged in user on navbar
   def user_options_link
     if logged_in?
