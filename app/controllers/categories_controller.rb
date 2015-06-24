@@ -1,6 +1,6 @@
 class CategoriesController < ApplicationController
   before_action :authenticate, except: [:show] # AppController
-  before_action :require_admin, except: [:index, :show] # AppController 
+  before_action :require_admin, except: [:index, :show] # AppController
   before_action :find_category, only: [:show, :edit, :update]
 
   def index
@@ -23,7 +23,7 @@ class CategoriesController < ApplicationController
   end
 
   def show
-    @posts = @category.posts.includes(:creator, :categories, :comments, :votes).sort_by { |post| post.tallied_votes }.reverse
+    @posts = @category.posts.includes(:creator, :categories, :comments, :votes).votes_created_desc
   end
 
   def edit
