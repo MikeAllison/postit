@@ -24,12 +24,12 @@ module ApplicationHelper
   end
 
   # Sets upvote/downvote buttons on posts/comments
-  # obj: post/comment, vote: t/f, btn_size: 'btn-md/lg', glyph_type: 'thumbs-up/down', color: 'text-primary/danger'
+  # obj: post/comment, vote: t/f, glyph_type: 'thumbs-up/down', color: 'text-primary/danger'
   # .vote_exists? in Voteable
-  def voting_button(obj, vote, btn_size, glyph_type, text_color)
+  def voting_button(obj, vote, glyph_type, text_color)
     (disabled = 'disabled') && (text_color = 'text-default') if !logged_in? || obj.vote_exists?(current_user, vote)
 
-    link_to [:vote, obj, vote: vote], method: :post, class: "btn btn-default #{btn_size} #{disabled}", remote: true do
+    link_to [:vote, obj, vote: vote], method: :post, class: "btn btn-default #{disabled}", remote: true do
       content_tag :span, nil, class: "glyphicon glyphicon-#{glyph_type} #{text_color}", :'aria-hidden' => true
     end
   end

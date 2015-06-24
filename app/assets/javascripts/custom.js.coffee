@@ -1,11 +1,12 @@
 $ ->
-  adjustNavStyles()
-  $(window).resize(adjustNavStyles)
+  adjustStyles()
+  $(window).resize(adjustStyles)
   checkPasswordInput()
   $("#user_password").keyup(checkPasswordInput)
 
 # Toggles between Bootstrap Pills and the normal nav CSS styles/classes based on window size
-adjustNavStyles = ->
+# Adds .btn-lg to the non-mobile post voting button links
+adjustStyles = ->
   window_width = $(window).width()
   ul_navbar_links = $("ul#navbar-links")
 
@@ -17,6 +18,7 @@ adjustNavStyles = ->
   # Needs to be set to 747 to fix a display issue
   if window_width >= 747
     ul_navbar_links.addClass("nav-pills")
+    $(".post-voting a").addClass("btn-lg")
   else
     ul_navbar_links.addClass("navbar-default")
 
