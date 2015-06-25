@@ -27,19 +27,21 @@ module ApplicationHelper
   # obj: post/comment, vote: t/f, btn_size: 'btn-md/lg', glyph_type: 'thumbs-up/down', color: 'text-primary/danger'
   # .vote_exists? in Voteable
   def voting_button(obj, vote, btn_size, glyph_type, text_color)
-    (disabled = 'disabled') && (text_color = 'text-default') if !logged_in? || obj.vote_exists?(current_user, vote)
+    (disabled = 'disabled') && (text_color = 'text-default') if !logged_in? || obj.vote_exists?(current_user, vote) || obj.flagged?
 
     link_to [:vote, obj, vote: vote], method: :post, class: "btn btn-default #{btn_size} #{disabled}", remote: true do
       content_tag :span, nil, class: "glyphicon glyphicon-#{glyph_type} #{text_color}", :'aria-hidden' => true
     end
   end
 
+  # Sets links for flagging posts or comments
   def flag_link(obj)
-    #binding.pry
-    if obj.flag_exists?(current_user) # In Flagable
-      link_to "Unflag #{obj.class}", [:flag, obj, flag: false], method: :post, remote: true
-    else
-      link_to "Flag #{obj.class}", [:flag, obj, flag: true], method: :post, remote: true
+    content_tag :p, id: dom_id(obj, :flag), class: 'text-right comment-flag' do
+      if obj.user_flagged?(current_user) # In Flagable
+        link_to "Unflag #{obj.class}", [:flag, obj, flag: false], method: :post, class: 'btn btn-success btn-xs', remote: true
+      else
+        link_to "Flag #{obj.class}", [:flag, obj, flag: true], method: :post, class: 'btn btn-danger btn-xs', remote: true
+      end
     end
   end
 

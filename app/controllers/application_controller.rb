@@ -37,7 +37,7 @@ class ApplicationController < ActionController::Base
       end
     end
 
-    def reqiuire_moderator
+    def require_moderator
       unless current_user.moderator?
         respond_to do |format|
           format.html { redirect_to :back, flash: { danger: "This action requires moderator rights." } }

@@ -23,7 +23,7 @@ class CategoriesController < ApplicationController
   end
 
   def show
-    @posts = @category.posts.includes(:creator, :categories, :comments, :votes).votes_created_desc
+    @posts = @category.posts.includes(:creator, :categories, :comments, :votes, :flags).votes_created_desc
   end
 
   def edit

@@ -1,6 +1,6 @@
 class CommentsController < ApplicationController
   before_action :authenticate # AppController
-  #before_action :require_moderator, only: [:flag]
+  before_action :require_moderator, only: [:flag]
   before_action :find_comment, only: [:vote, :flag]
 
   def create
@@ -22,7 +22,10 @@ class CommentsController < ApplicationController
     # Convert params[:vote] into boolean for comparison
     submitted_vote = params[:vote] == 'true' ? true : false
 
-    if @vote.new_record?
+    # @comment.flagged? case may be better implemented with a around_action
+    if @comment.flagged? # In Flagable
+      @error_msg = "You may not vote on a comment that has been flagged for review."
+    elsif @vote.new_record?
       @vote.vote = submitted_vote
       @vote.save
     elsif @vote.persisted? && @vote.vote == !submitted_vote

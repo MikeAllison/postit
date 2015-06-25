@@ -1,21 +1,24 @@
 <!-- @comments.each do |comment| -->
   <div class="row">
 
-    <div id="<%= dom_id(comment) %>_voting_box" class="col-sm-2 hidden-xs"> <!-- BEGIN REGULAR VOTING COLUMN -->
-      <%= render 'comments/voting_box', obj: comment %>
-    </div> <!-- END REGULAR VOTING COLUMN -->
+    <%= render 'comments/voting_box', obj: comment %>
 
     <div class="col-sm-10"> <!-- BEGIN EACH COMMENT COLUMN -->
       <div class="well well-sm post-comment">
         <blockquote>
-          <p><q><%= comment.body %></q> <em><%= post_link(comment) if user_profile_page %></em></p> <!-- CommentsHelper-->
+          <% if comment.flagged? %>
+            <h4 class="text-danger">
+              <span class="glyphicon glyphicon-alert" aria-hidden="true"></span>
+              <em>This comment's content has been marked for review.</em>
+            </h4>
+          <% else %>
+            <p><q><%= comment.body %></q> <em><%= post_link(comment) if user_profile_page %></em></p> <!-- CommentsHelper-->
+          <% end %>
           <footer>
             <%= link_to comment.creator.username_role, comment.creator, class: 'user-name-role' %> <cite><%= formatted_date_time(comment) %></cite>
-            <span id="<%= dom_id(comment, :flag) %>"><%= flag_link(comment) %></span> <!-- AppHelper -->
           </footer>
-          <div id="<%= dom_id(comment) %>_voting_box_mobile" class="visible-xs comment-voting-btns-mobile"> <!-- BEGIN MOBILE VOTING COLUMN -->
-            <%= render 'comments/voting_box_mobile', obj: comment %>
-          </div> <!-- END MOBILE VOTING COLUMN -->
+          <%= flag_link(comment) if logged_in? && current_user.moderator? %> <!-- AppHelper -->
+          <%= render 'comments/voting_box_mobile', obj: comment %>
         </blockquote>
       </div>
     </div> <!-- END EACH COMMENT COLUMN -->

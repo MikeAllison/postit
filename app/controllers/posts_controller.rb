@@ -1,11 +1,11 @@
 class PostsController < ApplicationController
   before_action :authenticate, except: [:index, :show] # AppController
-  #before_action :require_moderator, only: [:flag]
+  before_action :require_moderator, only: [:flag]
   before_action :find_post, only: [:show, :edit, :update, :vote, :flag]
   before_action :require_current_user_or_admin, only: [:edit, :update]
 
   def index
-    @posts = Post.includes(:creator, :categories, :comments, :votes).votes_created_desc
+    @posts = Post.includes(:creator, :categories, :comments, :votes, :flags).votes_created_desc
   end
 
   def new
@@ -51,7 +51,10 @@ class PostsController < ApplicationController
     # Convert params[:vote] into boolean for comparison
     submitted_vote = params[:vote] == 'true' ? true : false
 
-    if @vote.new_record?
+    # @post.flagged? case may be better implemented with a around_action
+    if @post.flagged? # In Flagable
+      @error_msg = "You may not vote on a post that has been flagged for review."
+    elsif @vote.new_record?
       @vote.vote = submitted_vote
       @vote.save
     elsif @vote.persisted? && @vote.vote == !submitted_vote

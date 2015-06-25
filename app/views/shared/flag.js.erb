@@ -2,4 +2,7 @@
   bootbox.alert("<%= @error_msg %>");
 <% end %>
 
-$("#<%= dom_id(obj, :flag) %>").html("<%= j flag_link(obj) %>");
+$("#<%= dom_id(obj, :flag) %>").replaceWith("<%= j flag_link(obj) %>");
+
+$("#<%= dom_id(obj, :vote) %>").replaceWith("<%= j render 'voting_box', obj: obj %>");
+$("#<%= dom_id(obj, :vote) %>_mobile").replaceWith("<%= j render 'voting_box_mobile', obj: obj %>");

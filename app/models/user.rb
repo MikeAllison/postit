@@ -9,6 +9,7 @@ class User < ActiveRecord::Base
   has_many :posts
   has_many :comments
   has_many :votes
+  has_many :flags
 
   validates_presence_of :username, message: "Please enter a username"
   validates_format_of :username, without: /\s\b/, message: "Username cannot contain spaces"

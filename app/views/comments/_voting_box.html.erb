@@ -1,5 +1,5 @@
 <!-- Called from 'comments/_comment' -->
-<div class="well text-center">
+<div id="<%= dom_id(obj, :vote) %>" class="col-sm-2 hidden-xs well text-center">
   <p>
     <%= voting_button(obj, true, 'btn-md', 'thumbs-up', 'text-success') %> <!-- AppHelper -->
     <%= voting_button(obj, false, 'btn-md', 'thumbs-down', 'text-danger') %> <!-- AppHelper -->
