@@ -8,6 +8,10 @@ module ApplicationHelper
     controller_name == 'users' && action_name == 'show'
   end
 
+  def flag?
+    action_name == 'flag'
+  end
+
   # Sets glyphicon in flash messages
   def glyphicon(type)
     if type == 'danger'

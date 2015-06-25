@@ -12,7 +12,7 @@
               <em>This comment's content has been marked for review.</em>
             </h4>
           <% else %>
-            <p><q><%= comment.body %></q> <em><%= post_link(comment) if users_show? %></em></p> <!-- AppHelper-->
+            <p><q><%= comment.body %></q> <em><%= post_link(comment) if users_show? || flag? %></em></p> <!-- AppHelper-->
           <% end %>
           <footer>
             <%= link_to comment.creator.username_role, comment.creator, class: 'user-name-role' %> <cite><%= formatted_date_time(comment) %></cite>
