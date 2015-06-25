@@ -31,6 +31,7 @@ class PostsController < ApplicationController
 
   def show
     @comment = Comment.new
+    @hide_comments_link = true
   end
 
   def edit

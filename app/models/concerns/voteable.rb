@@ -8,7 +8,7 @@ module Voteable
   end
 
   def vote_exists?(user, vote)
-    self.votes.where("user_id = ? and vote = ?", user, vote).exists?
+    self.votes.find_by("user_id = ? and vote = ?", user, vote).present?
   end
 
   # Requires a tallied_votes column in the model's table

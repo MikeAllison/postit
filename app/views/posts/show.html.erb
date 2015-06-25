@@ -1,4 +1,4 @@
-<%= render @post, show_comments_link: false %>
+<%= render @post %>
 
 <div class="row">
   <div class="col-xs-12">
@@ -9,4 +9,4 @@
 
 <%= comments_form if logged_in? %> <!-- Shortcut for render 'comments/form' -->
 
-<%= render @post.reload.comments.votes_created_desc, user_profile_page: false %>
+<%= render @post.reload.comments.votes_created_desc %>

@@ -1,5 +1,5 @@
 <!-- @posts.each do |post| -->
-  <div class="row post">
+  <div id="<%= dom_id(post) %>" class="row post">
 
     <%= render 'posts/voting_box', obj: post %>
 
@@ -12,21 +12,21 @@
 
         <div class="panel-body post-body"> <!-- BEGIN .panel-body -->
           <%= render 'shared/category_buttons', obj: post %>
-          <% if post.flagged? %>
-            <h4 class="text-danger">
-              <span class="glyphicon glyphicon-alert" aria-hidden="true"></span>
-              <em>This post's content has been marked for review.</em>
-            </h4>
-          <% else %>
-            <blockquote>
+            <% if post.flagged? %>
+              <h4 class="text-danger">
+                <span class="glyphicon glyphicon-alert" aria-hidden="true"></span>
+                <em>This post's content has been marked for review.</em>
+              </h4>
+            <% else %>
+              <blockquote>
+                <p>
+                  <%= link_to post.url, post.url %>
+                </p>
+              </blockquote>
               <p>
-                <%= link_to post.url, post.url %>
+                <%= post.description %>
               </p>
-            </blockquote>
-            <p>
-              <%= post.description %>
-            </p>
-          <% end %>
+            <% end %>
         </div> <!-- END .panel-body -->
 
         <div class="panel-footer"> <!-- BEGIN .panel-footer -->
@@ -37,7 +37,7 @@
             <%= edit_post_link(post) %> <!-- PostsHelper -->
           </p>
           <%= flag_link(post) if logged_in? && current_user.moderator? %> <!-- AppHelper -->
-          <% if show_comments_link %> <!-- Passed as render variable -->
+          <% unless posts_show? %> <!-- AppHelper -->
             <p class="text-right">
               <%= link_to post, class: 'btn btn-primary btn-xs' do %>
                 <span class="badge"><%= post.comments_count %></span> Comments

@@ -6,10 +6,10 @@ module Flagable
   end
 
   def user_flagged?(user)
-    self.flags.where("user_id = ? and flag = ?", user, true).exists?
+    self.flags.find_by("user_id = ? and flag = ?", user, true).present?
   end
 
   def flagged?
-    self.flags.where(flag: true).any?
+    self.flags.find_by(flag: true).present?
   end
 end

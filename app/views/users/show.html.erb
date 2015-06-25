@@ -51,10 +51,10 @@
       <!-- Tab panes -->
       <div class="tab-content">
         <div role="tabpanel" class="tab-pane active" id="posts">
-          <%= render @user.posts.votes_created_desc, show_comments_link: true %>
+          <%= render @user.posts.votes_created_desc %>
         </div>
         <div role="tabpanel" class="tab-pane" id="comments">
-          <%= render @user.comments.votes_created_desc, user_profile_page: true %>
+          <%= render @user.comments.votes_created_desc %>
         </div>
       </div>
 
