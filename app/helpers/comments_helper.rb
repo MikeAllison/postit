@@ -2,7 +2,7 @@ module CommentsHelper
 
   # Appends 'on (post.title)' to a comment under a user profile
   def post_link(comment)
-    "on #{link_to comment.post.title, comment.post}"
+    "on #{link_to comment.post.title, comment.post}" unless posts_show? # AppHelper
   end
 
   # Displays comment.body unless the comment is flagged

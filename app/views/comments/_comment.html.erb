@@ -7,9 +7,7 @@
       <div class="well well-sm post-comment">
         <blockquote>
           <h4 class="text-danger flagged-item-msg"><%= flagged_item_msg(comment) %></h4> <!-- AppHelper -->
-          <p>
-            <span class="comment-body"><%= comment_body(comment) %></span> <!-- CommentsHelper -->
-          </p>
+          <p class="comment-body"><%= comment_body(comment) %></p> <!-- CommentsHelper -->
           <footer class="comment-footer"><%= comment_footer(comment) %></footer> <!-- CommentsHelper -->
         </blockquote>
         <%= render 'comments/voting_box_mobile', obj: comment %>
