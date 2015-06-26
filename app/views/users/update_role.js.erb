@@ -1,5 +1,5 @@
-<% if @invalid_role == true %>
-  bootbox.alert("That is not a valid role.");
+<% if @error_msg %>
+  bootbox.alert("<%= @error_msg %>");
   $("#user-role-selection").html("<%= j render 'user_role_selection' %>")
 <% end %>
 

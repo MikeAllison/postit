@@ -42,8 +42,7 @@ class UsersController < ApplicationController
     elsif params[:role] == 'admin'
       !@user.admin? ? @user.admin! : @user.user!
     else
-      flash[:danger] = "That is not a valid role."
-      @invalid_role = true
+      flash[:danger] = @error_msg = "That is not a valid role."
     end
 
     respond_to do |format|
