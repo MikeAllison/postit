@@ -2,11 +2,19 @@
   bootbox.alert("<%= @error_msg %>");
 <% end %>
 
-$("#<%= dom_id(obj, :flag) %>").replaceWith("<%= j flag_link(obj) %>");
+// Enable/disable voting boxes
+$("#<%= dom_id(obj) %> .voting-box").replaceWith("<%= j render 'voting_box', obj: obj %>");
+$("#<%= dom_id(obj) %> .voting-box-mobile").replaceWith("<%= j render 'voting_box_mobile', obj: obj %>");
 
+// Update flag buttons and message
+$("#<%= dom_id(obj) %> .flag-btn").replaceWith("<%= j flag_link(obj) %>");
+$("#<%= dom_id(obj) %> .flagged-item-msg").html("<%= j flagged_item_msg(obj) %>");
+
+// Hide/unhide item's content
 <% if obj.class == Post %>
-  $("#<%= dom_id(obj) %>").replaceWith("<%= j render 'posts/post', post: obj %>");
+  $("#<%= dom_id(obj) %> .post-url").html("<%= j post_url(obj) %>");
+  $("#<%= dom_id(obj) %> .post-description").html("<%= j post_description(obj) %>");
 <% elsif obj.class == Comment %>
-  <% #binding.pry %>
-  $("#<%= dom_id(obj) %>").replaceWith("<%= j render 'comments/comment', comment: obj %>");
+  $("#<%= dom_id(obj) %> .comment-body").html("<%= j comment_body(obj) %>");
+  $("#<%= dom_id(obj) %> .comment-footer").html("<%= j comment_footer(obj) %>");
 <% end %>

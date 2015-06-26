@@ -3,5 +3,5 @@
 <% end %>
 
 // Reload the vote partials
-$("#<%= dom_id(obj, :vote) %>").replaceWith("<%= j render 'voting_box', obj: obj %>");
-$("#<%= dom_id(obj, :vote) %>_mobile").replaceWith("<%= j render 'voting_box_mobile', obj: obj %>");
+$("#<%= dom_id(obj) %> .voting-box").replaceWith("<%= j render 'voting_box', obj: obj %>");
+$("#<%= dom_id(obj) %> .voting-box-mobile").replaceWith("<%= j render 'voting_box_mobile', obj: obj %>");

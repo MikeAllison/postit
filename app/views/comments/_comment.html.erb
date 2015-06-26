@@ -5,21 +5,16 @@
 
     <div class="col-sm-10"> <!-- BEGIN EACH COMMENT COLUMN -->
       <div class="well well-sm post-comment">
+
         <blockquote>
-          <% if comment.flagged? %>
-            <h4 class="text-danger">
-              <span class="glyphicon glyphicon-alert" aria-hidden="true"></span>
-              <em>This comment's content has been marked for review.</em>
-            </h4>
-          <% else %>
-            <p><q><%= comment.body %></q> <em><%= post_link(comment) %></em></p> <!-- CommentHelper-->
-          <% end %>
-          <footer>
-            <%= link_to comment.creator.username_role, comment.creator, class: 'user-name-role' %> <cite><%= formatted_date_time(comment) %></cite>
-          </footer>
-          <%= flag_link(comment) if logged_in? && current_user.moderator? %> <!-- AppHelper -->
-          <%= render 'comments/voting_box_mobile', obj: comment %>
+          <p>
+            <span class="flagged-item-msg"><%= flagged_item_msg(comment) %></span> <!-- AppHelper -->
+            <span class="comment-body"><%= comment_body(comment) %></span> <!-- CommentsHelper -->
+          </p>
+          <span class="comment-footer"><%= comment_footer(comment) %></span> <!-- CommentsHelper -->
         </blockquote>
+        <%= render 'comments/voting_box_mobile', obj: comment %>
+        <%= flag_link(comment) if logged_in? && current_user.moderator? %> <!-- AppHelper -->
       </div>
     </div> <!-- END EACH COMMENT COLUMN -->
 

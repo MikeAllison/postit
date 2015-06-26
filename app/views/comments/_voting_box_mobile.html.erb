@@ -1,5 +1,5 @@
 <!-- Called from 'comments/_comment' -->
-<div id="<%= dom_id(obj, :vote) %>_mobile" class="visible-xs text-right comment-voting-btns-mobile">
+<div class="visible-xs text-right voting-box-mobile comment-voting-btns-mobile">
   <hr />
   <label class="label label-primary"><%= "#{obj.tallied_votes} Votes" %></label> <!-- AppHelper -->
   <%= voting_button(obj, true, 'btn-md', 'thumbs-up', 'text-success') %> <!-- AppHelper -->

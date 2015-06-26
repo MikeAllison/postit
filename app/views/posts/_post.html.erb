@@ -12,21 +12,9 @@
 
         <div class="panel-body post-body"> <!-- BEGIN .panel-body -->
           <%= render 'shared/category_buttons', obj: post %>
-            <% if post.flagged? %>
-              <h4 class="text-danger">
-                <span class="glyphicon glyphicon-alert" aria-hidden="true"></span>
-                <em>This post's content has been marked for review.</em>
-              </h4>
-            <% else %>
-              <blockquote>
-                <p>
-                  <%= link_to post.url, post.url %>
-                </p>
-              </blockquote>
-              <p>
-                <%= post.description %>
-              </p>
-            <% end %>
+          <span class="flagged-item-msg"><%= flagged_item_msg(post) %></span> <!-- AppHelper -->
+          <span class="post-url"><%= post_url(post) %></span> <!-- PostsHelper -->
+          <span class="post-description"><%= post_description(post) %></span> <!-- PostsHelper -->
         </div> <!-- END .panel-body -->
 
         <div class="panel-footer"> <!-- BEGIN .panel-footer -->
@@ -36,12 +24,12 @@
             <small><%= formatted_date_time(post) %></small> <!-- AppHelper -->
             <%= edit_post_link(post) %> <!-- PostsHelper -->
           </p>
-          <%= flag_link(post) if logged_in? && current_user.moderator? %> <!-- AppHelper -->
           <p class="text-right">
             <%= link_to post, class: 'btn btn-primary btn-xs' do %>
               <span class="badge"><%= post.comments_count %></span> Comments
             <% end %>
           </p>
+          <%= flag_link(post) if logged_in? && current_user.moderator? %> <!-- AppHelper -->
         </div> <!-- END .panel-footer -->
       </div> <!-- END .panel -->
 

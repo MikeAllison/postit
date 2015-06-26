@@ -34,9 +34,19 @@ module ApplicationHelper
     end
   end
 
+  # Displays a message if the object is flagged
+  def flagged_item_msg(obj)
+    if obj.flagged?
+      content_tag :h4, class: 'text-danger' do
+        concat(content_tag :span, nil, class: 'glyphicon glyphicon-alert', :'aria-hidden' => true)
+        concat(content_tag :em, " This #{obj.class.to_s.downcase}'s content has been flagged for review.")
+      end
+    end
+  end
+
   # Sets links for flagging posts or comments
   def flag_link(obj)
-    content_tag :p, id: dom_id(obj, :flag), class: 'text-right comment-flag' do
+    content_tag :p, class: 'text-right flag-btn' do
       if obj.user_flagged?(current_user) # In Flagable
         link_to "Unflag #{obj.class}", [:flag, obj, flag: false], method: :post, class: 'btn btn-success btn-xs', remote: true
       else

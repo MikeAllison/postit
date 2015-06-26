@@ -5,6 +5,14 @@ module PostsHelper
     link_to 'New Post', new_post_path, class: 'btn btn-lg btn-primary' unless !logged_in? || @posts.empty?
   end
 
+  def post_url(post)
+    raw "<blockquote><p>#{link_to post.url, post.url}</p></blockquote>" unless post.flagged?
+  end
+
+  def post_description(post)
+    raw "<p>#{post.description}</p>" unless post.flagged?
+  end
+
   # Show comment form on posts#show page if logged in
   def comments_form
     render 'comments/form' if logged_in?
