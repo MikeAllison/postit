@@ -5,13 +5,12 @@
 
     <div class="col-sm-10"> <!-- BEGIN EACH COMMENT COLUMN -->
       <div class="well well-sm post-comment">
-
         <blockquote>
+          <h4 class="text-danger flagged-item-msg"><%= flagged_item_msg(comment) %></h4> <!-- AppHelper -->
           <p>
-            <span class="flagged-item-msg"><%= flagged_item_msg(comment) %></span> <!-- AppHelper -->
             <span class="comment-body"><%= comment_body(comment) %></span> <!-- CommentsHelper -->
           </p>
-          <span class="comment-footer"><%= comment_footer(comment) %></span> <!-- CommentsHelper -->
+          <footer class="comment-footer"><%= comment_footer(comment) %></footer> <!-- CommentsHelper -->
         </blockquote>
         <%= render 'comments/voting_box_mobile', obj: comment %>
         <%= flag_link(comment) if logged_in? && current_user.moderator? %> <!-- AppHelper -->

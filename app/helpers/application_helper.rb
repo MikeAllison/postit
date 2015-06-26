@@ -1,5 +1,9 @@
 module ApplicationHelper
 
+  def posts_show?
+    controller_name == "posts" && action_name == "show"
+  end
+
   # Sets glyphicon in flash messages
   def glyphicon(type)
     if type == 'danger'
@@ -36,12 +40,9 @@ module ApplicationHelper
 
   # Displays a message if the object is flagged
   def flagged_item_msg(obj)
-    if obj.flagged?
-      content_tag :h4, class: 'text-danger' do
-        concat(content_tag :span, nil, class: 'glyphicon glyphicon-alert', :'aria-hidden' => true)
-        concat(content_tag :em, " This #{obj.class.to_s.downcase}'s content has been flagged for review.")
-      end
-    end
+    glyphicon = content_tag :span, nil, class: 'glyphicon glyphicon-alert', :'aria-hidden' => true
+
+    raw "#{glyphicon} <em>This #{obj.class.to_s.downcase}'s content has been flagged for review.</em>" if obj.flagged?
   end
 
   # Sets links for flagging posts or comments

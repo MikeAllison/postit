@@ -12,9 +12,7 @@ module CommentsHelper
 
   # Displays a comment's footer unless the comment is flagged
   def comment_footer(comment)
-    content_tag :footer do
-      raw "#{link_to comment.creator.username_role, comment.creator, class: 'user-name-role'} <cite>#{formatted_date_time(comment)}</cite>"
-    end unless comment.flagged?
+    raw "#{link_to comment.creator.username_role, comment.creator, class: 'user-name-role'} <cite>#{formatted_date_time(comment)}</cite>"
   end
 
 end
