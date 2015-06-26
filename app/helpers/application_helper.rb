@@ -46,13 +46,11 @@ module ApplicationHelper
   end
 
   # Sets links for flagging posts or comments
-  def flag_link(obj)
-    content_tag :p, class: 'text-right flag-btn' do
-      if obj.user_flagged?(current_user) # In Flagable
-        link_to "Unflag #{obj.class}", [:flag, obj, flag: false], method: :post, class: 'btn btn-success btn-xs', remote: true
-      else
-        link_to "Flag #{obj.class}", [:flag, obj, flag: true], method: :post, class: 'btn btn-danger btn-xs', remote: true
-      end
+  def flag_btn(obj)
+    if obj.user_flagged?(current_user) # In Flagable
+      link_to "Unflag #{obj.class}", [:flag, obj, flag: false], method: :post, class: 'btn btn-success btn-xs', remote: true
+    else
+      link_to "Flag #{obj.class}", [:flag, obj, flag: true], method: :post, class: 'btn btn-danger btn-xs', remote: true
     end
   end
 

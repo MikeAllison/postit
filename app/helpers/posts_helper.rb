@@ -10,7 +10,7 @@ module PostsHelper
   end
 
   def post_description(post)
-    raw "<p>#{post.description}</p>" unless post.flagged?
+    post.description unless post.flagged?
   end
 
   # Show comment form on posts#show page if logged in

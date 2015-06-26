@@ -10,8 +10,14 @@
           <p class="comment-body"><%= comment_body(comment) %></p> <!-- CommentsHelper -->
           <footer class="comment-footer"><%= comment_footer(comment) %></footer> <!-- CommentsHelper -->
         </blockquote>
-        <%= render 'comments/voting_box_mobile', obj: comment %>
-        <%= flag_link(comment) if logged_in? && current_user.moderator? %> <!-- AppHelper -->
+        <div class="row">
+          <div class="col-xs-12 text-right">
+            <span class="flag-btn">
+              <%= flag_btn(comment) if logged_in? && current_user.moderator? %> <!-- AppHelper -->
+            </span>
+            <%= render 'comments/voting_box_mobile', obj: comment %>
+          </div>
+        </div>
       </div>
     </div> <!-- END EACH COMMENT COLUMN -->
 

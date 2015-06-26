@@ -7,7 +7,7 @@ $("#<%= dom_id(obj) %> .voting-box").replaceWith("<%= j render 'voting_box', obj
 $("#<%= dom_id(obj) %> .voting-box-mobile").replaceWith("<%= j render 'voting_box_mobile', obj: obj %>");
 
 // Update flag buttons and message
-$("#<%= dom_id(obj) %> .flag-btn").replaceWith("<%= j flag_link(obj) %>");
+$("#<%= dom_id(obj) %> .flag-btn").html("<%= j flag_btn(obj) %>");
 $("#<%= dom_id(obj) %> .flagged-item-msg").html("<%= j flagged_item_msg(obj) %>");
 
 // Hide/unhide item's content
