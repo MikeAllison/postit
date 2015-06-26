@@ -19,6 +19,8 @@ class Post < ActiveRecord::Base
   validates_presence_of :categories, message: "Please select at least one category"
 
   after_initialize :initialize_comments_count, if: :new_record?
+  after_initialize :initialize_hidden_attr, if: :new_record? # Flagable
+  after_initialize :initialize_flags_count, if: :new_record? # Flagable
   after_initialize :initialize_tallied_votes, if: :new_record? # Voteable
   before_validation :strip_url_whitespace
   before_validation :downcase_url

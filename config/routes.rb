@@ -17,8 +17,12 @@ PostitTemplate::Application.routes.draw do
   post 'posts/:id/flag',        to: 'posts#flag',         as: 'flag_post'
   post 'comments/:id/flag',     to: 'comments#flag',      as: 'flag_comment'
 
+  get  'posts/flagged',         to: 'posts#flagged',      as: 'flagged_posts'
+  get  'comments/flagged',      to: 'comments#flagged',   as: 'flagged_comments'
+
   resources :posts, except: [:destroy] do
     resources :comments, only: [:create]
+    resources :flagged, only: [:index]
   end
 
   resources :categories, except: [:destroy]

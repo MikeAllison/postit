@@ -55,6 +55,15 @@ class ApplicationController < ActionController::Base
       end
     end
 
+    def require_moderator_or_admin
+      unless current_user.moderator? || current_user.admin?
+        respond_to do |format|
+          format.html { redirect_to :back, flash: { danger: "This action requires moderator, or administrator, rights." } }
+          format.js { render js: 'bootbox.alert("This action requires moderator, or administrator, rights.");' }
+        end
+      end
+    end
+
     def set_time_zone
       Time.use_zone(current_user.time_zone) { yield }
     end

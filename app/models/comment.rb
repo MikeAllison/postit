@@ -8,6 +8,8 @@ class Comment < ActiveRecord::Base
 
   validates_presence_of :body, message: "Comment cannot be blank"
 
+  after_initialize :initialize_hidden_attr, if: :new_record? # Flagable
+  after_initialize :initialize_flags_count, if: :new_record? # Flagable
   after_initialize :initialize_tallied_votes, if: :new_record? # Voteable
 
 end

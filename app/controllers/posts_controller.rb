@@ -1,6 +1,7 @@
 class PostsController < ApplicationController
   before_action :authenticate, except: [:index, :show] # AppController
-  before_action :require_moderator, only: [:flag]
+  before_action :require_admin, only: [:flagged]
+  before_action :require_moderator_or_admin, only: [:flag]
   before_action :find_post, only: [:show, :edit, :update, :vote, :flag]
   before_action :require_current_user_or_admin, only: [:edit, :update]
 
@@ -99,6 +100,10 @@ class PostsController < ApplicationController
       end
       format.js { render 'shared/flag', locals: { obj: @post } }
     end
+  end
+
+  def flagged
+    @posts = Post.flagged
   end
 
   private

@@ -6,11 +6,15 @@ module PostsHelper
   end
 
   def post_url(post)
-    raw "<blockquote><p>#{link_to post.url, post.url}</p></blockquote>" unless post.flagged?
+    if flagged_view? || !post.flagged?
+      raw "<blockquote><p>#{link_to post.url, post.url}</p></blockquote>"
+    end
   end
 
   def post_description(post)
-    post.description unless post.flagged?
+    if flagged_view? || !post.flagged?
+      post.description
+    end
   end
 
   # Show comment form on posts#show page if logged in

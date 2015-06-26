@@ -3,6 +3,9 @@ module Flagable
 
   included do
     has_many :flags, as: :flagable
+
+    scope :flagged, -> { joins(:flags).where('flag = ?', true) }
+    scope :hidden,  -> { where(hidden: true) }
   end
 
   def user_flagged?(user)
@@ -12,4 +15,15 @@ module Flagable
   def flagged?
     self.flags.find_by(flag: true).present?
   end
+
+  private
+
+    def initialize_flags_count
+      self.flags_count = 0
+    end
+
+    def initialize_hidden_attr
+      self.hidden = false
+    end
+
 end

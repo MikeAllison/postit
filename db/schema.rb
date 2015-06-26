@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150623203555) do
+ActiveRecord::Schema.define(version: 20150626183407) do
 
   create_table "categories", force: true do |t|
     t.string   "name"
@@ -29,6 +29,7 @@ ActiveRecord::Schema.define(version: 20150623203555) do
     t.datetime "updated_at"
     t.integer  "tallied_votes"
     t.integer  "flags_count"
+    t.boolean  "hidden"
   end
 
   create_table "flags", force: true do |t|
@@ -58,6 +59,7 @@ ActiveRecord::Schema.define(version: 20150623203555) do
     t.string   "slug"
     t.integer  "tallied_votes"
     t.integer  "flags_count"
+    t.boolean  "hidden"
   end
 
   create_table "users", force: true do |t|

@@ -1,7 +1,11 @@
 module ApplicationHelper
 
   def posts_show?
-    controller_name == "posts" && action_name == "show"
+    controller_name == 'posts' && action_name == 'show'
+  end
+
+  def flagged_view?
+    action_name == "flagged"
   end
 
   # Sets glyphicon in flash messages
@@ -43,6 +47,10 @@ module ApplicationHelper
     glyphicon = content_tag :span, nil, class: 'glyphicon glyphicon-alert', :'aria-hidden' => true
 
     raw "#{glyphicon} <em>This #{obj.class.to_s.downcase}'s content has been flagged for review.</em>" if obj.flagged?
+  end
+
+  def hide_item_btn
+    content_tag :button, 'Hide Item', class: 'btn btn-default btn-xs view-content'
   end
 
   # Sets links for flagging posts or comments

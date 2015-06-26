@@ -7,10 +7,12 @@ module CommentsHelper
 
   # Displays comment.body unless the comment is flagged
   def comment_body(comment)
-    raw "<q>#{comment.body}</q> <em>#{post_link(comment)}</em>" unless comment.flagged?
+    if flagged_view? || !comment.flagged?
+      raw "<q>#{comment.body}</q> <em>#{post_link(comment)}</em>"
+    end
   end
 
-  # Displays a comment's footer unless the comment is flagged
+  # Displays a comment's footer
   def comment_footer(comment)
     raw "#{link_to comment.creator.username_role, comment.creator, class: 'user-name-role'} <cite>#{formatted_date_time(comment)}</cite>"
   end
