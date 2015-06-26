@@ -1,17 +1,5 @@
 module ApplicationHelper
 
-  def posts_show?
-    controller_name == 'posts' && action_name == 'show'
-  end
-
-  def users_show?
-    controller_name == 'users' && action_name == 'show'
-  end
-
-  def flag?
-    action_name == 'flag'
-  end
-
   # Sets glyphicon in flash messages
   def glyphicon(type)
     if type == 'danger'
