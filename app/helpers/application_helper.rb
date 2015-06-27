@@ -42,6 +42,19 @@ module ApplicationHelper
     end
   end
 
+  def flagged_posts_count
+    Post.flagged.count
+  end
+
+  def flagged_comments_count
+    Comment.flagged.count
+  end
+
+  def flagged_items_count
+    flagged_posts_count + flagged_comments_count
+  end
+
+
   # Displays a message if the object is flagged
   def flagged_item_msg(obj)
     glyphicon = content_tag :span, nil, class: 'glyphicon glyphicon-alert', :'aria-hidden' => true
@@ -55,7 +68,7 @@ module ApplicationHelper
 
   # Sets links for flagging posts or comments
   def flag_btn(obj)
-    if obj.user_flagged?(current_user) # In Flagable
+    if flagged_view? || obj.user_flagged?(current_user) # In Flagable
       link_to "Unflag #{obj.class}", [:flag, obj, flag: false], method: :post, class: 'btn btn-success btn-xs', remote: true
     else
       link_to "Flag #{obj.class}", [:flag, obj, flag: true], method: :post, class: 'btn btn-danger btn-xs', remote: true
@@ -65,7 +78,7 @@ module ApplicationHelper
   # Sets 'Register' or options for logged in user on navbar
   def user_options_link
     if logged_in?
-      render 'layouts/user_options_menu'
+      render 'layouts/user_menu'
     else
       link_to 'Register', register_path, class: 'text-muted', data: { no_turbolink: true }
     end

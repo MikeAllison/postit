@@ -65,5 +65,15 @@ Post.all.each { |p| p.calculate_tallied_votes }
   Vote.create(vote: false, user_id: i, voteable_id: rand(1..300), voteable_type: 'Comment')
 end
 
+# Create flags for posts
+20.times do |i|
+  Flag.create(flag: true, user_id: i, flagable_id: rand(1..100), flagable_type: 'Post')
+end
+
+# Create flags for comments
+50.times do |i|
+  Flag.create(flag: true, user_id: i, flagable_id: rand(1..300), flagable_type: 'Comment')
+end
+
 # Update Comment.tallied_votes
 Comment.all.each { |c| c.calculate_tallied_votes }
