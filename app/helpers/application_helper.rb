@@ -4,8 +4,8 @@ module ApplicationHelper
     controller_name == 'posts' && action_name == 'show'
   end
 
-  def flagged_view?
-    action_name == "flagged"
+  def admin_flags_index?
+    controller_name == 'flags' && action_name == 'index'
   end
 
   # Sets glyphicon in flash messages
@@ -68,7 +68,7 @@ module ApplicationHelper
 
   # Sets links for flagging posts or comments
   def flag_btn(obj)
-    if flagged_view? || obj.user_flagged?(current_user) # In Flagable
+    if admin_flags_index? || obj.user_flagged?(current_user) # In Flagable
       link_to "Unflag #{obj.class}", [:flag, obj, flag: false], method: :post, class: 'btn btn-success btn-xs', remote: true
     else
       link_to "Flag #{obj.class}", [:flag, obj, flag: true], method: :post, class: 'btn btn-danger btn-xs', remote: true

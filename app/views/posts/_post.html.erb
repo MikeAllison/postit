@@ -12,7 +12,7 @@
 
         <div class="panel-body post-body"> <!-- BEGIN .panel-body -->
           <%= render 'shared/category_buttons', obj: post %>
-          <h4 class="text-danger flagged-item-msg"><%= flagged_item_msg(post) unless flagged_view? %></h4> <!-- AppHelper -->
+          <h4 class="text-danger flagged-item-msg"><%= flagged_item_msg(post) unless admin_flags_index? %></h4> <!-- AppHelper -->
           <div class="post-url"><%= post_url(post) %></div> <!-- PostsHelper -->
           <p class="post-description"><%= post_description(post) %></p> <!-- PostsHelper -->
         </div> <!-- END .panel-body -->
@@ -26,7 +26,7 @@
           </p>
           <p class="text-right">
             <span class="flag-btn">
-              <%= hide_item_btn if logged_in? && current_user.admin? && flagged_view? %> <!-- AppHelper -->
+              <%= hide_item_btn if logged_in? && current_user.admin? && admin_flags_index? %> <!-- AppHelper -->
               <%= flag_btn(post) if logged_in? && (current_user.moderator? || current_user.admin?) %> <!-- AppHelper -->
             </span>
             <%= link_to post, class: 'btn btn-primary btn-xs' do %>

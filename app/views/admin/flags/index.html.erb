@@ -1,0 +1,55 @@
+<div class="row">
+  <div class="col-xs-12">
+    <div class="panel panel-primary">
+      <div class="panel-heading text-center">
+        <h3><strong>Flagged Items</strong></h3>
+      </div>
+      <div class="panel-body table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Flagged Posts</th>
+              <th>Flagged Comments</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><%= flagged_posts_count %></td>
+              <td><%= flagged_comments_count %></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-xs-12">
+    <div role="tabpanel">
+
+      <!-- Nav tabs -->
+      <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#flagged-posts" aria-controls="flagged-posts" role="tab" data-toggle="tab">Posts (<%= flagged_posts_count %>)</a></li>
+        <li role="presentation"><a href="#flagged-comments" aria-controls="flagged-comments" role="tab" data-toggle="tab">Comments (<%= flagged_comments_count %>)</a></li>
+      </ul>
+
+      <br/>
+
+      <!-- Tab panes -->
+      <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="flagged-posts">
+          <% @posts.each do |post| %>
+            <%= render 'posts/post', post: post %>
+          <% end %>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="flagged-comments">
+          <% @comments.each do |comment| %>
+            <%= render 'comments/comment', comment: comment %>
+          <% end %>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

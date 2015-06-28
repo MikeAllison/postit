@@ -7,7 +7,7 @@ module CommentsHelper
 
   # Displays comment.body unless the comment is flagged
   def comment_body(comment)
-    if flagged_view? || !comment.flagged?
+    if admin_flags_index? || !comment.flagged?
       raw "<q>#{comment.body}</q> <em>#{post_link(comment)}</em>"
     end
   end

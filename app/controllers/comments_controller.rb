@@ -1,6 +1,5 @@
 class CommentsController < ApplicationController
   before_action :authenticate # AppController
-  before_action :require_admin, only: [:flagged]
   before_action :require_moderator_or_admin, only: [:flag]
   before_action :find_comment, only: [:vote, :flag]
 
@@ -70,10 +69,6 @@ class CommentsController < ApplicationController
       end
       format.js { render 'shared/flag', locals: { obj: @comment } }
     end
-  end
-
-  def flagged
-    @comments = Comment.flagged
   end
 
   private
