@@ -23,7 +23,6 @@ PostitTemplate::Application.routes.draw do
 
   resources :posts, except: [:destroy] do
     resources :comments, only: [:create]
-    resources :flagged, only: [:index]
   end
 
   resources :categories, except: [:destroy]

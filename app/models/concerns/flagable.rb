@@ -4,7 +4,7 @@ module Flagable
   included do
     has_many :flags, as: :flagable
 
-    scope :flagged, -> { joins(:flags).where('flag = ?', true) }
+    scope :flagged, -> { joins(:flags).where('flag = ?', true).distinct.order(flags_count: :desc) }
     scope :hidden,  -> { where(hidden: true) }
   end
 

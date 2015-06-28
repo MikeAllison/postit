@@ -54,7 +54,6 @@ module ApplicationHelper
     flagged_posts_count + flagged_comments_count
   end
 
-
   # Displays a message if the object is flagged
   def flagged_item_msg(obj)
     glyphicon = content_tag :span, nil, class: 'glyphicon glyphicon-alert', :'aria-hidden' => true
@@ -62,13 +61,17 @@ module ApplicationHelper
     raw "#{glyphicon} <em>This #{obj.class.to_s.downcase}'s content has been flagged for review.</em>" if obj.flagged?
   end
 
-  def hide_item_btn
+  def hide_item_btn(obj)
     content_tag :button, 'Hide Item', class: 'btn btn-default btn-xs view-content'
+  end
+
+  def clear_flags_btn(obj)
+    link_to 'Clear Flags', '#', class: 'btn btn-success btn-xs'
   end
 
   # Sets links for flagging posts or comments
   def flag_btn(obj)
-    if admin_flags_index? || obj.user_flagged?(current_user) # In Flagable
+    if obj.user_flagged?(current_user) # In Flagable
       link_to "Unflag #{obj.class}", [:flag, obj, flag: false], method: :post, class: 'btn btn-success btn-xs', remote: true
     else
       link_to "Flag #{obj.class}", [:flag, obj, flag: true], method: :post, class: 'btn btn-danger btn-xs', remote: true
