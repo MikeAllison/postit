@@ -106,7 +106,7 @@ class PostsController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to :back }
-      format.js { render 'shared/clear_flags_or_hide', locals: { obj: @post } }
+      format.js { render 'shared/update_admin_flagged', locals: { obj: @post } }
     end
   end
 
@@ -114,8 +114,8 @@ class PostsController < ApplicationController
     @post.update(hidden: true)
 
     respond_to do |format|
-      format.html { redirect_to :back  }
-      format.js { render 'shared/clear_flags_or_hide', locals: { obj: @post } }
+      format.html { redirect_to :back }
+      format.js { render 'shared/update_admin_flagged', locals: { obj: @post } }
     end
   end
 

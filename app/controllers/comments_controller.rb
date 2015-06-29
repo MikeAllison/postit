@@ -77,7 +77,7 @@ class CommentsController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to :back }
-      format.js { render 'shared/clear_flags_or_hide', locals: { obj: @comment } }
+      format.js { render 'shared/update_admin_flagged', locals: { obj: @comment } }
     end
   end
 
@@ -85,8 +85,8 @@ class CommentsController < ApplicationController
     @comment.update(hidden: true)
 
     respond_to do |format|
-      format.html { redirect_to :back  }
-      format.js { render 'shared/clear_flags_or_hide', locals: { obj: @comment } }
+      format.html { redirect_to :back }
+      format.js { render 'shared/update_admin_flagged', locals: { obj: @comment } }
     end
   end
 
