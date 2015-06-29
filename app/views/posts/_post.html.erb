@@ -12,7 +12,7 @@
 
         <div class="panel-body post-body"> <!-- BEGIN .panel-body -->
           <%= render 'shared/category_buttons', obj: post %>
-          <h4 class="text-danger flagged-item-msg"><%= flagged_item_msg(post) unless admin_flags_index? %></h4> <!-- AppHelper -->
+          <h4 class="text-danger flagged-item-msg"><%= flagged_item_msg(post) %></h4> <!-- AppHelper -->
           <div class="post-url"><%= post_url(post) %></div> <!-- PostsHelper -->
           <p class="post-description"><%= post_description(post) %></p> <!-- PostsHelper -->
         </div> <!-- END .panel-body -->
@@ -30,9 +30,7 @@
               <%= clear_flags_btn(post) %> <!-- AppHelper -->
               <%= flag_item_btn(post) %> <!-- AppHelper -->
             </span>
-            <%= link_to post, class: 'btn btn-primary btn-xs' do %>
-              <span class="badge"><%= post.comments_count %></span> Comments
-            <% end unless posts_show? %>
+            <%= comments_link(post) %> <!--PostsHelper -->
           </p>
         </div> <!-- END .panel-footer -->
       </div> <!-- END .panel -->

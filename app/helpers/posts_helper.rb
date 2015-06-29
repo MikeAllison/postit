@@ -17,6 +17,13 @@ module PostsHelper
     end
   end
 
+  # Shows a button with the post's total comments
+  def comments_link(post)
+    link_to post, class: 'btn btn-primary btn-xs' do
+      raw "<span class='badge'>#{post.comments_count}</span> Comments"
+    end unless posts_show?
+  end
+
   # Show comment form on posts#show page if logged in
   def comments_form
     render 'comments/form' if logged_in?

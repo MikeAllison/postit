@@ -56,24 +56,30 @@ module ApplicationHelper
 
   # Displays a message if the object is flagged
   def flagged_item_msg(obj)
-    glyphicon = content_tag :span, nil, class: 'glyphicon glyphicon-alert', :'aria-hidden' => true
+    unless admin_flags_index?
+      glyphicon = content_tag :span, nil, class: 'glyphicon glyphicon-alert', :'aria-hidden' => true
 
-    raw "#{glyphicon} <em>This #{obj.class.to_s.downcase}'s content has been flagged for review.</em>" if obj.flagged?
+      raw "#{glyphicon} <em>This #{obj.class.to_s.downcase}'s content has been flagged for review.</em>" if obj.flagged?
+    end
   end
 
+  # Button for admins to hide posts/comments
   def hide_item_btn(obj)
     if logged_in? && current_user.admin? && admin_flags_index?
-      link_to 'Hide Item', [:hide, obj], method: :post, class: 'btn btn-default btn-xs', remote: true
+      link_to 'Hide Item', [:hide, obj], method: :post, class: 'btn btn-default btn-xs', remote: true, data: { confirm: 'Are you sure that this item should be permanently hidden?' }
     end
   end
 
+  # Button for admins to clear all flags on a post/comment
   def clear_flags_btn(obj)
     if logged_in? && current_user.admin? && admin_flags_index?
-      link_to "Clear Flags", [:clear_flags, obj], method: :post, class: 'btn btn-success btn-xs', remote: true
+      link_to [:clear_flags, obj], method: :post, class: 'btn btn-success btn-xs', remote: true do
+        raw "Clear Flags <span class='badge'>#{obj.flags_count}</span>"
+      end
     end
   end
 
-  # Sets links for flagging posts or comments
+  # Sets links for moderators to flag posts or comments
   def flag_item_btn(obj)
     if logged_in? && current_user.moderator?
       if obj.user_flagged?(current_user) # In Flagable
