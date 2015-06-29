@@ -6,8 +6,6 @@ class Comment < ActiveRecord::Base
   belongs_to :creator, foreign_key: 'user_id', class_name: 'User'
   belongs_to :post, counter_cache: :comments_count
 
-  default_scope { where(hidden: false) }
-
   validates_presence_of :body, message: "Comment cannot be blank"
 
   after_initialize :initialize_hidden_attr, if: :new_record? # Flagable
