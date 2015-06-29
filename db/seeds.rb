@@ -12,8 +12,8 @@ end
 
 # Create an admin and moderator
 User.create([
-  { username: "Admin", password: "pw", time_zone: Time.zone.name, role: 2 },
-  { username: "Moder", password: "pw", time_zone: Time.zone.name, role: 1 }
+  { username: "AdminUser", password: "pw", time_zone: Time.zone.name, role: 2 },
+  { username: "ModerUser", password: "pw", time_zone: Time.zone.name, role: 1 }
 ])
 
 categories = ["Humor", "Sports", "Technology", "News", "TV & Movies", "Science", "Music", "Education", "Politics"]
@@ -65,14 +65,20 @@ Post.all.each { |p| p.calculate_tallied_votes }
   Vote.create(vote: false, user_id: i, voteable_id: rand(1..300), voteable_type: 'Comment')
 end
 
-# Create flags for posts
+# Create flags for posts 20-40
 20.times do |i|
-  Flag.create(flag: true, user_id: i, flagable_id: rand(1..100), flagable_type: 'Post')
+  Flag.create(flag: true, user_id: i, flagable_id: 20 + i, flagable_type: 'Post')
 end
 
-# Create flags for comments
+# Create flags for comments 20-70
 50.times do |i|
-  Flag.create(flag: true, user_id: i, flagable_id: rand(1..300), flagable_type: 'Comment')
+  Flag.create(flag: true, user_id: i, flagable_id: 20 + i, flagable_type: 'Comment')
+end
+
+# Create extra random flags
+25.times do |i|
+  Flag.create(flag: true, user_id: i, flagable_id: rand(20..40), flagable_type: 'Post')
+  Flag.create(flag: true, user_id: i, flagable_id: rand(20..70), flagable_type: 'Comment')
 end
 
 # Update Comment.tallied_votes

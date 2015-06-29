@@ -1,0 +1,13 @@
+// Remove post/comment from DOM
+$("#<%= dom_id(obj) %>").remove();
+
+// Update counts in table
+$("#flagged-posts-count").html("<%= flagged_posts_count %>");
+$("#flagged-comments-count").html("<%= flagged_comments_count %>");
+
+// Update counts on tabs
+$("a[href='#flagged-posts']").text("Posts (<%= flagged_posts_count %>)");
+$("a[href='#flagged-comments']").text("Comments (<%= flagged_comments_count %>)");
+
+// Update count on admin dropdown menu
+$("#flagged-items-link").html('<%= link_to "Flagged Items (#{flagged_items_count})", admin_flags_path %>');

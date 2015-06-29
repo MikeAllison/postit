@@ -73,10 +73,12 @@ class CommentsController < ApplicationController
   end
 
   def clear_flags
-    @comment.flags.each do |flag|
-      flag.destroy
+    @comment.flags.each { |flag| flag.destroy }
+
+    respond_to do |format|
+      format.html { redirect_to :back }
+      format.js { render 'shared/clear_flags', locals: { obj: @comment } }
     end
-    redirect_to :back
   end
 
   private

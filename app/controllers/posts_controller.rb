@@ -103,10 +103,12 @@ class PostsController < ApplicationController
   end
 
   def clear_flags
-    @post.flags.each do |flag|
-      flag.destroy
+    @post.flags.each { |flag| flag.destroy }
+
+    respond_to do |format|
+      format.html { redirect_to :back }
+      format.js { render 'shared/clear_flags', locals: { obj: @post } }
     end
-    redirect_to :back
   end
 
   private

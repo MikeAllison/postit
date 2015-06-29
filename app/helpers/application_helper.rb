@@ -66,11 +66,11 @@ module ApplicationHelper
   end
 
   def clear_flags_post_btn(post)
-    link_to 'Clear Flags', clear_flags_post_path(post), method: :post, class: 'btn btn-success btn-xs'
+    link_to 'Clear Flags', clear_flags_post_path(post), method: :post, class: 'btn btn-success btn-xs', remote: true
   end
 
   def clear_flags_comment_btn(comment)
-    link_to 'Clear Flags', clear_flags_comment_path(comment), method: :post, class: 'btn btn-success btn-xs'
+    link_to 'Clear Flags', clear_flags_comment_path(comment), method: :post, class: 'btn btn-success btn-xs', remote: true
   end
 
   # Sets links for flagging posts or comments
