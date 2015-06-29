@@ -65,8 +65,12 @@ module ApplicationHelper
     content_tag :button, 'Hide Item', class: 'btn btn-default btn-xs view-content'
   end
 
-  def clear_flags_btn(obj)
-    link_to 'Clear Flags', '#', class: 'btn btn-success btn-xs'
+  def clear_flags_post_btn(post)
+    link_to 'Clear Flags', clear_flags_post_path(post), method: :post, class: 'btn btn-success btn-xs'
+  end
+
+  def clear_flags_comment_btn(comment)
+    link_to 'Clear Flags', clear_flags_comment_path(comment), method: :post, class: 'btn btn-success btn-xs'
   end
 
   # Sets links for flagging posts or comments

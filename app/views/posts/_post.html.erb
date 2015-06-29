@@ -27,7 +27,7 @@
           <p class="text-right">
             <span class="flag-btn">
               <%= hide_item_btn(post) if logged_in? && current_user.admin? && admin_flags_index? %> <!-- AppHelper -->
-              <%= clear_flags_btn(post) if logged_in? && current_user.admin? %> <!-- AppHelper -->
+              <%= clear_flags_post_btn(post) if logged_in? && current_user.admin? %> <!-- AppHelper -->
               <%= flag_btn(post) if logged_in? && current_user.moderator? %> <!-- AppHelper -->
             </span>
             <%= link_to post, class: 'btn btn-primary btn-xs' do %>

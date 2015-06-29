@@ -1,7 +1,8 @@
 class CommentsController < ApplicationController
   before_action :authenticate # AppController
+  before_action :require_admin, only: [:clear_flags]
   before_action :require_moderator_or_admin, only: [:flag]
-  before_action :find_comment, only: [:vote, :flag]
+  before_action :find_comment, only: [:vote, :flag, :clear_flags]
 
   def create
     @post = Post.find_by(slug: params[:post_id])
@@ -69,6 +70,13 @@ class CommentsController < ApplicationController
       end
       format.js { render 'shared/flag', locals: { obj: @comment } }
     end
+  end
+
+  def clear_flags
+    @comment.flags.each do |flag|
+      flag.destroy
+    end
+    redirect_to :back
   end
 
   private

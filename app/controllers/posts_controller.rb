@@ -1,7 +1,8 @@
 class PostsController < ApplicationController
   before_action :authenticate, except: [:index, :show] # AppController
+  before_action :require_admin, only: [:clear_flags]
   before_action :require_moderator_or_admin, only: [:flag]
-  before_action :find_post, only: [:show, :edit, :update, :vote, :flag]
+  before_action :find_post, only: [:show, :edit, :update, :vote, :flag, :clear_flags]
   before_action :require_current_user_or_admin, only: [:edit, :update]
 
   def index
@@ -99,6 +100,13 @@ class PostsController < ApplicationController
       end
       format.js { render 'shared/flag', locals: { obj: @post } }
     end
+  end
+
+  def clear_flags
+    @post.flags.each do |flag|
+      flag.destroy
+    end
+    redirect_to :back
   end
 
   private
