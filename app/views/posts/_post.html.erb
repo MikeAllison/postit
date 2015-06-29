@@ -26,9 +26,9 @@
           </p>
           <p class="text-right">
             <span class="flag-btn">
-              <%= hide_item_btn(post) if logged_in? && current_user.admin? && admin_flags_index? %> <!-- AppHelper -->
-              <%= clear_flags_post_btn(post) if logged_in? && current_user.admin? && admin_flags_index? %> <!-- AppHelper -->
-              <%= flag_btn(post) if logged_in? && current_user.moderator? %> <!-- AppHelper -->
+              <%= hide_item_btn(post) %> <!-- AppHelper -->
+              <%= clear_flags_btn(post) %> <!-- AppHelper -->
+              <%= flag_item_btn(post) %> <!-- AppHelper -->
             </span>
             <%= link_to post, class: 'btn btn-primary btn-xs' do %>
               <span class="badge"><%= post.comments_count %></span> Comments

@@ -20,6 +20,9 @@ PostitTemplate::Application.routes.draw do
   post 'posts/:id/clear_flags',     to: 'posts#clear_flags',    as: 'clear_flags_post'
   post 'comments/:id/clear_flags',  to: 'comments#clear_flags', as: 'clear_flags_comment'
 
+  post 'posts/:id/hide',     to: 'posts#hide',    as: 'hide_post'
+  post 'comments/:id/hide',  to: 'comments#hide', as: 'hide_comment'
+
   namespace :admin do
     resources :flags, only: [:index]
   end

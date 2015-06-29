@@ -62,23 +62,25 @@ module ApplicationHelper
   end
 
   def hide_item_btn(obj)
-    content_tag :button, 'Hide Item', class: 'btn btn-default btn-xs view-content'
+    if logged_in? && current_user.admin? && admin_flags_index?
+      link_to 'Hide Item', [:hide, obj], method: :post, class: 'btn btn-default btn-xs', remote: true
+    end
   end
 
-  def clear_flags_post_btn(post)
-    link_to 'Clear Flags', clear_flags_post_path(post), method: :post, class: 'btn btn-success btn-xs', remote: true
-  end
-
-  def clear_flags_comment_btn(comment)
-    link_to 'Clear Flags', clear_flags_comment_path(comment), method: :post, class: 'btn btn-success btn-xs', remote: true
+  def clear_flags_btn(obj)
+    if logged_in? && current_user.admin? && admin_flags_index?
+      link_to "Clear Flags", [:clear_flags, obj], method: :post, class: 'btn btn-success btn-xs', remote: true
+    end
   end
 
   # Sets links for flagging posts or comments
-  def flag_btn(obj)
-    if obj.user_flagged?(current_user) # In Flagable
-      link_to "Unflag #{obj.class}", [:flag, obj, flag: false], method: :post, class: 'btn btn-success btn-xs', remote: true
-    else
-      link_to "Flag #{obj.class}", [:flag, obj, flag: true], method: :post, class: 'btn btn-danger btn-xs', remote: true
+  def flag_item_btn(obj)
+    if logged_in? && current_user.moderator?
+      if obj.user_flagged?(current_user) # In Flagable
+        link_to "Unflag #{obj.class}", [:flag, obj, flag: false], method: :post, class: 'btn btn-success btn-xs', remote: true
+      else
+        link_to "Flag #{obj.class}", [:flag, obj, flag: true], method: :post, class: 'btn btn-danger btn-xs', remote: true
+      end
     end
   end
 

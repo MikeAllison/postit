@@ -1,8 +1,8 @@
 class PostsController < ApplicationController
   before_action :authenticate, except: [:index, :show] # AppController
-  before_action :require_admin, only: [:clear_flags]
+  before_action :require_admin, only: [:clear_flags, :hide]
   before_action :require_moderator_or_admin, only: [:flag]
-  before_action :find_post, only: [:show, :edit, :update, :vote, :flag, :clear_flags]
+  before_action :find_post, only: [:show, :edit, :update, :vote, :flag, :clear_flags, :hide]
   before_action :require_current_user_or_admin, only: [:edit, :update]
 
   def index
@@ -32,7 +32,6 @@ class PostsController < ApplicationController
 
   def show
     @comment = Comment.new
-    @hide_comments_link = true
   end
 
   def edit
@@ -107,7 +106,16 @@ class PostsController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to :back }
-      format.js { render 'shared/clear_flags', locals: { obj: @post } }
+      format.js { render 'shared/clear_flags_or_hide', locals: { obj: @post } }
+    end
+  end
+
+  def hide
+    @post.update(hidden: true)
+
+    respond_to do |format|
+      format.html { redirect_to :back  }
+      format.js { render 'shared/clear_flags_or_hide', locals: { obj: @post } }
     end
   end
 
