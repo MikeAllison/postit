@@ -66,7 +66,7 @@ module ApplicationHelper
   # Button for admins to hide posts/comments
   def hide_item_btn(obj)
     if logged_in? && current_user.admin? && admin_flags_index?
-      link_to 'Hide Item', [:hide, obj], method: :post, class: 'btn btn-default btn-xs', remote: true, data: { confirm: 'Are you sure that this item should be permanently hidden?' }
+      link_to 'Hide Item', [:hide, obj], method: :post, class: 'btn btn-default btn-xs hide-item-btn', remote: true, data: { confirm: "Are you sure that you'd like to permanently hide this item?" }
     end
   end
 
