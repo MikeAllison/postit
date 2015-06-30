@@ -1,10 +1,10 @@
 <!-- Called from 'posts/_post' -->
 <div class="col-sm-2 hidden-xs well text-center voting-box">
   <p>
-    <%= voting_button(obj, true, 'btn-lg', 'thumbs-up', 'text-success') %> <!-- AppHelper -->
+    <%= voting_button(obj, true, 'thumbs-up', 'text-success') %> <!-- AppHelper -->
   </p>
   <h4><span class="label label-primary"><%= "#{obj.tallied_votes} Votes" %></span></h4>
   <p>
-    <%= voting_button(obj, false, 'btn-lg', 'thumbs-down', 'text-danger') %> <!-- AppHelper -->
+    <%= voting_button(obj, false, 'thumbs-down', 'text-danger') %> <!-- AppHelper -->
   </p>
 </div>

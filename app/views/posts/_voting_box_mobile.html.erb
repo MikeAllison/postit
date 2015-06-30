@@ -1,6 +1,6 @@
 <!-- Called from 'posts/_post' -->
 <span class="visible-xs text-right voting-box-mobile">
   <label class="label label-primary"><%= "#{obj.tallied_votes} Votes" %></label> <!-- AppHelper -->
-  <%= voting_button(obj, true, 'btn-md', 'thumbs-up', 'text-success') %> <!-- AppHelper -->
-  <%= voting_button(obj, false, 'btn-md', 'thumbs-down', 'text-danger') %> <!-- AppHelper -->
+  <%= voting_button(obj, true, 'thumbs-up', 'text-success') %> <!-- AppHelper -->
+  <%= voting_button(obj, false, 'thumbs-down', 'text-danger') %> <!-- AppHelper -->
 </span>
