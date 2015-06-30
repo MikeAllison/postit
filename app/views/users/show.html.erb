@@ -8,10 +8,10 @@
         <table class="table user-profile-table">
           <thead>
             <tr>
-              <th>User Type</th>
               <th>Total Posts</th>
               <th>Total Comments</th>
               <th>Time Zone</th>
+              <th>User Type</th>
               <% if current_user && current_user.admin? %>
                 <th>Actions</th>
               <% end %>
@@ -19,10 +19,10 @@
           </thead>
           <tbody>
             <tr>
-              <td class="user-role"><%= @user.role.titleize %></td>
               <td><%= @user.posts.count %></td>
               <td><%= @user.comments.count %></td>
               <td><%= @user.time_zone %></td>
+              <td class="user-role"><%= @user.role.titleize %></td>
               <% if current_user && current_user.admin? %>
                 <td id="user-role-selection">
                   <%= render 'user_role_selection' %>
