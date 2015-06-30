@@ -112,6 +112,13 @@ class PostsController < ApplicationController
 
   def hide
     @post.update(hidden: true)
+    @post.votes.each { |vote| vote.destroy }
+    @post.flags.each { |flag| flag.destroy }
+    @post.comments.each do |comment|
+      comment.votes.each { |vote| vote.destroy }
+      comment.flags.each { |flag| flag.destroy }
+      comment.update(hidden: true)
+    end
 
     respond_to do |format|
       format.html { redirect_to :back }

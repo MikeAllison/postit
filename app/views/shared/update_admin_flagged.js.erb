@@ -1,6 +1,11 @@
 // Remove post/comment from DOM
 $("#<%= dom_id(obj) %>").remove();
 
+// Remove all comments related to a hidden post from the DOM
+<% if obj.class == Post && action_name == 'hide' %>
+  $(".comment[data-post-id='<%= obj.id %>']").remove();
+<% end %> 
+
 // Update counts in table
 $("#flagged-posts-count").html("<%= flagged_posts_count %>");
 $("#flagged-comments-count").html("<%= flagged_comments_count %>");

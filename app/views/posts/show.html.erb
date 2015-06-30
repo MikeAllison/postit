@@ -7,6 +7,6 @@
   </div>
 </div>
 
-<%= comments_form if logged_in? %> <!-- Shortcut for render 'comments/form' -->
+<%= comments_form(@post) %> <!-- PostsHelper -->
 
 <%= render @post.reload.comments.votes_created_desc %>

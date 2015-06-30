@@ -1,5 +1,5 @@
 <!-- @comments.each do |comment| -->
-  <div id="<%= dom_id(comment) %>" class="row">
+  <div id="<%= dom_id(comment) %>" class="row comment" data-post-id="<%= comment.post.id %>">
 
     <%= render 'comments/voting_box', obj: comment %>
 

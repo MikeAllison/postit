@@ -25,8 +25,8 @@ module PostsHelper
   end
 
   # Show comment form on posts#show page if logged in
-  def comments_form
-    render 'comments/form' if logged_in?
+  def comments_form(post)
+    render 'comments/form' if logged_in? && !post.flagged?
   end
 
   # Show link to edit post if current_user is the creator of the post

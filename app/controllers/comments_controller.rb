@@ -83,6 +83,8 @@ class CommentsController < ApplicationController
 
   def hide
     @comment.update(hidden: true)
+    @comment.votes.each { |vote| vote.destroy }
+    @comment.flags.each { |flag| flag.destroy }
 
     respond_to do |format|
       format.html { redirect_to :back }
