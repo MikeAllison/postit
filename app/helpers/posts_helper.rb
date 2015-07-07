@@ -6,13 +6,13 @@ module PostsHelper
   end
 
   def post_url(post)
-    if admin_flags_index? || !post.flagged?
+    if !post.flagged? || (logged_in? && current_user.moderator? && !post.flagged_by?(current_user)) || admin_flags_index?
       raw "<blockquote><p>#{link_to post.url, post.url}</p></blockquote>"
     end
   end
 
   def post_description(post)
-    if admin_flags_index? || !post.flagged?
+    if !post.flagged? || (logged_in? && current_user.moderator? && !post.flagged_by?(current_user)) || admin_flags_index?
       post.description
     end
   end

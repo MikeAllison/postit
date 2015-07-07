@@ -56,17 +56,19 @@ module ApplicationHelper
 
   # Displays a message if the object is flagged
   def flagged_item_msg(obj)
-    unless admin_flags_index?
+    if obj.flagged? || admin_flags_index?
       glyphicon = content_tag :span, nil, class: 'glyphicon glyphicon-alert', :'aria-hidden' => true
 
-      raw "#{glyphicon} <em>This #{obj.class.to_s.downcase}'s content has been flagged for review.</em>" if obj.flagged?
+      ending = logged_in? && current_user.moderator? && obj.flagged_by?(current_user) ? "by you" : "for review by a moderator"
+
+      raw "#{glyphicon} <em>This #{obj.class.to_s.downcase}'s content has been flagged #{ending}.</em>"
     end
   end
 
   # Button for admins to hide posts/comments
   def hide_item_btn(obj)
     if logged_in? && current_user.admin? && admin_flags_index?
-      link_to 'Hide Item', [:hide, obj], method: :post, class: 'btn btn-default btn-xs hide-item-btn', remote: true, data: { confirm: "Are you sure that you'd like to permanently hide this item?" }
+      link_to 'Hide Item', [:hide, obj], method: :post, class: 'btn btn-default btn-xs hide-item-btn', remote: true, data: { confirm: "Are you sure that this item should be permanently hidden?" }
     end
   end
 
@@ -82,7 +84,7 @@ module ApplicationHelper
   # Sets links for moderators to flag posts or comments
   def flag_item_btn(obj)
     if logged_in? && current_user.moderator?
-      if obj.user_flagged?(current_user) # In Flagable
+      if obj.flagged_by?(current_user) # In Flagable
         link_to "Unflag #{obj.class}", [:flag, obj, flag: false], method: :post, class: 'btn btn-success btn-xs', remote: true
       else
         link_to "Flag #{obj.class}", [:flag, obj, flag: true], method: :post, class: 'btn btn-danger btn-xs', remote: true

@@ -8,7 +8,7 @@ module Flagable
     scope :flagged, -> { joins(:flags).where('flag = ?', true).distinct.order(flags_count: :desc) }
   end
 
-  def user_flagged?(user)
+  def flagged_by?(user)
     self.flags.find_by("user_id = ? and flag = ?", user, true).present?
   end
 
