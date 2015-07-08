@@ -92,7 +92,7 @@ module ApplicationHelper
 
   # Displays a message if the object is flagged
   def flagged_item_msg(obj)
-    if obj.flagged? || admin_flags_index_view?
+    if obj.flagged? && !admin_flags_index_view?
       glyphicon = content_tag :span, nil, class: 'glyphicon glyphicon-alert', :'aria-hidden' => true
 
       ending = flagged_by_current_user?(obj) ? "by you" : "for review by a moderator"

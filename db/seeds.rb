@@ -6,8 +6,14 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-100.times do |i|
-  User.create(username: "User#{i + 1}", password: "pw", time_zone: Time.zone.name, role: rand(0..1))
+# Create 75 regular users
+75.times do |i|
+  User.create(username: "User#{i + 1}", password: "pw", time_zone: Time.zone.name, role: 0)
+end
+
+# Create 25 moderators
+25.times do |i|
+  User.create(username: "User#{i + 76}", password: "pw", time_zone: Time.zone.name, role: 1)
 end
 
 # Create an admin and moderator
@@ -52,8 +58,8 @@ end
 
 # Create votes for posts
 100.times do |i|
-  Vote.create(vote: true, user_id: i, voteable_id: rand(1..100), voteable_type: 'Post')
-  Vote.create(vote: false, user_id: i, voteable_id: rand(1..100), voteable_type: 'Post')
+  Vote.create(vote: true, user_id: i + 1, voteable_id: rand(1..100), voteable_type: 'Post')
+  Vote.create(vote: false, user_id: i + 1, voteable_id: rand(1..100), voteable_type: 'Post')
 end
 
 # Update Post.tallied_votes
@@ -61,24 +67,24 @@ Post.all.each { |p| p.calculate_tallied_votes }
 
 # Create votes for comments
 100.times do |i|
-  Vote.create(vote: true, user_id: i, voteable_id: rand(1..300), voteable_type: 'Comment')
-  Vote.create(vote: false, user_id: i, voteable_id: rand(1..300), voteable_type: 'Comment')
+  Vote.create(vote: true, user_id: i + 1, voteable_id: rand(1..300), voteable_type: 'Comment')
+  Vote.create(vote: false, user_id: i + 1, voteable_id: rand(1..300), voteable_type: 'Comment')
 end
 
-# Create flags for posts 20-40
+# Create flags for posts 20-40 (users 76-100 are moderators)
 20.times do |i|
-  Flag.create(flag: true, user_id: i, flagable_id: 20 + i, flagable_type: 'Post')
+  Flag.create(flag: true, user_id: rand(76..100), flagable_id: i + 20, flagable_type: 'Post')
 end
 
-# Create flags for comments 20-70
+# Create flags for comments 20-70 (users 76-100 are moderators)
 50.times do |i|
-  Flag.create(flag: true, user_id: i, flagable_id: 20 + i, flagable_type: 'Comment')
+  Flag.create(flag: true, user_id: rand(76..100), flagable_id: i + 20, flagable_type: 'Comment')
 end
 
-# Create extra random flags
+# Create extra random flags (users 76-100 are moderators)
 25.times do |i|
-  Flag.create(flag: true, user_id: i, flagable_id: rand(20..40), flagable_type: 'Post')
-  Flag.create(flag: true, user_id: i, flagable_id: rand(20..70), flagable_type: 'Comment')
+  Flag.create(flag: true, user_id: rand(76..100), flagable_id: rand(20..40), flagable_type: 'Post')
+  Flag.create(flag: true, user_id: rand(76..100), flagable_id: rand(20..70), flagable_type: 'Comment')
 end
 
 # Update Comment.tallied_votes
