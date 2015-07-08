@@ -5,7 +5,10 @@ module Flagable
     has_many :flags, as: :flagable
 
     default_scope { where(hidden: false) }
-    scope :flagged, -> { joins(:flags).where('flag = ?', true).distinct.order(flags_count: :desc) }
+    scope :flagged, -> { joins(:flags).where('flag = ?', true).distinct.order(total_flags: :desc) }
+
+    after_initialize :initialize_hidden_attr, if: :new_record?
+    after_initialize :initialize_total_flags, if: :new_record?
   end
 
   def flagged_by?(user)
@@ -13,13 +16,13 @@ module Flagable
   end
 
   def flagged?
-    self.flags.find_by(flag: true).present?
+    self.total_flags > 0
   end
 
   private
 
-    def initialize_flags_count
-      self.flags_count = 0
+    def initialize_total_flags
+      self.total_flags = 0
     end
 
     def initialize_hidden_attr

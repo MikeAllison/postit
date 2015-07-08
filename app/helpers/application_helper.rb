@@ -125,7 +125,7 @@ module ApplicationHelper
   def clear_flags_btn(obj)
     if logged_in? && current_user.admin? && admin_flags_index_view?
       link_to [:clear_flags, obj], method: :post, class: 'btn btn-success btn-xs', remote: true do
-        raw "Clear Flags <span class='badge'>#{obj.flags_count}</span>"
+        raw "Clear Flags <span class='badge'>#{obj.total_flags}</span>"
       end
     end
   end

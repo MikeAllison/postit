@@ -35,11 +35,11 @@ descriptions = [
 ]
 
 100.times do |i|
-  Post.create(url: "http://www.website#{i + 1}.com", title: "Post Title #{i + 1}", description: descriptions.sample, user_id: rand(1..10), category_ids: rand(1..4))
+  Post.create(url: "http://www.website#{i + 1}.com", title: "Post Title #{i + 1}", description: descriptions.sample, user_id: rand(1..100), category_ids: rand(1..4))
 end
 
 300.times do |i|
-  Comment.create(body: "This is comment #{i + 1}", user_id: rand(1..10), post_id: rand(1..100))
+  Comment.create(body: "This is comment #{i + 1}", user_id: rand(1..100), post_id: rand(1..100))
 end
 
 # Assign a 2nd category to the first 25 posts
@@ -62,7 +62,7 @@ end
   Vote.create(vote: false, user_id: i + 1, voteable_id: rand(1..100), voteable_type: 'Post')
 end
 
-# Update Post.tallied_votes
+# Update tallied_votes column for posts
 Post.all.each { |p| p.calculate_tallied_votes }
 
 # Create votes for comments
@@ -70,6 +70,9 @@ Post.all.each { |p| p.calculate_tallied_votes }
   Vote.create(vote: true, user_id: i + 1, voteable_id: rand(1..300), voteable_type: 'Comment')
   Vote.create(vote: false, user_id: i + 1, voteable_id: rand(1..300), voteable_type: 'Comment')
 end
+
+# Update tallied_votes column for comments
+Comment.all.each { |c| c.calculate_tallied_votes }
 
 # Create flags for posts 20-40 (users 76-100 are moderators)
 20.times do |i|
@@ -87,5 +90,14 @@ end
   Flag.create(flag: true, user_id: rand(76..100), flagable_id: rand(20..70), flagable_type: 'Comment')
 end
 
-# Update Comment.tallied_votes
-Comment.all.each { |c| c.calculate_tallied_votes }
+# Update total_flags column for posts
+Post.all.each do |post|
+  post.total_flags = post.flags.where(flag: true).count
+  post.save
+end
+
+# Update total_flags column for comments
+Comment.all.each do |comment|
+  comment.total_flags = comment.flags.where(flag: true).count
+  comment.save
+end
