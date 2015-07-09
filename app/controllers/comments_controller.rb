@@ -68,12 +68,13 @@ class CommentsController < ApplicationController
         flash[:danger] = @error_msg if @error_msg
         redirect_to :back
       end
-      format.js { render 'shared/flag', locals: { obj: @comment } }
+      format.js { render 'shared/flag', locals: { obj: @comment.reload } }
     end
   end
 
   def clear_flags
     @comment.flags.each { |flag| flag.destroy }
+    @comment.update(total_flags: 0)
 
     respond_to do |format|
       format.html { redirect_to :back }

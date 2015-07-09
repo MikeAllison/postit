@@ -97,12 +97,13 @@ class PostsController < ApplicationController
         flash[:danger] = @error_msg if @error_msg
         redirect_to :back
       end
-      format.js { render 'shared/flag', locals: { obj: @post } }
+      format.js { render 'shared/flag', locals: { obj: @post.reload } }
     end
   end
 
   def clear_flags
     @post.flags.each { |flag| flag.destroy }
+    @post.update(total_flags: 0)
 
     respond_to do |format|
       format.html { redirect_to :back }

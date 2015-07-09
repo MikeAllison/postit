@@ -16,7 +16,7 @@ module Flagable
   end
 
   def flagged?
-    self.total_flags > 0
+    self.total_flags >= 1
   end
 
   private
