@@ -21,16 +21,16 @@ $primary: #337AB7;
 #new-post-btn { margin-bottom: 5px; }
 
 .page-title {
-  padding-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 .post {
-  padding-bottom: 10px;
+  margin-bottom: 10px;
   .category-btn { margin-bottom: 5px; }
 }
 
 .flagged-item-msg {
-  padding-bottom: 10px;
+  margin-bottom: 20px;
 }
 
 .category-list {
@@ -40,7 +40,7 @@ $primary: #337AB7;
 .navbar-custom {
   background-color: #fff;
   border-color: #fff #fff #ddd #fff;
-  ul { padding-top: 14px; }
+  ul { margin-top: 14px; }
 }
 
 .field_with_errors {
@@ -51,7 +51,7 @@ $primary: #337AB7;
 
 .post-body blockquote {
   font-size: 14px;
-  padding: 5px 20px 5px 20px;
+  margin-bottom: 5px;
 }
 
 .post-comment blockquote {

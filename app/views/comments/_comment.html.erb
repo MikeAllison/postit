@@ -1,27 +1,27 @@
-<!-- @comments.each do |comment| -->
-  <div id="<%= dom_id(comment) %>" class="row comment" data-post-id="<%= comment.post.id %>">
+<div id="<%= dom_id(comment) %>" class="row comment" data-post-id="<%= comment.post.id %>">
 
+  <div class="col-sm-2 hidden-xs">
     <%= render 'comments/voting_box', obj: comment %>
+  </div>
 
-    <div class="col-sm-10"> <!-- BEGIN EACH COMMENT COLUMN -->
-      <div class="well well-sm post-comment">
-        <blockquote>
-          <h4 class="text-danger flagged-item-msg"><%= flagged_item_msg(comment) %></h4> <!-- AppHelper -->
-          <p class="comment-body"><%= comment_body(comment) %></p> <!-- CommentsHelper -->
-          <footer class="comment-footer"><%= comment_footer(comment) %></footer> <!-- CommentsHelper -->
-        </blockquote>    
-        <div class="row">
-          <div class="col-xs-12 text-right">
-            <span class="flag-btn">
-              <%= hide_item_btn(comment) %> <!-- AppHelper -->
-              <%= clear_flags_btn(comment) %> <!-- AppHelper -->
-              <%= flag_item_btn(comment) %> <!-- AppHelper -->
-            </span>
-            <%= render 'comments/voting_box_mobile', obj: comment %>
-          </div>
+  <div class="col-sm-10"> <!-- BEGIN EACH COMMENT COLUMN -->
+    <div class="well well-sm post-comment">
+      <blockquote>
+        <h4 class="text-danger flagged-item-msg"><%= flagged_item_msg(comment) %></h4> <!-- AppHelper -->
+        <p class="comment-body"><%= comment_body(comment) %></p> <!-- CommentsHelper -->
+        <footer class="comment-footer"><%= comment_footer(comment) %></footer> <!-- CommentsHelper -->
+      </blockquote>
+      <div class="row">
+        <div class="col-xs-12 text-right">
+          <span class="flag-btn">
+            <%= hide_item_btn(comment) %> <!-- AppHelper -->
+            <%= clear_flags_btn(comment) %> <!-- AppHelper -->
+            <%= flag_item_btn(comment) %> <!-- AppHelper -->
+          </span>
+          <%= render 'comments/voting_box_mobile', obj: comment %>
         </div>
       </div>
-    </div> <!-- END EACH COMMENT COLUMN -->
+    </div>
+  </div> <!-- END EACH COMMENT COLUMN -->
 
-  </div> <!-- END .row -->
-<!-- end -->
+</div> <!-- END .row -->

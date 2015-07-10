@@ -1,41 +1,41 @@
-<!-- @posts.each do |post| -->
-  <div id="<%= dom_id(post) %>" class="row post">
+<div id="<%= dom_id(post) %>" class="row post">
 
+  <div class="col-sm-2 hidden-xs">
     <%= render 'posts/voting_box', obj: post %>
+  </div>
 
-    <div class="col-sm-10"> <!-- BEGIN EACH POST COLUMN -->
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h3><strong><%= link_to post.title, post %></strong></h3> <!-- POST TITLE -->
-          <%= render 'posts/voting_box_mobile', obj: post %>
-        </div> <!-- END .panel-heading -->
+  <div class="col-sm-10"> <!-- BEGIN EACH POST COLUMN -->
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3><strong><%= link_to post.title, post %></strong></h3> <!-- POST TITLE -->
+        <%= render 'posts/voting_box_mobile', obj: post %>
+      </div> <!-- END .panel-heading -->
 
-        <div class="panel-body post-body"> <!-- BEGIN .panel-body -->
-          <%= render 'shared/category_buttons', obj: post %>
-          <h4 class="text-danger flagged-item-msg"><%= flagged_item_msg(post) %></h4> <!-- AppHelper -->
-          <div class="post-url"><%= post_url(post) %></div> <!-- PostsHelper -->
-          <p class="post-description"><%= post_description(post) %></p> <!-- PostsHelper -->
-        </div> <!-- END .panel-body -->
+      <div class="panel-body post-body"> <!-- BEGIN .panel-body -->
+        <%= render 'shared/category_buttons', obj: post %>
+        <h4 class="text-danger flagged-item-msg"><%= flagged_item_msg(post) %></h4> <!-- AppHelper -->
+        <div class="post-url"><%= post_url(post) %></div> <!-- PostsHelper -->
+        <p class="post-description"><%= post_description(post) %></p> <!-- PostsHelper -->
+      </div> <!-- END .panel-body -->
 
-        <div class="panel-footer"> <!-- BEGIN .panel-footer -->
-          <p>
-            <small>Posted by</small>
-            <%= link_to post.creator.username_role, post.creator, class: 'user-name-role' %>
-            <small><%= formatted_date_time(post) %></small> <!-- AppHelper -->
-            <%= edit_post_link(post) %> <!-- PostsHelper -->
-          </p>
-          <p class="text-right">
-            <span class="flag-btn">
-              <%= hide_item_btn(post) %> <!-- AppHelper -->
-              <%= clear_flags_btn(post) %> <!-- AppHelper -->
-              <%= flag_item_btn(post) %> <!-- AppHelper -->
-            </span>
-            <%= comments_link(post) %> <!--PostsHelper -->
-          </p>
-        </div> <!-- END .panel-footer -->
-      </div> <!-- END .panel -->
+      <div class="panel-footer"> <!-- BEGIN .panel-footer -->
+        <p>
+          <small>Posted by</small>
+          <%= link_to post.creator.username_role, post.creator, class: 'user-name-role' %>
+          <small><%= formatted_date_time(post) %></small> <!-- AppHelper -->
+          <%= edit_post_link(post) %> <!-- PostsHelper -->
+        </p>
+        <p class="text-right">
+          <span class="flag-btn">
+            <%= hide_item_btn(post) %> <!-- AppHelper -->
+            <%= clear_flags_btn(post) %> <!-- AppHelper -->
+            <%= flag_item_btn(post) %> <!-- AppHelper -->
+          </span>
+          <%= comments_link(post) %> <!--PostsHelper -->
+        </p>
+      </div> <!-- END .panel-footer -->
+    </div> <!-- END .panel -->
 
-    </div> <!-- END EACH POST COLUMN -->
+  </div> <!-- END EACH POST COLUMN -->
 
-  </div> <!-- END .row .post -->
-<!-- end -->
+</div> <!-- END .row .post -->
