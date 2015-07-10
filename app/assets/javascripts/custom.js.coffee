@@ -1,6 +1,7 @@
 $ ->
   adjustStyles()
   $(window).resize(adjustStyles)
+  removeEmptyFlaggedItemMsgs()
   checkPasswordInput()
   $("#user_password").keyup(checkPasswordInput)
 
@@ -21,6 +22,11 @@ adjustStyles = ->
     $(".post-voting a").addClass("btn-lg")
   else
     ul_navbar_links.addClass("navbar-default")
+
+# Removes flagged-item-msg h4s if they are empty
+removeEmptyFlaggedItemMsgs = ->
+  $('.flagged-item-msg').each ->
+    $(this).remove() if $(this).text() == ''
 
 # Checks to see if password box in users/form has a value
 checkPasswordInput = ->
