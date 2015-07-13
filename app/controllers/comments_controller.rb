@@ -25,21 +25,23 @@ class CommentsController < ApplicationController
     # Convert params[:vote] into boolean for comparison
     submitted_vote = params[:vote] == 'true' ? true : false
 
-    # @comment.flagged? case may be better implemented with a around_action
-    if @comment.flagged? # In Flagable
-      @error_msg = "You may not vote on a comment that has been flagged for review."
-    elsif @vote.new_record?
-      @vote.vote = submitted_vote
-      @vote.save
-    elsif @vote.persisted? && @vote.vote == !submitted_vote
-      @vote.update(vote: submitted_vote)
-    elsif @vote.persisted? && @vote.vote == submitted_vote
-      @error_msg = "You've already voted on this comment."
-    else
-      @error_msg = "Sorry, your vote couldn't be counted."
-    end
+    Comment.transaction do
+      # @comment.flagged? case may be better implemented with a around_action
+      if @comment.flagged? # In Flagable
+        @error_msg = "You may not vote on a comment that has been flagged for review."
+      elsif @vote.new_record?
+        @vote.vote = submitted_vote
+        @vote.save
+      elsif @vote.persisted? && @vote.vote == !submitted_vote
+        @vote.update(vote: submitted_vote)
+      elsif @vote.persisted? && @vote.vote == submitted_vote
+        @error_msg = "You've already voted on this comment."
+      else
+        @error_msg = "Sorry, your vote couldn't be counted."
+      end
 
-    @comment.calculate_tallied_votes # Voteable
+      @comment.calculate_tallied_votes # Voteable
+    end
 
     respond_to do |format|
       format.html do
@@ -75,8 +77,10 @@ class CommentsController < ApplicationController
   end
 
   def clear_flags
-    @comment.flags.each { |flag| flag.destroy }
-    @comment.update(total_flags: 0)
+    Comment.transaction do
+      @comment.flags.each { |flag| flag.destroy }
+      @comment.update(total_flags: 0)
+    end
 
     respond_to do |format|
       format.html { redirect_to :back }
@@ -85,11 +89,13 @@ class CommentsController < ApplicationController
   end
 
   def hide
-    @comment.update(hidden: true)
-    @comment.votes.each { |vote| vote.destroy }
-    @comment.flags.each { |flag| flag.destroy }
-    post = Post.find(@comment.post_id)
-    post.update(unhidden_comments_count: post.unhidden_comments_count -= 1)
+    Comment.transaction do
+      @comment.update(hidden: true)
+      @comment.votes.each { |vote| vote.destroy }
+      @comment.flags.each { |flag| flag.destroy }
+      post = Post.find(@comment.post_id)
+      post.update(unhidden_comments_count: post.unhidden_comments_count -= 1)
+    end
 
     respond_to do |format|
       format.html { redirect_to :back }

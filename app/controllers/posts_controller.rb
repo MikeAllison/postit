@@ -53,21 +53,23 @@ class PostsController < ApplicationController
     # Convert params[:vote] into boolean for comparison
     submitted_vote = params[:vote] == 'true' ? true : false
 
-    # @post.flagged? case may be better implemented with a around_action
-    if @post.flagged? # In Flagable
-      @error_msg = "You may not vote on a post that has been flagged for review."
-    elsif @vote.new_record?
-      @vote.vote = submitted_vote
-      @vote.save
-    elsif @vote.persisted? && @vote.vote == !submitted_vote
-      @vote.update(vote: submitted_vote)
-    elsif @vote.persisted? && @vote.vote == submitted_vote
-      @error_msg = "You've already voted on this post."
-    else
-      @error_msg = "Sorry, your vote couldn't be counted."
-    end
+    Post.transaction do
+      # @post.flagged? case may be better implemented with a around_action
+      if @post.flagged? # In Flagable
+        @error_msg = "You may not vote on a post that has been flagged for review."
+      elsif @vote.new_record?
+        @vote.vote = submitted_vote
+        @vote.save
+      elsif @vote.persisted? && @vote.vote == !submitted_vote
+        @vote.update(vote: submitted_vote)
+      elsif @vote.persisted? && @vote.vote == submitted_vote
+        @error_msg = "You've already voted on this post."
+      else
+        @error_msg = "Sorry, your vote couldn't be counted."
+      end
 
-    @post.calculate_tallied_votes # Voteable
+      @post.calculate_tallied_votes # Voteable
+    end
 
     respond_to do |format|
       format.html do
@@ -103,8 +105,10 @@ class PostsController < ApplicationController
   end
 
   def clear_flags
-    @post.flags.each { |flag| flag.destroy }
-    @post.update(total_flags: 0)
+    Post.transaction do
+      @post.flags.each { |flag| flag.destroy }
+      @post.update(total_flags: 0)
+    end
 
     respond_to do |format|
       format.html { redirect_to :back }
@@ -113,15 +117,17 @@ class PostsController < ApplicationController
   end
 
   def hide
-    @post.update(hidden: true)
-    @post.votes.each { |vote| vote.destroy }
-    @post.flags.each { |flag| flag.destroy }
-    @post.comments.each do |comment|
-      comment.votes.each { |vote| vote.destroy }
-      comment.flags.each { |flag| flag.destroy }
-      comment.update(hidden: true)
+    Post.transaction do
+      @post.update(hidden: true)
+      @post.votes.each { |vote| vote.destroy }
+      @post.flags.each { |flag| flag.destroy }
+      @post.comments.each do |comment|
+        comment.votes.each { |vote| vote.destroy }
+        comment.flags.each { |flag| flag.destroy }
+        comment.update(hidden: true)
+      end
+      @post.categories.each { |category| category.update(unhidden_posts_count: category.unhidden_posts_count -= 1) }
     end
-    @post.categories.each { |category| category.update(unhidden_posts_count: category.unhidden_posts_count -= 1) }
 
     respond_to do |format|
       format.html { redirect_to :back }
