@@ -93,7 +93,7 @@ class CommentsController < ApplicationController
       @comment.update(hidden: true)
       @comment.votes.each { |vote| vote.destroy }
       @comment.flags.each { |flag| flag.destroy }
-      post = Post.find(@comment.post_id)
+      post = @comment.post
       post.update(unhidden_comments_count: post.unhidden_comments_count -= 1)
     end
 
