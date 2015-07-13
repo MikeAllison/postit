@@ -10,7 +10,7 @@ module PostsHelper
   # Shows a button with the post's total comments
   def comments_link(post)
     link_to post, class: 'btn btn-primary btn-xs' do
-      raw "<span class='badge'>#{post.comments_count}</span> Comments"
+      raw "<span class='badge'>#{post.unhidden_comments_count}</span> Comments"
     end unless posts_show_view?
   end
 

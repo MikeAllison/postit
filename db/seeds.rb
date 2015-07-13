@@ -42,6 +42,9 @@ end
   Comment.create(body: "This is comment #{i + 1}", user_id: rand(1..100), post_id: rand(1..100))
 end
 
+# Calulate unhidden_comments_count column for posts
+Post.all.each { |post| post.update(unhidden_comments_count: Comment.where(post_id: post.id, hidden: false).count) }
+
 # Assign a 2nd category to the first 25 posts
 25.times do |i|
   c = Category.find(rand(5..7))
@@ -56,6 +59,10 @@ end
   p.categories << c
 end
 
+# Calculate unhidden_posts_count for categories
+# No need to include .where(post: { hidden: false }) because Post's default_scope is 'hidden: false'
+Category.all.each { |category| category.update(unhidden_posts_count: category.posts.count) }
+
 # Create votes for posts
 100.times do |i|
   Vote.create(vote: true, user_id: i + 1, voteable_id: rand(1..100), voteable_type: 'Post')
@@ -63,7 +70,7 @@ end
 end
 
 # Update tallied_votes column for posts
-Post.all.each { |p| p.calculate_tallied_votes }
+Post.all.each { |post| post.calculate_tallied_votes }
 
 # Create votes for comments
 100.times do |i|
@@ -72,7 +79,7 @@ Post.all.each { |p| p.calculate_tallied_votes }
 end
 
 # Update tallied_votes column for comments
-Comment.all.each { |c| c.calculate_tallied_votes }
+Comment.all.each { |comment| comment.calculate_tallied_votes }
 
 # Create flags for posts 20-40 (users 76-100 are moderators)
 20.times do |i|
@@ -91,13 +98,7 @@ end
 end
 
 # Update total_flags column for posts
-Post.all.each do |post|
-  post.total_flags = post.flags.where(flag: true).count
-  post.save
-end
+Post.all.each { |post| post.update(total_flags: post.flags.where(flag: true).count) }
 
 # Update total_flags column for comments
-Comment.all.each do |comment|
-  comment.total_flags = comment.flags.where(flag: true).count
-  comment.save
-end
+Comment.all.each { |comment| comment.update(total_flags: comment.flags.where(flag: true).count) }

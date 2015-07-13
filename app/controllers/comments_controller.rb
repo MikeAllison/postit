@@ -10,6 +10,8 @@ class CommentsController < ApplicationController
     @comment.creator = current_user
 
     if @comment.save
+      @post.update(unhidden_comments_count: @post.unhidden_comments_count += 1)
+      binding.pry
       flash[:success] = 'Your comment was added.'
       redirect_to @post
     else
@@ -86,6 +88,8 @@ class CommentsController < ApplicationController
     @comment.update(hidden: true)
     @comment.votes.each { |vote| vote.destroy }
     @comment.flags.each { |flag| flag.destroy }
+    post = Post.find(@comment.post_id)
+    post.update(unhidden_comments_count: post.unhidden_comments_count -= 1)
 
     respond_to do |format|
       format.html { redirect_to :back }

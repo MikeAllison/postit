@@ -16,7 +16,7 @@
             <li class="divider"></li>
           <% end %>
           <% Category.all.each do |category| %>
-            <li><%= link_to "#{category.name} (#{category.posts_count})", category %></li>
+            <li><%= link_to "#{category.name} (#{category.unhidden_posts_count})", category %></li>
           <% end %>
           <% if logged_in? && current_user.admin? # Show 'Add Category' link if logged in and admin %>
             <li class="divider"></li>

@@ -23,6 +23,7 @@ class PostsController < ApplicationController
     @post.creator = current_user
 
     if @post.save
+      @post.categories.each { |category| category.update(unhidden_posts_count: category.unhidden_posts_count += 1) }
       flash[:success] = "Your post was created."
       redirect_to posts_path
     else
@@ -120,6 +121,7 @@ class PostsController < ApplicationController
       comment.flags.each { |flag| flag.destroy }
       comment.update(hidden: true)
     end
+    @post.categories.each { |category| category.update(unhidden_posts_count: category.unhidden_posts_count -= 1) }
 
     respond_to do |format|
       format.html { redirect_to :back }

@@ -18,7 +18,7 @@ class Post < ActiveRecord::Base
   validates_presence_of :description, message: "Description field can't be blank"
   validates_presence_of :categories, message: "Please select at least one category"
 
-  after_initialize :initialize_comments_count, if: :new_record?
+  after_initialize :initialize_unhidden_comments_count, if: :new_record?
   after_initialize :initialize_tallied_votes, if: :new_record? # Voteable
   before_validation :strip_url_whitespace
   before_validation :downcase_url
@@ -37,8 +37,8 @@ class Post < ActiveRecord::Base
 
   private
 
-    def initialize_comments_count
-      self.comments_count = 0
+    def initialize_unhidden_comments_count
+      self.unhidden_comments_count = 0
     end
 
 end
