@@ -30,6 +30,7 @@ $primary: #337AB7;
 }
 
 .flagged-item-msg {
+  display: none;
   margin-bottom: 20px;
 }
 
@@ -51,7 +52,7 @@ $primary: #337AB7;
 
 .post-body blockquote {
   font-size: 14px;
-  margin-bottom: 5px;
+  margin-bottom: 15px;
 }
 
 .post-comment blockquote {

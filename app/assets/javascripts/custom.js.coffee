@@ -26,7 +26,7 @@ adjustStyles = ->
 # Removes flagged-item-msg h4s if they are empty
 removeEmptyFlaggedItemMsgs = ->
   $('.flagged-item-msg').each ->
-    $(this).remove() if $(this).text().length == 0
+    $(this).show() if $(this).text().length != 0
 
 # Checks to see if password box in users/form has a value
 checkPasswordInput = ->
