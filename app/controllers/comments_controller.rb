@@ -11,7 +11,6 @@ class CommentsController < ApplicationController
 
     if @comment.save
       @post.update(unhidden_comments_count: @post.unhidden_comments_count += 1)
-      binding.pry
       flash[:success] = 'Your comment was added.'
       redirect_to @post
     else
