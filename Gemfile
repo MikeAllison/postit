@@ -29,6 +29,7 @@ group :development do
   gem 'sqlite3'
   gem 'lol_dba'
   gem 'bullet'
+  gem 'meta_request'
 end
 
 group :production do
