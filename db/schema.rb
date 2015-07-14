@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150714164550) do
+ActiveRecord::Schema.define(version: 20150714185330) do
 
   create_table "categories", force: true do |t|
     t.string   "name"
@@ -35,7 +35,6 @@ ActiveRecord::Schema.define(version: 20150714164550) do
   end
 
   add_index "comments", ["created_at"], name: "index_comments_on_created_at"
-  add_index "comments", ["hidden"], name: "index_comments_on_hidden"
   add_index "comments", ["post_id"], name: "index_comments_on_post_id"
   add_index "comments", ["tallied_votes", "created_at"], name: "index_comments_on_tallied_votes_and_created_at"
   add_index "comments", ["total_flags"], name: "index_comments_on_total_flags"
@@ -50,7 +49,7 @@ ActiveRecord::Schema.define(version: 20150714164550) do
     t.datetime "updated_at"
   end
 
-  add_index "flags", ["flagable_id"], name: "index_flags_on_flagable_id"
+  add_index "flags", ["flagable_id", "flagable_type"], name: "index_flags_on_flagable_id_and_flagable_type"
   add_index "flags", ["user_id", "flag"], name: "index_flags_on_user_id_and_flag"
   add_index "flags", ["user_id"], name: "index_flags_on_user_id"
 
@@ -79,7 +78,6 @@ ActiveRecord::Schema.define(version: 20150714164550) do
   end
 
   add_index "posts", ["created_at"], name: "index_posts_on_created_at"
-  add_index "posts", ["hidden"], name: "index_posts_on_hidden"
   add_index "posts", ["slug"], name: "index_posts_on_slug"
   add_index "posts", ["tallied_votes", "created_at"], name: "index_posts_on_tallied_votes_and_created_at"
   add_index "posts", ["total_flags"], name: "index_posts_on_total_flags"
@@ -107,6 +105,6 @@ ActiveRecord::Schema.define(version: 20150714164550) do
   end
 
   add_index "votes", ["user_id"], name: "index_votes_on_user_id"
-  add_index "votes", ["voteable_id"], name: "index_votes_on_voteable_id"
+  add_index "votes", ["voteable_id", "voteable_type"], name: "index_votes_on_voteable_id_and_voteable_type"
 
 end
