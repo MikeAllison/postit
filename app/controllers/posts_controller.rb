@@ -6,7 +6,7 @@ class PostsController < ApplicationController
   before_action :require_current_user_or_admin, only: [:edit, :update]
 
   def index
-    @posts = Post.includes(:creator, :categories, :comments, :votes, :flags).votes_created_desc
+    @posts = Post.includes(:creator, :categories, :votes, :flags).votes_created_desc
   end
 
   def new
@@ -138,7 +138,7 @@ class PostsController < ApplicationController
   private
 
     def find_post
-      @post = Post.find_by!(slug: params[:id])
+      @post = Post.includes(:votes).find_by!(slug: params[:id])
     end
 
     def require_current_user_or_admin

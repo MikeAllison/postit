@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150713183230) do
+ActiveRecord::Schema.define(version: 20150714164550) do
 
   create_table "categories", force: true do |t|
     t.string   "name"
@@ -20,6 +20,8 @@ ActiveRecord::Schema.define(version: 20150713183230) do
     t.string   "slug"
     t.integer  "unhidden_posts_count"
   end
+
+  add_index "categories", ["slug"], name: "index_categories_on_slug"
 
   create_table "comments", force: true do |t|
     t.text     "body"
@@ -32,6 +34,13 @@ ActiveRecord::Schema.define(version: 20150713183230) do
     t.integer  "total_flags"
   end
 
+  add_index "comments", ["created_at"], name: "index_comments_on_created_at"
+  add_index "comments", ["hidden"], name: "index_comments_on_hidden"
+  add_index "comments", ["post_id"], name: "index_comments_on_post_id"
+  add_index "comments", ["tallied_votes", "created_at"], name: "index_comments_on_tallied_votes_and_created_at"
+  add_index "comments", ["total_flags"], name: "index_comments_on_total_flags"
+  add_index "comments", ["user_id"], name: "index_comments_on_user_id"
+
   create_table "flags", force: true do |t|
     t.boolean  "flag"
     t.integer  "user_id"
@@ -41,12 +50,19 @@ ActiveRecord::Schema.define(version: 20150713183230) do
     t.datetime "updated_at"
   end
 
+  add_index "flags", ["flagable_id"], name: "index_flags_on_flagable_id"
+  add_index "flags", ["user_id", "flag"], name: "index_flags_on_user_id_and_flag"
+  add_index "flags", ["user_id"], name: "index_flags_on_user_id"
+
   create_table "post_categories", force: true do |t|
     t.integer  "post_id"
     t.integer  "category_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "post_categories", ["category_id"], name: "index_post_categories_on_category_id"
+  add_index "post_categories", ["post_id"], name: "index_post_categories_on_post_id"
 
   create_table "posts", force: true do |t|
     t.string   "url"
@@ -62,6 +78,13 @@ ActiveRecord::Schema.define(version: 20150713183230) do
     t.integer  "unhidden_comments_count"
   end
 
+  add_index "posts", ["created_at"], name: "index_posts_on_created_at"
+  add_index "posts", ["hidden"], name: "index_posts_on_hidden"
+  add_index "posts", ["slug"], name: "index_posts_on_slug"
+  add_index "posts", ["tallied_votes", "created_at"], name: "index_posts_on_tallied_votes_and_created_at"
+  add_index "posts", ["total_flags"], name: "index_posts_on_total_flags"
+  add_index "posts", ["user_id"], name: "index_posts_on_user_id"
+
   create_table "users", force: true do |t|
     t.string   "username"
     t.datetime "created_at"
@@ -72,6 +95,8 @@ ActiveRecord::Schema.define(version: 20150713183230) do
     t.integer  "role"
   end
 
+  add_index "users", ["slug"], name: "index_users_on_slug"
+
   create_table "votes", force: true do |t|
     t.boolean  "vote"
     t.integer  "user_id"
@@ -80,5 +105,8 @@ ActiveRecord::Schema.define(version: 20150713183230) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "votes", ["user_id"], name: "index_votes_on_user_id"
+  add_index "votes", ["voteable_id"], name: "index_votes_on_voteable_id"
 
 end

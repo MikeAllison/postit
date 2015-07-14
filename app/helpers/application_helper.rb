@@ -47,7 +47,7 @@ module ApplicationHelper
 
   # Populates category selection dropdown
   def category_title
-    @category.nil? ? 'All Posts' : "#{@category.name} (#{@category.unhiden_posts_count})"
+    @category.nil? ? 'All Posts' : "#{@category.name} (#{@category.unhidden_posts_count})"
   end
 
   # Converts .created_at to a nicer format
