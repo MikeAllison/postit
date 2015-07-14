@@ -51,10 +51,10 @@
       <!-- Tab panes -->
       <div class="tab-content">
         <div role="tabpanel" class="tab-pane active" id="posts">
-          <%= render @user.posts.votes_created_desc %>
+          <%= render @user.posts.includes(:categories, :creator).votes_created_desc %>
         </div>
         <div role="tabpanel" class="tab-pane" id="comments">
-          <%= render @user.comments.votes_created_desc %>
+          <%= render @user.comments.includes(:post, :creator).votes_created_desc %>
         </div>
       </div>
 

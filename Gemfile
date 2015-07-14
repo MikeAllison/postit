@@ -28,6 +28,7 @@ group :development do
   gem 'pry'
   gem 'sqlite3'
   gem 'lol_dba'
+  gem 'bullet'
 end
 
 group :production do

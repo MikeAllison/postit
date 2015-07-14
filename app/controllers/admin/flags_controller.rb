@@ -3,8 +3,8 @@ class Admin::FlagsController < ApplicationController
   before_action :require_admin
 
   def index
-    @posts = Post.flagged_desc
-    @comments = Comment.flagged_desc
+    @posts = Post.includes(:categories, :creator).flagged_desc
+    @comments = Comment.includes(:post, :creator).flagged_desc
   end
 
 end

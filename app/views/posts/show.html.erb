@@ -9,4 +9,4 @@
 
 <%= comments_form(@post) %> <!-- PostsHelper -->
 
-<%= render @post.reload.comments.votes_created_desc %>
+<%= render @post.reload.comments.includes(:creator).votes_created_desc %>
