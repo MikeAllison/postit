@@ -8,30 +8,38 @@ PostitTemplate::Application.routes.draw do
   post  'login',  to: 'sessions#create'
   get   'logout', to: 'sessions#destroy'
 
-  # Sets vote_post_path and vote_comment_path (could also use 'member')
-  post 'posts/:id/vote',    to: 'posts#vote',         as: 'vote_post'
-  post 'comments/:id/vote', to: 'comments#vote',      as: 'vote_comment'
-
-  post 'users/:id/update_role', to: 'users#update_role',  as: 'update_role'
-
-  post 'posts/:id/flag',    to: 'posts#flag',         as: 'flag_post'
-  post 'comments/:id/flag', to: 'comments#flag',      as: 'flag_comment'
-
-  post 'posts/:id/clear_flags',     to: 'posts#clear_flags',    as: 'clear_flags_post'
-  post 'comments/:id/clear_flags',  to: 'comments#clear_flags', as: 'clear_flags_comment'
-
-  post 'posts/:id/hide',     to: 'posts#hide',    as: 'hide_post'
-  post 'comments/:id/hide',  to: 'comments#hide', as: 'hide_comment'
-
   namespace :admin do
     resources :flags, only: [:index]
   end
 
+  resources :categories, except: [:destroy]
+
+  resources :users, except: [:index, :destroy] do
+    member do
+      post 'update_role'
+    end
+  end
+
   resources :posts, except: [:destroy] do
+    member do
+      post 'vote'
+      post 'flag'
+      post 'clear_flags'
+      post 'hide'
+    end
     resources :comments, only: [:create]
   end
 
-  resources :categories, except: [:destroy]
-  resources :users, except: [:index, :destroy]
+  # This cannot be nested above under 'resources :comments'
+  # Posts and Comments share helper methods for these actions so the paths need to be 'vote_post_path' and 'vote_comment_path'
+  # Nesting it above creates 'vote_post_comment_path' - which doesn't work.
+  resources :comments do
+    member do
+      post 'vote'
+      post 'flag'
+      post 'clear_flags'
+      post 'hide'
+    end
+  end
 
 end
