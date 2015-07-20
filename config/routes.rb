@@ -27,18 +27,13 @@ PostitTemplate::Application.routes.draw do
       post 'clear_flags'
       post 'hide'
     end
-    resources :comments, only: [:create]
-  end
-
-  # This cannot be nested above under 'resources :comments'
-  # Posts and Comments share helper methods for these actions so the paths need to be 'vote_post_path' and 'vote_comment_path'
-  # Nesting it above creates 'vote_post_comment_path' - which doesn't work.
-  resources :comments do
-    member do
-      post 'vote'
-      post 'flag'
-      post 'clear_flags'
-      post 'hide'
+    resources :comments, only: [:create], shallow: true do
+      member do
+        post 'vote'
+        post 'flag'
+        post 'clear_flags'
+        post 'hide'
+      end
     end
   end
 
