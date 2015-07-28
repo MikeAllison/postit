@@ -4,9 +4,11 @@ PostitTemplate::Application.routes.draw do
 
   get 'register', to: 'users#new'
 
-  get   'login',  to: 'sessions#new'
-  post  'login',  to: 'sessions#create'
-  get   'logout', to: 'sessions#destroy'
+  controller :sessions do
+    get   'login'  => :new
+    post  'login'  => :create
+    get   'logout' => :destroy
+  end
 
   namespace :admin do
     resources :flags, only: [:index]
