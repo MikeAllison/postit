@@ -6,7 +6,31 @@ class PostsController < ApplicationController
   before_action :require_current_user_or_admin, only: [:edit, :update]
 
   def index
-    @posts = Post.includes(:categories, :creator).votes_created_desc
+
+    # Temporarily put posts in order to check pagination
+    @posts = Post.includes(:categories, :creator)
+    #@posts = Post.includes(:categories, :creator).votes_created_desc
+
+    # Move to helper
+    # Look at current_page? helper
+    @items_per_page = 10
+    # Good
+    @total_pages = @posts.count / @items_per_page
+    @total_pages += 1 if @posts.count % @items_per_page > 0
+
+    if params[:page]
+      @current_page = params[:page].to_i
+      @offset = (@current_page * @items_per_page) - @items_per_page
+    else
+      # Good
+      @current_page = 1
+      @offset = 0
+    end
+
+    # Good
+    @page_num_back = @current_page - 1
+    @page_num_fwd = @current_page + 1
+
   end
 
   def new
