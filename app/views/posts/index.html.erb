@@ -4,29 +4,4 @@
 
 <%= render @posts.limit(@items_per_page).offset(@offset) %>
 
-<div class="row">
-  <div class="col-xs-12 text-center">
-    <nav>
-      <ul class="pagination">
-        <% unless @page_num_back <= 0 %>
-          <li>
-            <%= link_to posts_path(page: @page_num_back), { :'aria-label' => 'Previous' } do %>
-              <span aria-hidden="true">&laquo;</span>
-            <% end %>
-          </li>
-        <% end %>
-        <% @total_pages.times do |p| %>
-          <li><%= link_to "#{p + 1}", posts_path(page: "#{p + 1}") %></li>
-        <% end %>
-        <% unless @current_page == @total_pages %>
-          <li>
-            <%= link_to posts_path(page: @page_num_fwd), { :'aria-label' => 'Next' } do %>
-              <span aria-hidden="true">&raquo;</span>
-            <% end %>
-          </li>
-        <% end %>
-      </ul>
-    </nav>
-    <p><strong>Current Page: <%= @current_page %></strong></p>
-  </div>
-</div>
+<%= render 'shared/pagination_links.html.erb', obj: @posts %>

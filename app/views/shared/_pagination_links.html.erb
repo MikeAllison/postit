@@ -1,0 +1,28 @@
+<% unless obj.empty? %>
+  <div class="row">
+    <div class="col-xs-12 text-center">
+      <nav>
+        <ul class="pagination">
+          <% if params[:page].to_i > 1 %>
+            <li>
+              <%= link_to posts_path(page: params[:page].to_i - 1), { :'aria-label' => 'Previous' } do %>
+                <span aria-hidden="true">&laquo;</span>
+              <% end %>
+            </li>
+          <% end %>
+          <% @total_pages.times do |p| %>
+            <li><%= link_to "#{p + 1}", posts_path(page: "#{p + 1}") %></li>
+          <% end %>
+          <% unless params[:page].to_i == @total_pages %>
+            <li>
+              <%= link_to posts_path(page: params[:page].to_i + 1), { :'aria-label' => 'Next' } do %>
+                <span aria-hidden="true">&raquo;</span>
+              <% end %>
+            </li>
+          <% end %>
+        </ul>
+      </nav>
+      <p><strong>Current Page: <%= params[:page] || 1 %></strong></p>
+    </div>
+  </div>
+<% end %>
