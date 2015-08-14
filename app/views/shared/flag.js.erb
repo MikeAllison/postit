@@ -11,7 +11,7 @@ $("#<%= dom_id(obj) %> .flag-btn").html("<%= j flag_item_btn(obj) %>");
 $("#<%= dom_id(obj) %> .flagged-item-msg").html("<%= j flagged_item_msg(obj) %>");
 $("#<%= dom_id(obj) %> .flagged-item-msg").toggle();
 
-// Hide/unhide item's content when flagged
+// Call helper methods to hide/unhide the item's content when DOM is updated
 <% if obj.class == Post %>
   $("#<%= dom_id(obj) %> .post-url").html("<%= j post_url(obj) %>");
   $("#<%= dom_id(obj) %> .post-description").html("<%= j post_description(obj) %>");

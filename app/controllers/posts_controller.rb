@@ -1,4 +1,6 @@
 class PostsController < ApplicationController
+  helper PaginationHelper
+
   before_action :authenticate, except: [:index, :show] # AppController
   before_action :require_admin, only: [:clear_flags, :hide]
   before_action :require_moderator_or_admin, only: [:flag]
@@ -6,15 +8,19 @@ class PostsController < ApplicationController
   before_action :require_current_user_or_admin, only: [:edit, :update]
 
   def index
-    # Temporarily put posts in order to check pagination
-    @posts = Post.includes(:categories, :creator)
-    #@posts = Post.includes(:categories, :creator).votes_created_desc
+    # Move
+    @items_per_page = 3
+    @offset = (params[:page].to_i - 1) * @items_per_page
 
-    # Move to helper
-    @items_per_page = 10
+    # Temporarily put posts in order to check pagination
+    @posts = Post.includes(:categories, :creator).limit(@items_per_page).offset(@offset)
+    #@posts = Post.includes(:categories, :creator).votes_created_desc.limit(@items_per_page).offset(@offset)
+
+    # Move to helper or something
     @total_pages = @posts.count / @items_per_page
     @total_pages += 1 if @posts.count % @items_per_page > 0
-    @offset = (params[:page].to_i - 1) * @items_per_page
+    @num_of_page_links = 10
+    @current_page = params[:page].to_i || 1
   end
 
   def new

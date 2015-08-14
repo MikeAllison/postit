@@ -3,25 +3,14 @@
     <div class="col-xs-12 text-center">
       <nav>
         <ul class="pagination">
-          <% if params[:page].to_i > 1 %>
-            <li>
-              <%= link_to posts_path(page: params[:page].to_i - 1), { :'aria-label' => 'Previous' } do %>
-                <span aria-hidden="true">&laquo;</span>
-              <% end %>
-            </li>
-          <% end %>
-          <% @total_pages.times do |p| %>
-            <li><%= link_to "#{p + 1}", posts_path(page: "#{p + 1}") %></li>
-          <% end %>
-          <% unless params[:page].to_i == @total_pages %>
-            <li>
-              <%= link_to posts_path(page: params[:page].to_i + 1), { :'aria-label' => 'Next' } do %>
-                <span aria-hidden="true">&raquo;</span>
-              <% end %>
-            </li>
-          <% end %>
+          <%= prev_page_link %>
+          <%= prev_page_group_link %>
+          <% page_links %>
+          <%= next_page_group_link %>
+          <%= next_page_link %>
         </ul>
       </nav>
+
       <p><strong>Current Page: <%= params[:page] || 1 %></strong></p>
     </div>
   </div>
