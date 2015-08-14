@@ -13,12 +13,12 @@ class PostsController < ApplicationController
     @offset = (params[:page].to_i - 1) * @items_per_page
 
     # Temporarily put posts in order to check pagination
-    @posts = Post.includes(:categories, :creator).limit(@items_per_page).offset(@offset)
+    @posts = Post.includes(:categories, :creator)
     #@posts = Post.includes(:categories, :creator).votes_created_desc.limit(@items_per_page).offset(@offset)
 
     # Move to helper or something
-    @total_pages = @posts.count / @items_per_page
-    @total_pages += 1 if @posts.count % @items_per_page > 0
+    @total_pages = Post.all.count / @items_per_page
+    @total_pages += 1 if Post.all.count % @items_per_page > 0
     @num_of_page_links = 10
     @current_page = params[:page].to_i || 1
   end
