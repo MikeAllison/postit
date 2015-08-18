@@ -41,10 +41,6 @@ module PaginationHelper
     output.html_safe
   end
 
-  def total_pages(paginator)
-    paginator.total_pages
-  end
-
   def current_page
     params[:page] ? current_page = params[:page].to_i : 1
   end
