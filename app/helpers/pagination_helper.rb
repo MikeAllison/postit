@@ -24,7 +24,9 @@ module PaginationHelper
     output = '<nav class="text-center"><ul class="pagination">'
 
     # Show the '<<' aka previous page button
-    output += prev_page_link unless first_page?
+    unless first_page? || current_page < 1
+      output += prev_page_link
+    end
 
     # Show the '...' aka previous group button
     unless first_page? || current_page <= paginator.links_per_page
@@ -37,12 +39,14 @@ module PaginationHelper
     end
 
     # Show the '...' aka next group button
-    unless next_range_start(paginator) > paginator.total_pages || last_page?(paginator)
+    unless next_range_start(paginator) >= paginator.total_pages || last_page?(paginator)
       output += next_page_group_link(paginator)
     end
 
     # Show the '>>' aka next page button
-    output += next_page_link unless last_page?(paginator)
+    unless last_page?(paginator) || current_page > paginator.total_pages
+      output += next_page_link
+    end
 
     # End Bootstap pagination style
     output += '<ul></nav>'
