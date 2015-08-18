@@ -28,27 +28,33 @@ module PaginationHelper
     end
 
     range_start.upto(paginator.links_per_page) do |page_num|
-      output += page_link(page_num)
+      output += page_link(page_num) unless page_num > paginator.total_pages
     end
 
-    output += next_page_group_link(paginator)
-    output += next_page_link
+    unless next_range_start(paginator) > paginator.total_pages || last_page?(paginator)
+      output += next_page_group_link(paginator)
+    end
+
+    output += next_page_link unless last_page?(paginator)
     output += '<ul></nav>'
 
     output.html_safe
   end
 
-  # May not need
+  def total_pages(paginator)
+    paginator.total_pages
+  end
+
   def current_page
     params[:page] ? current_page = params[:page].to_i : 1
   end
 
   def previous_page
-    current_page - 1
+    current_page.pred
   end
 
   def next_page
-    current_page + 1
+    current_page.next
   end
 
   def first_page?
