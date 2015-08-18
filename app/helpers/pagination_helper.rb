@@ -32,7 +32,7 @@ module PaginationHelper
     end
 
     # Show individual page links, stopping at the limit of links per page set by the user
-    range_start.upto(paginator.links_per_page) do |page_num|
+    current_range_start.upto(paginator.links_per_page) do |page_num|
       output += page_link(page_num) unless page_num > paginator.total_pages
     end
 
@@ -71,16 +71,16 @@ module PaginationHelper
     current_page == paginator.total_pages
   end
 
-  def range_start
+  def current_range_start
     1
   end
 
   def previous_range_start(paginator)
-    previous_range_start = range_start - paginator.links_per_page
+    previous_range_start = current_range_start - paginator.links_per_page
   end
 
   def next_range_start(paginator)
-    range_start + paginator.links_per_page
+    current_range_start + paginator.links_per_page
   end
 
   # PAGE BUTTON LINKS (w/Bootstap styling)
