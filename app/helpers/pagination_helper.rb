@@ -39,7 +39,7 @@ module PaginationHelper
     end
 
     # Show the '...' aka next group button
-    unless next_range_start(paginator) >= paginator.total_pages || last_page?(paginator)
+    unless next_range_start(paginator) > paginator.total_pages || last_page?(paginator)
       output += next_page_group_link(paginator)
     end
 
@@ -53,6 +53,11 @@ module PaginationHelper
 
     # Output the string to the view
     output.html_safe
+  end
+
+  # Does not work
+  def paginate_page_info
+    # "#{current_page} / #{paginator.total_pages}"
   end
 
   def current_page
