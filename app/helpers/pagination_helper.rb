@@ -20,24 +20,34 @@ module PaginationHelper
   def paginate(obj, items_per_page, links_per_page)
     paginator = Paginator.new(obj, items_per_page, links_per_page)
 
+    # Start Bootstap pagination style
     output = '<nav class="text-center"><ul class="pagination">'
+
+    # Show the '<<' aka previous page button
     output += prev_page_link unless first_page?
 
+    # Show the '...' aka previous group button
     unless first_page? || current_page <= paginator.links_per_page
       output += prev_page_group_link(paginator)
     end
 
+    # Show individual page links, stopping at the limit of links per page set by the user
     range_start.upto(paginator.links_per_page) do |page_num|
       output += page_link(page_num) unless page_num > paginator.total_pages
     end
 
+    # Show the '...' aka next group button
     unless next_range_start(paginator) > paginator.total_pages || last_page?(paginator)
       output += next_page_group_link(paginator)
     end
 
+    # Show the '>>' aka next page button
     output += next_page_link unless last_page?(paginator)
+
+    # End Bootstap pagination style
     output += '<ul></nav>'
 
+    # Output the string to the view
     output.html_safe
   end
 
@@ -73,7 +83,7 @@ module PaginationHelper
     range_start + paginator.links_per_page
   end
 
-  # PAGE LINKS
+  # PAGE BUTTON LINKS (w/Bootstap styling)
 
   def prev_page_link
     content_tag :li do
