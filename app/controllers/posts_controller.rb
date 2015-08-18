@@ -8,19 +8,9 @@ class PostsController < ApplicationController
   before_action :require_current_user_or_admin, only: [:edit, :update]
 
   def index
-    # Move
-    @items_per_page = 3
-    @offset = (params[:page].to_i - 1) * @items_per_page
-
     # Temporarily put posts in order to check pagination
     @posts = Post.includes(:categories, :creator)
     #@posts = Post.includes(:categories, :creator).votes_created_desc.limit(@items_per_page).offset(@offset)
-
-    # Move to helper or something
-    @total_pages = Post.all.count / @items_per_page
-    @total_pages += 1 if Post.all.count % @items_per_page > 0
-    @num_of_page_links = 10
-    @current_page = params[:page].to_i || 1
   end
 
   def new

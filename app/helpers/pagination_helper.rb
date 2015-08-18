@@ -1,12 +1,12 @@
 module PaginationHelper
 
   class Paginator
-    attr_accessor :items_per_page, :num_page_links
+    attr_reader :links_per_page
 
-    def initialize(obj, items_per_page, num_page_links)
+    def initialize(obj, items_per_page, links_per_page)
       @items_per_page = items_per_page
       @obj = obj
-      @num_page_links = num_page_links
+      @links_per_page = links_per_page
     end
 
     def total_pages
@@ -16,8 +16,39 @@ module PaginationHelper
     end
   end
 
+  # MAIN PAGINATION METHOD
+  def paginate(obj, items_per_page, links_per_page)
+    paginator = Paginator.new(obj, items_per_page, links_per_page)
+
+    output = '<nav class="text-center"><ul class="pagination">'
+    output += prev_page_link unless first_page?
+
+    unless first_page? || current_page <= paginator.links_per_page
+      output += prev_page_group_link(paginator)
+    end
+
+    range_start.upto(paginator.links_per_page) do |page_num|
+      output += page_link(page_num)
+    end
+
+    output += next_page_group_link(paginator)
+    output += next_page_link
+    output += '<ul></nav>'
+
+    output.html_safe
+  end
+
+  # May not need
   def current_page
     params[:page] ? current_page = params[:page].to_i : 1
+  end
+
+  def previous_page
+    current_page - 1
+  end
+
+  def next_page
+    current_page + 1
   end
 
   def first_page?
@@ -28,47 +59,31 @@ module PaginationHelper
     current_page == paginator.total_pages
   end
 
-  def current_page_range(paginator)
-    page_range = []
-
-    paginator.num_page_links.times do |page_num|
-      page_range << page_num + 1
-    end
-
-    page_range
+  def range_start
+    1
   end
 
-  def paginate(obj, items_per_page, num_page_links)
-    paginator = Paginator.new(obj, items_per_page, num_page_links)
-    page_range = current_page_range(paginator)
-    last_page = page_range.last
-
-    output = '<nav class="text-center"><ul class="pagination">'
-    output += prev_page_link unless first_page?
-    output += prev_page_group_link unless first_page?
-
-    paginator.num_page_links.times do |page_num|
-      output += page_link(page_num + 1)
-    end
-
-    output += next_page_group_link(last_page + 1) unless last_page?(paginator)
-    output += next_page_link unless last_page?(paginator)
-    output += '<ul></nav>'
-
-    raw output
+  def previous_range_start(paginator)
+    previous_range_start = range_start - paginator.links_per_page
   end
+
+  def next_range_start(paginator)
+    range_start + paginator.links_per_page
+  end
+
+  # PAGE LINKS
 
   def prev_page_link
     content_tag :li do
-      link_to posts_path(page: current_page - 1), { :'aria-label' => 'Previous' } do
+      link_to posts_path(page: previous_page), { :'aria-label' => 'Previous' } do
         raw '<span aria-hidden="true">&laquo;</span>'
       end
     end
   end
 
-  def prev_page_group_link
+  def prev_page_group_link(paginator)
     content_tag :li do
-      link_to posts_path(page: current_page - 1), { :'aria-label' => 'Next Pages' } do
+      link_to posts_path(page: previous_range_start(paginator)), { :'aria-label' => 'Next Pages' } do
         raw '<span aria-hidden="true">...</span>'
       end
     end
@@ -80,9 +95,9 @@ module PaginationHelper
     end
   end
 
-  def next_page_group_link(first_page)
+  def next_page_group_link(paginator)
     content_tag :li do
-      link_to posts_path(page: first_page), { :'aria-label' => 'Next Pages' } do
+      link_to posts_path(page: next_range_start(paginator)), { :'aria-label' => 'Next Pages' } do
         raw '<span aria-hidden="true">...</span>'
       end
     end
@@ -90,7 +105,7 @@ module PaginationHelper
 
   def next_page_link
     content_tag :li do
-      link_to posts_path(page: current_page + 1), { :'aria-label' => 'Next' } do
+      link_to posts_path(page: next_page), { :'aria-label' => 'Next' } do
         raw '<span aria-hidden="true">&raquo;</span>'
       end
     end
