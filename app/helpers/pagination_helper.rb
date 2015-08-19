@@ -127,8 +127,8 @@ module PaginationHelper
       output += next_page_link(paginator)
     end
 
-    # End Bootstap pagination style
-    output += '<ul></nav>'
+    # Show page number and end Bootstap pagination style
+    output += "</ul><p><strong>Page:</strong> #{paginator.current_page} / #{paginator.total_pages}</p></nav>"
 
     # Output the string to the view
     raw output
