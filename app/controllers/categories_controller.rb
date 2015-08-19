@@ -24,6 +24,11 @@ class CategoriesController < ApplicationController
 
   def show
     @posts = @category.posts.includes(:creator, :categories).votes_created_desc
+
+    respond_to do |format|
+      format.html
+      format.js
+    end
   end
 
   def edit
