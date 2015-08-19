@@ -77,8 +77,10 @@ module PaginationHelper
       end
     end
 
-    def page_link(page_num)
-      content_tag :li do
+    def page_link(page_num, current_page)
+      status = 'active' if page_num == current_page
+
+      content_tag :li, class: "#{status}" do
         link_to("#{page_num}", controller: "#{controller_name}", action: "#{action_name}", page: "#{page_num}", remote: true)
       end
     end
@@ -115,7 +117,7 @@ module PaginationHelper
 
     # Show individual page links, stopping at the limit of links per page set by the user
     paginator.current_range_first_page.upto(paginator.last_page_in_current_range) do |page_num|
-      output += page_link(page_num) unless page_num > paginator.total_pages
+      output += page_link(page_num, paginator.current_page) unless page_num > paginator.total_pages
     end
 
     # Show the '...' aka next page group button
