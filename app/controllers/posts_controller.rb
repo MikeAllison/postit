@@ -10,7 +10,12 @@ class PostsController < ApplicationController
   def index
     # Temporarily put posts in order to check pagination
     @posts = Post.includes(:categories, :creator)
-    #@posts = Post.includes(:categories, :creator).votes_created_desc.limit(@items_per_page).offset(@offset)
+    #@posts = Post.includes(:categories, :creator).votes_created_desc
+
+    respond_to do |format|
+      format.html
+      format.js
+    end
   end
 
   def new

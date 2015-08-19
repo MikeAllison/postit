@@ -1,0 +1,2 @@
+$("#all-posts").html("<%= j render @posts.paginate(10, params[:page]) %>");
+$("#pagination-links").html("<%= j pagination_links(@posts, 10, 8) %>");
