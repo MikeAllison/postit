@@ -42,6 +42,10 @@ module PaginationHelper
       (((current_page - 1) / links_per_page) * links_per_page) + 1
     end
 
+    def last_page_in_current_range
+      current_range_first_page + links_per_page - 1
+    end
+
     def previous_range_first_page
       previous_range_first_page = current_range_first_page - links_per_page
     end
@@ -109,7 +113,7 @@ module PaginationHelper
     end
 
     # Show individual page links, stopping at the limit of links per page set by the user
-    paginator.current_range_first_page.upto(paginator.current_range_first_page + paginator.links_per_page - 1) do |page_num|
+    paginator.current_range_first_page.upto(paginator.last_page_in_current_range) do |page_num|
       output += page_link(page_num) unless page_num > paginator.total_pages
     end
 
