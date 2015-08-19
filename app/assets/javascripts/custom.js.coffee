@@ -23,7 +23,7 @@ adjustStyles = ->
   else
     ul_navbar_links.addClass("navbar-default")
 
-# Removes flagged-item-msg h4s if they are empty
+# Shows each h4 .flagged-item-msg if it contains a message
 removeEmptyFlaggedItemMsgs = ->
   $('.flagged-item-msg').each ->
     $(this).show() if $(this).text().length != 0
