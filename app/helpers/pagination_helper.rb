@@ -55,8 +55,8 @@ module PaginationHelper
     end
   end
 
-  # MAIN PAGINATION METHOD
-  def paginate(obj, items_per_page, links_per_page)
+  # MAIN PAGINATION LINK HELPER
+  def pagination_links(obj, items_per_page, links_per_page)
     paginator = Paginator.new(obj, items_per_page, links_per_page)
     paginator.current_page = params[:page]
 
@@ -99,6 +99,7 @@ module PaginationHelper
       end
     end
 
+    # BUILD PAGINATION LINKS
     # Start Bootstap pagination style
     output = '<nav class="text-center"><ul class="pagination">'
 
@@ -107,7 +108,7 @@ module PaginationHelper
       output += previous_page_link(paginator)
     end
 
-    # Show the '...' aka previous group button
+    # Show the '...' aka previous page group button
     unless paginator.first_page? || paginator.current_page <= paginator.links_per_page
       output += previous_group_link(paginator)
     end
@@ -117,7 +118,7 @@ module PaginationHelper
       output += page_link(page_num) unless page_num > paginator.total_pages
     end
 
-    # Show the '...' aka next group button
+    # Show the '...' aka next page group button
     unless paginator.next_range_first_page > paginator.total_pages || paginator.last_page?
       output += next_group_link(paginator)
     end
@@ -127,7 +128,7 @@ module PaginationHelper
       output += next_page_link(paginator)
     end
 
-    # Show page number and end Bootstap pagination style
+    # Append page numbering and end Bootstap pagination style
     output += "</ul><p><strong>Page:</strong> #{paginator.current_page} / #{paginator.total_pages}</p></nav>"
 
     # Output the string to the view

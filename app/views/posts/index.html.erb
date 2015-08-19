@@ -2,6 +2,6 @@
 
 <%= render 'shared/no_posts' if @posts.empty? %>
 
-<%= render @posts %>
+<%= render @posts.paginate(10, params[:page]) %>
 
-<%= paginate(@posts, 10, 8) %>
+<%= pagination_links(@posts, 10, 8) %>
