@@ -19,6 +19,7 @@ module PaginationHelper
     def current_page
       current_page = (@current_page ||= 1).to_i
       current_page = 1 if current_page < 1
+      current_page = total_pages if current_page > total_pages
       current_page
     end
 
