@@ -23,8 +23,7 @@ class CategoriesController < ApplicationController
   end
 
   def show
-    @posts = @category.posts.includes(:creator, :categories)
-    #@posts = @category.posts.includes(:creator, :categories).votes_created_desc
+    @posts = @category.posts.includes(:creator, :categories).votes_created_desc
 
     respond_to do |format|
       format.html

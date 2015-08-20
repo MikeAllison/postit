@@ -8,8 +8,7 @@ class PostsController < ApplicationController
   before_action :require_current_user_or_admin, only: [:edit, :update]
 
   def index
-    @posts = Post.includes(:categories, :creator)
-    #@posts = Post.includes(:categories, :creator).votes_created_desc
+    @posts = Post.includes(:categories, :creator).votes_created_desc
 
     respond_to do |format|
       format.html
