@@ -27,6 +27,7 @@ module Paginatable
      page = 1 if page < 1
      page = total_pages if page > total_pages
      calculated_offset = (page - 1) * items_per_page
+     calculated_offset = 0 if calculated_offset < 0
 
      self.limit(items_per_page).offset(calculated_offset)
    end
