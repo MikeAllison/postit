@@ -26,7 +26,9 @@ module Paginatable
      page = (page ||= 1).to_i
      page = 1 if page < 1
      page = total_pages if page > total_pages
+
      calculated_offset = (page - 1) * items_per_page
+     # Fix for Postgres not liking negative offsets
      calculated_offset = 0 if calculated_offset < 0
 
      self.limit(items_per_page).offset(calculated_offset)
