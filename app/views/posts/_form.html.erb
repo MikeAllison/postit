@@ -22,7 +22,7 @@
           </div>
           <div class="form-group">
             <%= f.label :category, 'Select Categories' %>
-            <%= link_to '(Add a Category)', new_category_path, class: 'small' %>
+            <%= new_category_link %>
             <div class="checkbox">
               <%= hidden_field_tag "post[category_ids][]", nil %>
               <% Category.all.each do |category| %>

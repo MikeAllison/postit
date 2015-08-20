@@ -130,7 +130,7 @@ module PaginationHelper
     output += "</ul><p><strong>Page:</strong> #{paginator.current_page} / #{paginator.total_pages}</p></nav>"
 
     # Output the string to the view
-    raw output
+    raw output unless paginator.total_pages <= 1
   end
 
 end

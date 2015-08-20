@@ -7,6 +7,10 @@ module PostsHelper
     link_to 'New Post', new_post_path, class: 'btn btn-lg btn-primary' unless !logged_in? || @posts.empty?
   end
 
+  def new_category_link
+    link_to '(Add a Category)', new_category_path, class: 'small' if current_user.admin?
+  end
+
   # Shows a button with the post's total comments
   def comments_link(post)
     link_to post, class: 'btn btn-primary btn-xs' do
