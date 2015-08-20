@@ -21,7 +21,7 @@
           <% if logged_in? && current_user.admin? # Show 'Add Category' link if logged in and admin %>
             <li class="divider"></li>
             <li>
-              <%= link_to new_category_path do %>
+              <%= link_to new_admin_category_path do %>
                 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp;&nbsp;Add Category
               <% end %>
             </li>

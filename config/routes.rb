@@ -12,9 +12,10 @@ PostitTemplate::Application.routes.draw do
 
   namespace :admin do
     resources :flags, only: [:index]
+    resources :categories, except: [:destroy]
   end
 
-  resources :categories, except: [:destroy]
+  resources :categories, only: [:show]
 
   resources :users, except: [:index, :destroy] do
     member do

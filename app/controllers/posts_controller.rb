@@ -21,7 +21,7 @@ class PostsController < ApplicationController
 
     if !Category.any?
       flash[:danger] = "Please add a category before creating a post."
-      redirect_to new_category_path
+      redirect_to new_admin_category_path
     end
   end
 

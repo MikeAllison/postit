@@ -8,7 +8,7 @@ module PostsHelper
   end
 
   def new_category_link
-    link_to '(Add a Category)', new_category_path, class: 'small' if current_user.admin?
+    link_to '(Add a Category)', new_admin_category_path, class: 'small' if current_user.admin?
   end
 
   # Shows a button with the post's total comments
