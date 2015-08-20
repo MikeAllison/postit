@@ -59,7 +59,7 @@ module PaginationHelper
     # PAGE BUTTON LINKS (w/Bootstap styling)
     def previous_page_link(paginator)
       content_tag :li do
-        link_to({ controller: "#{controller_name}", action: "#{action_name}", page: paginator.previous_page }, { remote: true, :'aria-label' => 'Previous' }) do
+        link_to({ controller: "#{controller_name}", action: "#{action_name}", page: paginator.previous_page }, { remote: true, :'aria-label' => 'Previous Page', title: 'Previous Page', data: { toggle: 'tooltip', placement: 'top' } }) do
           raw '<span aria-hidden="true">&laquo;</span>'
         end
       end
@@ -67,7 +67,7 @@ module PaginationHelper
 
     def previous_group_link(paginator)
       content_tag :li do
-        link_to({ controller: "#{controller_name}", action: "#{action_name}", page: paginator.previous_range_first_page }, { remote: true, :'aria-label' => 'Next Pages' }) do
+        link_to({ controller: "#{controller_name}", action: "#{action_name}", page: paginator.previous_range_first_page }, { remote: true, :'aria-label' => 'Previous Page Group', title: 'Previous Page Group', data: { toggle: 'tooltip', placement: 'top' } }) do
           raw '<span aria-hidden="true">...</span>'
         end
       end
@@ -83,7 +83,7 @@ module PaginationHelper
 
     def next_group_link(paginator)
       content_tag :li do
-        link_to({ controller: "#{controller_name}", action: "#{action_name}", page: paginator.next_range_first_page }, { remote: true, :'aria-label' => 'Next Pages' }) do
+        link_to({ controller: "#{controller_name}", action: "#{action_name}", page: paginator.next_range_first_page }, { remote: true, :'aria-label' => 'Next Page Group', title: 'Next Page Group', data: { toggle: 'tooltip', placement: 'top' } }) do
           raw '<span aria-hidden="true">...</span>'
         end
       end
@@ -91,7 +91,7 @@ module PaginationHelper
 
     def next_page_link(paginator)
       content_tag :li do
-        link_to({ controller: "#{controller_name}", action: "#{action_name}", page: paginator.next_page }, { remote: true, :'aria-label' => 'Next' }) do
+        link_to({ controller: "#{controller_name}", action: "#{action_name}", page: paginator.next_page }, { remote: true, :'aria-label' => 'Next Page', title: 'Next Page', data: { toggle: 'tooltip', placement: 'top' } }) do
           raw '<span aria-hidden="true">&raquo;</span>'
         end
       end

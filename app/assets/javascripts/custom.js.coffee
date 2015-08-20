@@ -4,6 +4,9 @@ $ ->
   removeEmptyFlaggedItemMsgs()
   checkPasswordInput()
   $("#user_password").keyup(checkPasswordInput)
+  
+  # Enable Bootstrap tooltips
+  $('[data-toggle="tooltip"]').tooltip()
 
 # Toggles between Bootstrap Pills and the normal nav CSS styles/classes based on window size
 # Adds .btn-lg to the non-mobile post voting button links
