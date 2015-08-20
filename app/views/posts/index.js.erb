@@ -1,5 +1,5 @@
-$("#all-posts").html("<%= j render @posts.paginate(5, params[:page]) %>");
-$("#pagination-links").html("<%= j pagination_links(@posts, 5, 8) %>");
+$("#all-posts").html("<%= j render @posts.paginate(params[:page]) %>");
+$("#pagination-links").html("<%= j pagination_links(@posts) %>");
 
 // Shows each h4 .flagged-item-msg if it contains a message
 $('.flagged-item-msg').each(function() {

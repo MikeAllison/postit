@@ -1,19 +1,14 @@
 module PaginationHelper
 
   class Paginator
-    attr_reader :links_per_page
+    attr_reader :links_per_page, :total_pages
     attr_accessor :current_page
 
-    def initialize(obj, items_per_page, links_per_page)
-      @items_per_page = items_per_page
+    def initialize(obj)
       @obj = obj
-      @links_per_page = links_per_page
-    end
-
-    def total_pages
-      total_pages = @obj.size / @items_per_page
-      total_pages += 1 if @obj.size % @items_per_page > 0
-      total_pages
+      @items_per_page = obj.items_per_page
+      @links_per_page = obj.links_per_page
+      @total_pages = obj.total_pages
     end
 
     def current_page
@@ -57,8 +52,8 @@ module PaginationHelper
   end
 
   # MAIN PAGINATION LINK HELPER
-  def pagination_links(obj, items_per_page, links_per_page)
-    paginator = Paginator.new(obj, items_per_page, links_per_page)
+  def pagination_links(obj)
+    paginator = Paginator.new(obj)
     paginator.current_page = params[:page]
 
     # PAGE BUTTON LINKS (w/Bootstap styling)

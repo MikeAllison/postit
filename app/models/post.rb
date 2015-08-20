@@ -41,9 +41,28 @@ class Post < ActiveRecord::Base
       self.unhidden_comments_count = 0
     end
 
-    def self.paginate(items_per_page, page)
+    # Pagination
+    def self.items_per_page
+      5
+    end
+
+    # Pagination
+    def self.links_per_page
+      10
+    end
+
+    # Pagination
+    def self.total_pages
+      total_pages = self.count / items_per_page
+      total_pages += 1 if self.count % items_per_page > 0
+      total_pages
+    end
+
+    # Pagination
+    def self.paginate(page)
       page = (page ||= 1).to_i
       page = 1 if page < 1
+      page = total_pages if page > total_pages
       calculated_offset = (page - 1) * items_per_page
 
       self.limit(items_per_page).offset(calculated_offset)
