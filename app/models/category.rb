@@ -11,7 +11,7 @@ class Category < ActiveRecord::Base
 
   after_initialize :initialize_posts_count, if: :new_record?
 
-  slugable_attribute :name # Slugable
+  set_slugable_attribute :name # Slugable
 
   default_scope { order(name: :asc) }
 

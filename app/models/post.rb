@@ -1,6 +1,7 @@
 class Post < ActiveRecord::Base
 
   include Flagable # In 'models/concerns'
+  include Paginatable # In 'models/concerns'
   include Slugable # In 'models/concerns'
   include Voteable # In 'models/concerns'
 
@@ -23,7 +24,9 @@ class Post < ActiveRecord::Base
   before_validation :strip_url_whitespace
   before_validation :downcase_url
 
-  slugable_attribute :title # Slugable
+  set_slugable_attribute :title # Slugable
+  set_items_per_page 5 # Paginatable
+  set_links_per_page 10 # Paginatable
 
   protected
 
@@ -39,33 +42,6 @@ class Post < ActiveRecord::Base
 
     def initialize_unhidden_comments_count
       self.unhidden_comments_count = 0
-    end
-
-    # Pagination
-    def self.items_per_page
-      5
-    end
-
-    # Pagination
-    def self.links_per_page
-      10
-    end
-
-    # Pagination
-    def self.total_pages
-      total_pages = self.count / items_per_page
-      total_pages += 1 if self.count % items_per_page > 0
-      total_pages
-    end
-
-    # Pagination
-    def self.paginate(page)
-      page = (page ||= 1).to_i
-      page = 1 if page < 1
-      page = total_pages if page > total_pages
-      calculated_offset = (page - 1) * items_per_page
-
-      self.limit(items_per_page).offset(calculated_offset)
     end
 
 end

@@ -2,7 +2,7 @@ module Slugable
   extend ActiveSupport::Concern
 
   module ClassMethods
-    def slugable_attribute(attr_name)
+    def set_slugable_attribute(attr_name)
       self.slugged_attribute = attr_name
     end
   end
