@@ -28,20 +28,18 @@ class Post < ActiveRecord::Base
   set_items_per_page 5 # Paginatable
   set_links_per_page 10 # Paginatable
 
-  protected
-
-    def strip_url_whitespace
-      self.url.gsub!(/\s+/,'')
-    end
-
-    def downcase_url
-      self.url.downcase!
-    end
-
   private
 
-    def initialize_unhidden_comments_count
-      self.unhidden_comments_count = 0
-    end
+  def strip_url_whitespace
+    self.url.gsub!(/\s+/,'')
+  end
+
+  def downcase_url
+    self.url.downcase!
+  end
+
+  def initialize_unhidden_comments_count
+    self.unhidden_comments_count = 0
+  end
 
 end

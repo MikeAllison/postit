@@ -144,19 +144,19 @@ class PostsController < ApplicationController
 
   private
 
-    def find_post
-      @post = Post.find_by!(slug: params[:id])
-    end
+  def find_post
+    @post = Post.find_by!(slug: params[:id])
+  end
 
-    def require_current_user_or_admin
-      if @post.creator != current_user && !current_user.admin?
-        flash[:danger] = "Access Denied! - You may only edit posts that you've created."
-        redirect_to @post
-      end
+  def require_current_user_or_admin
+    if @post.creator != current_user && !current_user.admin?
+      flash[:danger] = "Access Denied! - You may only edit posts that you've created."
+      redirect_to @post
     end
+  end
 
-    def post_params
-      params.require(:post).permit(:title, :url, :description, :category_ids => [])
-    end
+  def post_params
+    params.require(:post).permit(:title, :url, :description, :category_ids => [])
+  end
 
 end

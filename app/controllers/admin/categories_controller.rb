@@ -36,11 +36,11 @@ class Admin::CategoriesController < ApplicationController
 
   private
 
-    def find_category
-      @category = Category.find_by!(slug: params[:id])
-    end
+  def find_category
+    @category = Category.find_by!(slug: params[:id])
+  end
 
-    def category_params
-      params.require(:category).permit(:name)
-    end
+  def category_params
+    params.require(:category).permit(:name)
+  end
 end

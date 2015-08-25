@@ -53,19 +53,19 @@ class UsersController < ApplicationController
 
   private
 
-    def user_params
-      params.require(:user).permit(:username, :password, :password_confirmation, :time_zone)
-    end
+  def user_params
+    params.require(:user).permit(:username, :password, :password_confirmation, :time_zone)
+  end
 
-    def find_user
-      @user = User.find_by!(slug: params[:id])
-    end
+  def find_user
+    @user = User.find_by!(slug: params[:id])
+  end
 
-    def require_current_user
-      if @user != current_user
-        flash[:danger] = "Access Denied! - You may only edit your own profile."
-        redirect_to current_user
-      end
+  def require_current_user
+    if @user != current_user
+      flash[:danger] = "Access Denied! - You may only edit your own profile."
+      redirect_to current_user
     end
+  end
 
 end

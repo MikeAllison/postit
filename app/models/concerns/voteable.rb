@@ -19,16 +19,16 @@ module Voteable
 
   private
 
-    def initialize_tallied_votes
-      self.tallied_votes = 0
-    end
+  def initialize_tallied_votes
+    self.tallied_votes = 0
+  end
 
-    def upvotes
-      self.votes.where("vote = ?", true).count
-    end
+  def upvotes
+    self.votes.where("vote = ?", true).count
+  end
 
-    def downvotes
-      self.votes.where("vote = ?", false).count
-    end
+  def downvotes
+    self.votes.where("vote = ?", false).count
+  end
 
 end

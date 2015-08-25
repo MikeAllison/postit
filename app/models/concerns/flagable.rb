@@ -22,12 +22,12 @@ module Flagable
 
   private
 
-    def initialize_total_flags
-      self.total_flags = 0
-    end
+  def initialize_total_flags
+    self.total_flags = 0
+  end
 
-    def initialize_hidden_attr
-      self.hidden = false
-    end
+  def initialize_hidden_attr
+    self.hidden = false
+  end
 
 end

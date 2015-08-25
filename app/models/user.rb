@@ -33,12 +33,12 @@ class User < ActiveRecord::Base
 
   private
 
-    def set_default_role
-      self.role ||= :user
-    end
+  def set_default_role
+    self.role ||= :user
+  end
 
-    def strip_username_whitespace
-      self.username.strip!
-    end
+  def strip_username_whitespace
+    self.username.strip!
+  end
 
 end

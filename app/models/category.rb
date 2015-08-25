@@ -17,8 +17,8 @@ class Category < ActiveRecord::Base
 
   private
 
-    def initialize_posts_count
-      self.unhidden_posts_count = 0
-    end
+  def initialize_posts_count
+    self.unhidden_posts_count = 0
+  end
 
 end
