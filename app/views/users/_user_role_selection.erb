@@ -1,6 +1,6 @@
-<%= link_to update_role_user_path(role: 'moderator'), method: :post, class: 'btn btn-default btn-xs make-moderator', remote: true do %>
+<%= link_to update_role_user_path(role: 'moderator'), method: :patch, class: 'btn btn-default btn-xs make-moderator', remote: true do %>
   <%= @user.moderator? ? "Make User" : "Make Moderator" %>
 <% end %>
-<%= link_to update_role_user_path(role: 'admin'), method: :post, class: 'btn btn-default btn-xs make-admin', remote: true do %>
+<%= link_to update_role_user_path(role: 'admin'), method: :patch, class: 'btn btn-default btn-xs make-admin', remote: true do %>
   <%= @user.admin? ? "Make User" : "Make Admin" %>
 <% end %>

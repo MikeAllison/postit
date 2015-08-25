@@ -117,14 +117,14 @@ module ApplicationHelper
   # Button for admins to hide posts/comments
   def hide_item_btn(obj)
     if logged_in? && current_user.admin? && admin_flags_index_view?
-      link_to 'Hide Item', [:hide, obj], method: :post, class: 'btn btn-default btn-xs hide-item-btn', remote: true, data: { confirm: "Are you sure that this item should be permanently hidden?" }
+      link_to 'Hide Item', [:hide, obj], method: :patch, class: 'btn btn-default btn-xs hide-item-btn', remote: true, data: { confirm: "Are you sure that this item should be permanently hidden?" }
     end
   end
 
   # Button for admins to clear all flags on a post/comment
   def clear_flags_btn(obj)
     if logged_in? && current_user.admin? && admin_flags_index_view?
-      link_to [:clear_flags, obj], method: :post, class: 'btn btn-success btn-xs', remote: true do
+      link_to [:clear_flags, obj], method: :patch, class: 'btn btn-success btn-xs', remote: true do
         raw "Clear Flags <span class='badge'>#{obj.total_flags}</span>"
       end
     end

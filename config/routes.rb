@@ -19,7 +19,7 @@ PostitTemplate::Application.routes.draw do
 
   resources :users, except: [:index, :destroy] do
     member do
-      post 'update_role'
+      patch 'update_role'
     end
   end
 
@@ -27,15 +27,15 @@ PostitTemplate::Application.routes.draw do
     member do
       post 'vote'
       post 'flag'
-      post 'clear_flags'
-      post 'hide'
+      patch 'clear_flags'
+      patch 'hide'
     end
     resources :comments, only: [:create], shallow: true do
       member do
         post 'vote'
         post 'flag'
-        post 'clear_flags'
-        post 'hide'
+        patch 'clear_flags'
+        patch 'hide'
       end
     end
   end
