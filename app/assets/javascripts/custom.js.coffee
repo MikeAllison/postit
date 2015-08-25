@@ -1,10 +1,10 @@
 $ ->
   adjustStyles()
   $(window).resize(adjustStyles)
-  removeEmptyFlaggedItemMsgs()
+  showFlaggedItemMsgs()
   checkPasswordInput()
   $("#user_password").keyup(checkPasswordInput)
-  
+
   # Enable Bootstrap tooltips
   $('[data-toggle="tooltip"]').tooltip()
 
@@ -27,7 +27,7 @@ adjustStyles = ->
     ul_navbar_links.addClass("navbar-default")
 
 # Shows each h4 .flagged-item-msg if it contains a message
-removeEmptyFlaggedItemMsgs = ->
+showFlaggedItemMsgs = ->
   $('.flagged-item-msg').each ->
     $(this).show() if $(this).text().length != 0
 

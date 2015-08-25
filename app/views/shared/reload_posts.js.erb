@@ -5,6 +5,8 @@ $("#pagination-links").html("<%= j pagination_links(@posts) %>");
 $('.flagged-item-msg').each(function() {
   if ($(this).text().length !== 0) {
     $(this).show();
+  } else {
+    $(this).hide();
   }
 });
 
