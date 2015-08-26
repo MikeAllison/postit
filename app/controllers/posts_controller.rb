@@ -68,7 +68,7 @@ class PostsController < ApplicationController
         @vote.vote = submitted_vote
         @vote.save
       elsif @vote.persisted? && @vote.vote == !submitted_vote
-        @vote.update(vote: submitted_vote)
+        @vote.destroy!
       elsif @vote.persisted? && @vote.vote == submitted_vote
         @error_msg = "You've already voted on this post."
       else
