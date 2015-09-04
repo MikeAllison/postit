@@ -19,4 +19,8 @@ class Flag < ActiveRecord::Base
     obj.save
   end
 
+  def opposite_exists?(submitted_flag)
+    self.persisted? && self.flag == !submitted_flag
+  end
+
 end

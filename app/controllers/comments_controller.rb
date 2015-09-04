@@ -60,7 +60,7 @@ class CommentsController < ApplicationController
     if @flag.new_record?
       @flag.flag = submitted_flag
       @flag.save
-    elsif @flag.persisted? && @flag.flag == !submitted_flag
+    elsif @flag.opposite_exists?(submitted_flag)
       @flag.update(flag: submitted_flag)
     else
       @error_msg = "Sorry, there was a problem flagging this comment."
