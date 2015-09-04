@@ -31,9 +31,9 @@ class CommentsController < ApplicationController
       elsif @vote.new_record?
         @vote.vote = submitted_vote
         @vote.save
-      elsif @vote.persisted? && @vote.vote == !submitted_vote
+      elsif @vote.opposite_exists?(submitted_vote)
         @vote.destroy!
-      elsif @vote.persisted? && @vote.vote == submitted_vote
+      elsif @vote.already_exists?(submitted_vote)
         @error_msg = "You've already voted on this comment."
       else
         @error_msg = "Sorry, your vote couldn't be counted."
