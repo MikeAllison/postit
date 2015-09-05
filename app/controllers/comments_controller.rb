@@ -10,7 +10,7 @@ class CommentsController < ApplicationController
     @comment.creator = current_user
 
     if @comment.save
-      @post.update(unhidden_comments_count: @post.unhidden_comments_count += 1)
+      @post.increase_unhidden_comments_count
       flash[:success] = 'Your comment was added.'
       redirect_to @post
     else

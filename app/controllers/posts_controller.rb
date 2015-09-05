@@ -30,7 +30,7 @@ class PostsController < ApplicationController
     @post.creator = current_user
 
     if @post.save
-      @post.categories.each { |category| category.update(unhidden_posts_count: category.unhidden_posts_count += 1) }
+      @post.categories.each { |category| category.increase_unhidden_posts_count }
       flash[:success] = "Your post was created."
       redirect_to posts_path
     else

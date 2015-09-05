@@ -45,8 +45,13 @@ class Post < ActiveRecord::Base
         comment.flags.each { |flag| flag.destroy }
         comment.update(hidden: true)
       end
-      self.categories.each { |category| category.reduce_unhidden_comments_count }
+      self.categories.each { |category| category.reduce_unhidden_posts_count }
     end
+  end
+
+  def increase_unhidden_comments_count
+    self.unhidden_comments_count += 1
+    self.save
   end
 
   def reduce_unhidden_comments_count
