@@ -22,7 +22,7 @@ class Comment < ActiveRecord::Base
       self.update(hidden: true)
       self.votes.each { |vote| vote.destroy }
       self.flags.each { |flag| flag.destroy }
-      self.post.update(unhidden_comments_count: self.post.unhidden_comments_count -= 1)
+      self.post.reduce_unhidden_comments_count
     end
   end
 

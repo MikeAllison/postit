@@ -15,6 +15,11 @@ class Category < ActiveRecord::Base
 
   default_scope { order(name: :asc) }
 
+  def reduce_unhidden_comments_count
+    self.unhidden_posts_count -= 1
+    self.save
+  end
+
   private
 
   def initialize_posts_count
