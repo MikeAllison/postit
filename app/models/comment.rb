@@ -13,7 +13,7 @@ class Comment < ActiveRecord::Base
   def clear_flags
     Comment.transaction do
       self.flags.each { |flag| flag.destroy }
-      self.update(total_flags: 0)
+      self.reset_total_flags
     end
   end
 

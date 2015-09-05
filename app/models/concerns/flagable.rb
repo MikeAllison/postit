@@ -20,6 +20,11 @@ module Flagable
     self.total_flags >= 1
   end
 
+  def reset_total_flags
+    self.total_flags = 0
+    self.save
+  end
+
   private
 
   def initialize_total_flags
