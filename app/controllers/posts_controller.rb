@@ -112,10 +112,7 @@ class PostsController < ApplicationController
   end
 
   def clear_flags
-    Post.transaction do
-      @post.flags.each { |flag| flag.destroy }
-      @post.update(total_flags: 0)
-    end
+    @post.clear_flags
 
     respond_to do |format|
       format.html { redirect_to :back }
@@ -124,17 +121,7 @@ class PostsController < ApplicationController
   end
 
   def hide
-    Post.transaction do
-      @post.update(hidden: true)
-      @post.votes.each { |vote| vote.destroy }
-      @post.flags.each { |flag| flag.destroy }
-      @post.comments.each do |comment|
-        comment.votes.each { |vote| vote.destroy }
-        comment.flags.each { |flag| flag.destroy }
-        comment.update(hidden: true)
-      end
-      @post.categories.each { |category| category.update(unhidden_posts_count: category.unhidden_posts_count -= 1) }
-    end
+    @post.hide
 
     respond_to do |format|
       format.html { redirect_to :back }

@@ -28,6 +28,27 @@ class Post < ActiveRecord::Base
   set_items_per_page 5 # Paginatable
   set_links_per_page 10 # Paginatable
 
+  def clear_flags
+    Post.transaction do
+      self.flags.each { |flag| flag.destroy }
+      self.update(total_flags: 0)
+    end
+  end
+
+  def hide
+    Post.transaction do
+      self.update(hidden: true)
+      self.votes.each { |vote| vote.destroy }
+      self.flags.each { |flag| flag.destroy }
+      self.comments.each do |comment|
+        comment.votes.each { |vote| vote.destroy }
+        comment.flags.each { |flag| flag.destroy }
+        comment.update(hidden: true)
+      end
+      self.categories.each { |category| category.update(unhidden_posts_count: category.unhidden_posts_count -= 1) }
+    end
+  end
+
   private
 
   def strip_url_whitespace

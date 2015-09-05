@@ -76,10 +76,7 @@ class CommentsController < ApplicationController
   end
 
   def clear_flags
-    Comment.transaction do
-      @comment.flags.each { |flag| flag.destroy }
-      @comment.update(total_flags: 0)
-    end
+    @comment.clear_flags
 
     respond_to do |format|
       format.html { redirect_to :back }
@@ -88,12 +85,7 @@ class CommentsController < ApplicationController
   end
 
   def hide
-    Comment.transaction do
-      @comment.update(hidden: true)
-      @comment.votes.each { |vote| vote.destroy }
-      @comment.flags.each { |flag| flag.destroy }
-      @comment.post.update(unhidden_comments_count: @comment.post.unhidden_comments_count -= 1)
-    end
+    @comment.hide
 
     respond_to do |format|
       format.html { redirect_to :back }
