@@ -30,6 +30,7 @@ group :development do
   gem 'lol_dba'
   gem 'bullet'
   gem 'meta_request'
+  gem 'rails-erd'
 end
 
 group :production do
