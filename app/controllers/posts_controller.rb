@@ -20,10 +20,9 @@ class PostsController < ApplicationController
   def new
     @post = Post.new
 
-    unless Category.any?
-      flash[:danger] = 'Please add a category before creating a post.'
-      redirect_to new_admin_category_path
-    end
+    return if Category.any?
+    flash[:danger] = 'Please add a category before creating a post.'
+    redirect_to new_admin_category_path
   end
 
   def create
@@ -138,11 +137,9 @@ class PostsController < ApplicationController
   end
 
   def require_current_user_or_admin
-    if @post.creator != current_user && !current_user.admin?
-      flash[:danger] = "Access Denied! - You may only edit posts that you've
-                        created."
-      redirect_to @post
-    end
+    return unless @post.creator != current_user && !current_user.admin?
+    flash[:danger] = "Access Denied! - You may only edit posts that you've created."
+    redirect_to @post
   end
 
   def post_params

@@ -20,47 +20,42 @@ class ApplicationController < ActionController::Base
   end
 
   def authenticate
-    unless logged_in?
-      respond_to do |format|
-        format.html { redirect_to login_path, flash: { danger: 'You must log in to access that page.' } }
-        format.js { render js: 'bootbox.alert("You must log in to access that page.");' }
-      end
+    return if logged_in?
+    respond_to do |format|
+      format.html { redirect_to login_path, flash: { danger: 'You must log in to access that page.' } }
+      format.js { render js: 'bootbox.alert("You must log in to access that page.");' }
     end
   end
 
   def block_current_user
-    if @user == current_user
-      respond_to do |format|
-        format.html { redirect_to :back, flash: { danger: 'This action cannot be performed under your account.' } }
-        format.js { render js: 'bootbox.alert("This action cannot be performed under your account.");' }
-      end
+    return unless @user == current_user
+    respond_to do |format|
+      format.html { redirect_to :back, flash: { danger: 'This action cannot be performed under your account.' } }
+      format.js { render js: 'bootbox.alert("This action cannot be performed under your account.");' }
     end
   end
 
   def require_moderator
-    unless current_user.moderator?
-      respond_to do |format|
-        format.html { redirect_to :back, flash: { danger: 'This action requires moderator rights.' } }
-        format.js { render js: 'bootbox.alert("This action requires moderator rights.");' }
-      end
+    return if current_user.moderator?
+    respond_to do |format|
+      format.html { redirect_to :back, flash: { danger: 'This action requires moderator rights.' } }
+      format.js { render js: 'bootbox.alert("This action requires moderator rights.");' }
     end
   end
 
   def require_admin
-    unless current_user.admin?
-      respond_to do |format|
-        format.html { redirect_to :back, flash: { danger: 'This action requires administrator rights.' } }
-        format.js { render js: 'bootbox.alert("This action requires administrator rights.");' }
-      end
+    return if current_user.admin?
+    respond_to do |format|
+      format.html { redirect_to :back, flash: { danger: 'This action requires administrator rights.' } }
+      format.js { render js: 'bootbox.alert("This action requires administrator rights.");' }
     end
   end
 
   def require_moderator_or_admin
-    unless current_user.moderator? || current_user.admin?
-      respond_to do |format|
-        format.html { redirect_to :back, flash: { danger: 'This action requires moderator, or administrator, rights.' } }
-        format.js { render js: 'bootbox.alert("This action requires moderator, or administrator, rights.");' }
-      end
+    return if current_user.moderator? || current_user.admin?
+    respond_to do |format|
+      format.html { redirect_to :back, flash: { danger: 'This action requires moderator, or administrator, rights.' } }
+      format.js { render js: 'bootbox.alert("This action requires moderator, or administrator, rights.");' }
     end
   end
 

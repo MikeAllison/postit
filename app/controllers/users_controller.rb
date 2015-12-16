@@ -63,9 +63,8 @@ class UsersController < ApplicationController
   end
 
   def require_current_user
-    if @user != current_user
-      flash[:danger] = 'Access Denied! - You may only edit your own profile.'
-      redirect_to current_user
-    end
+    return unless @user != current_user
+    flash[:danger] = 'Access Denied! - You may only edit your own profile.'
+    redirect_to current_user
   end
 end
