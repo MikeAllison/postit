@@ -1,5 +1,4 @@
 module CommentsHelper
-
   ### LAYOUT-RELATED HELPERS ###
 
   # Appends 'on (post.title)' to a comment under a user profile
@@ -20,5 +19,4 @@ module CommentsHelper
       raw "<q>#{comment.body}</q> <em>#{post_link(comment)}</em>"
     end
   end
-
 end

@@ -4,7 +4,8 @@ class PostsController < ApplicationController
   before_action :authenticate, except: [:index, :show] # AppController
   before_action :require_admin, only: [:clear_flags, :hide]
   before_action :require_moderator_or_admin, only: [:flag]
-  before_action :find_post, only: [:show, :edit, :update, :vote, :flag, :clear_flags, :hide]
+  before_action :find_post, only: [:show, :edit, :update, :vote, :flag,
+                                   :clear_flags, :hide]
   before_action :require_current_user_or_admin, only: [:edit, :update]
 
   def index
@@ -19,8 +20,8 @@ class PostsController < ApplicationController
   def new
     @post = Post.new
 
-    if !Category.any?
-      flash[:danger] = "Please add a category before creating a post."
+    unless Category.any?
+      flash[:danger] = 'Please add a category before creating a post.'
       redirect_to new_admin_category_path
     end
   end
@@ -30,8 +31,8 @@ class PostsController < ApplicationController
     @post.creator = current_user
 
     if @post.save
-      @post.categories.each { |category| category.increase_unhidden_posts_count }
-      flash[:success] = "Your post was created."
+      @post.categories.each(&:increase_unhidden_posts_count)
+      flash[:success] = 'Your post was created.'
       redirect_to posts_path
     else
       render :new
@@ -47,7 +48,7 @@ class PostsController < ApplicationController
 
   def update
     if @post.update(post_params)
-      flash[:success] = "Your post was updated."
+      flash[:success] = 'Your post was updated.'
       redirect_to posts_path
     else
       render :edit
@@ -63,7 +64,8 @@ class PostsController < ApplicationController
     Post.transaction do
       # @post.flagged? case may be better implemented with a around_action
       if @post.flagged? # In Flagable
-        @error_msg = "You may not vote on a post that has been flagged for review."
+        @error_msg = 'You may not vote on a post that has been flagged for
+                      review.'
       elsif @vote.new_record?
         @vote.vote = submitted_vote
         @vote.save
@@ -99,7 +101,7 @@ class PostsController < ApplicationController
     elsif @flag.opposite_exists?(submitted_flag)
       @flag.update(flag: submitted_flag)
     else
-      @error_msg = "Sorry, there was a problem flagging this post."
+      @error_msg = 'Sorry, there was a problem flagging this post.'
     end
 
     respond_to do |format|
@@ -137,13 +139,13 @@ class PostsController < ApplicationController
 
   def require_current_user_or_admin
     if @post.creator != current_user && !current_user.admin?
-      flash[:danger] = "Access Denied! - You may only edit posts that you've created."
+      flash[:danger] = "Access Denied! - You may only edit posts that you've
+                        created."
       redirect_to @post
     end
   end
 
   def post_params
-    params.require(:post).permit(:title, :url, :description, :category_ids => [])
+    params.require(:post).permit(:title, :url, :description, category_ids: [])
   end
-
 end

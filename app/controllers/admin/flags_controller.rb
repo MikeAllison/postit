@@ -6,5 +6,4 @@ class Admin::FlagsController < ApplicationController
     @posts = Post.includes(:categories, :creator).flagged_desc
     @comments = Comment.includes(:post, :creator).flagged_desc
   end
-
 end

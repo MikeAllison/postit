@@ -8,38 +8,44 @@
 
 # Create 75 regular users
 75.times do |i|
-  User.create(username: "User#{i + 1}", password: "pw", time_zone: Time.zone.name, role: 0)
+  User.create(username: "User#{i + 1}", password: 'pw', time_zone: Time.zone.name, role: 0)
 end
 
 # Create 25 moderators
 25.times do |i|
-  User.create(username: "User#{i + 76}", password: "pw", time_zone: Time.zone.name, role: 1)
+  User.create(username: "User#{i + 76}", password: 'pw', time_zone: Time.zone.name, role: 1)
 end
 
 # Create an admin and moderator
 User.create([
-  { username: "AdminUser", password: "pw", time_zone: Time.zone.name, role: 2 },
-  { username: "ModerUser", password: "pw", time_zone: Time.zone.name, role: 1 }
+  { username: 'AdminUser', password: 'pw', time_zone: Time.zone.name, role: 2 },
+  { username: 'ModerUser', password: 'pw', time_zone: Time.zone.name, role: 1 }
 ])
 
-categories = ["Humor", "Sports", "Technology", "News", "TV & Movies", "Science", "Music", "Education", "Politics"]
+categories = ['Humor', 'Sports', 'Technology', 'News', 'TV & Movies', 'Science', 'Music', 'Education', 'Politics']
 
 9.times do |i|
   Category.create(name: categories[i])
 end
 
 descriptions = [
-  "lager bitter crystal malt crystal malt cask barley kolsch ester malt. pub copper abv wit? additive, ale chocolate malt mash tun black malt brewing carboy bright beer balthazar. malt, double bock/dopplebock, goblet keg bottom fermenting yeast, heat exchanger bottom fermenting yeast. wort chiller grainy squares. scotch ale cask malt extract, copper hard cider beer bung dextrin squares! krausen pint glass carbonation hydrometer krug. length carboy sour/acidic; dunkle adjunct real ale. heat exchanger. cask conditioned ale dry stout, conditioning, lagering.",
-  "cask conditioned ale yeast mead pub wheat beer glass brewhouse. mead pint glass; grainy malt pilsner; anaerobic wort.",
-  "attenuation alcohol final gravity biere de garde, brew kettle. pitching beer cask wheat beer glass draft (draught); keg. bung malt extract ester yeast. ibu hand pump malt extract hops anaerobic. mouthfeel aau, chocolate malt kolsch ibu copper, lauter tun bung barrel bock fermentation!"
+  'lager bitter crystal malt crystal malt cask barley kolsch ester malt. pub copper abv wit? additive, ale chocolate malt mash tun black malt brewing carboy bright beer balthazar. malt, double bock/dopplebock, goblet keg bottom fermenting yeast, heat exchanger bottom fermenting yeast. wort chiller grainy squares. scotch ale cask malt extract, copper hard cider beer bung dextrin squares! krausen pint glass carbonation hydrometer krug. length carboy sour/acidic; dunkle adjunct real ale. heat exchanger. cask conditioned ale dry stout, conditioning, lagering.',
+  'cask conditioned ale yeast mead pub wheat beer glass brewhouse. mead pint glass; grainy malt pilsner; anaerobic wort.',
+  'attenuation alcohol final gravity biere de garde, brew kettle. pitching beer cask wheat beer glass draft (draught); keg. bung malt extract ester yeast. ibu hand pump malt extract hops anaerobic. mouthfeel aau, chocolate malt kolsch ibu copper, lauter tun bung barrel bock fermentation!'
 ]
 
 100.times do |i|
-  Post.create(url: "http://www.website#{i + 1}.com", title: "Post Title #{i + 1}", description: descriptions.sample, user_id: rand(1..100), category_ids: rand(1..4))
+  Post.create(url: "http://www.website#{i + 1}.com",
+              title: "Post Title #{i + 1}",
+              description: descriptions.sample,
+              user_id: rand(1..100),
+              category_ids: rand(1..4))
 end
 
 300.times do |i|
-  Comment.create(body: "This is comment #{i + 1}", user_id: rand(1..100), post_id: rand(1..100))
+  Comment.create(body: "This is comment #{i + 1}",
+                 user_id: rand(1..100),
+                 post_id: rand(1..100))
 end
 
 # Calulate unhidden_comments_count column for posts
@@ -70,7 +76,7 @@ Category.all.each { |category| category.update(unhidden_posts_count: category.po
 end
 
 # Update tallied_votes column for posts
-Post.all.each { |post| post.calculate_tallied_votes }
+Post.all.each(&:calculate_tallied_votes)
 
 # Create votes for comments
 100.times do |i|
@@ -79,7 +85,7 @@ Post.all.each { |post| post.calculate_tallied_votes }
 end
 
 # Update tallied_votes column for comments
-Comment.all.each { |comment| comment.calculate_tallied_votes }
+Comment.all.each(&:calculate_tallied_votes)
 
 # Create flags for posts 20-40 (users 76-100 are moderators)
 20.times do |i|

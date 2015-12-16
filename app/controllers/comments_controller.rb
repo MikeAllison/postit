@@ -27,7 +27,8 @@ class CommentsController < ApplicationController
     Comment.transaction do
       # @comment.flagged? case may be better implemented with an around_action
       if @comment.flagged? # In Flagable
-        @error_msg = "You may not vote on a comment that has been flagged for review."
+        @error_msg = 'You may not vote on a comment that has been flagged for
+                      review.'
       elsif @vote.new_record?
         @vote.vote = submitted_vote
         @vote.save
@@ -63,7 +64,7 @@ class CommentsController < ApplicationController
     elsif @flag.opposite_exists?(submitted_flag)
       @flag.update(flag: submitted_flag)
     else
-      @error_msg = "Sorry, there was a problem flagging this comment."
+      @error_msg = 'Sorry, there was a problem flagging this comment.'
     end
 
     respond_to do |format|
@@ -98,5 +99,4 @@ class CommentsController < ApplicationController
   def find_comment
     @comment = Comment.find(params[:id])
   end
-
 end

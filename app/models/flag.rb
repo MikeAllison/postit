@@ -1,5 +1,4 @@
 class Flag < ActiveRecord::Base
-
   belongs_to :flagger, foreign_key: 'user_id', class_name: 'User'
   belongs_to :flagable, polymorphic: true
 
@@ -8,9 +7,9 @@ class Flag < ActiveRecord::Base
   def update_total_flags
     type = self.flagable_type
 
-    if type == "Post"
+    if type == 'Post'
       obj = Post.find(self.flagable_id)
-    elsif type == "Comment"
+    elsif type == 'Comment'
       obj = Comment.find(self.flagable_id)
     end
 
@@ -22,5 +21,4 @@ class Flag < ActiveRecord::Base
   def opposite_exists?(submitted_flag)
     self.persisted? && self.flag == !submitted_flag
   end
-
 end

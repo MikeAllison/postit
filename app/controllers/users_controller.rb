@@ -14,7 +14,7 @@ class UsersController < ApplicationController
 
     if @user.save
       session[:current_user_id] = @user.id
-      flash[:success] = "Your account has been created."
+      flash[:success] = 'Your account has been created.'
       redirect_to posts_path
     else
       render :new
@@ -29,7 +29,7 @@ class UsersController < ApplicationController
 
   def update
     if @user.update(user_params)
-      flash[:success] = "Your account was updated successfully."
+      flash[:success] = 'Your account was updated successfully.'
       redirect_to current_user.reload
     else
       render :edit
@@ -42,7 +42,7 @@ class UsersController < ApplicationController
     elsif params[:role] == 'admin'
       !@user.admin? ? @user.admin! : @user.user!
     else
-      flash[:danger] = @error_msg = "That is not a valid role."
+      flash[:danger] = @error_msg = 'That is not a valid role.'
     end
 
     respond_to do |format|
@@ -54,7 +54,8 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:username, :password, :password_confirmation, :time_zone)
+    params.require(:user).permit(:username, :password, :password_confirmation,
+                                 :time_zone)
   end
 
   def find_user
@@ -63,9 +64,8 @@ class UsersController < ApplicationController
 
   def require_current_user
     if @user != current_user
-      flash[:danger] = "Access Denied! - You may only edit your own profile."
+      flash[:danger] = 'Access Denied! - You may only edit your own profile.'
       redirect_to current_user
     end
   end
-
 end
