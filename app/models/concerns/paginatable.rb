@@ -22,7 +22,8 @@ module Paginatable
     end
 
     def paginate(page)
-      (page ||= 1).to_i
+      # Don't use rubocop suggestion on next line
+      page = (page ||= 1).to_i
       page = 1 if page < 1
       page = total_pages if page > total_pages
 
