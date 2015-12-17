@@ -39,7 +39,9 @@ class CommentsController < ApplicationController
         @error_msg = "Sorry, your vote couldn't be counted."
       end
 
-      @comment.calculate_tallied_votes # Voteable
+      # Only caluluate votes if there's no error message
+      # Works but seems wrong
+      @comment.calculate_tallied_votes unless @error_msg # Voteable
     end
 
     respond_to do |format|
