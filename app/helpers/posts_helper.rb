@@ -1,5 +1,4 @@
 module PostsHelper
-
   ### LAYOUT-RELATED HELPERS ###
 
   # Show 'New Post' button in shared/category_selection if logged in
@@ -47,5 +46,4 @@ module PostsHelper
       post.description
     end
   end
-
 end

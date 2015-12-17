@@ -15,5 +15,4 @@ class CategoriesController < ApplicationController
   def find_category
     @category = Category.find_by!(slug: params[:id])
   end
-
 end

@@ -1,5 +1,4 @@
 module PaginationHelper
-
   class Paginator
     attr_reader :links_per_page, :total_pages
     attr_accessor :current_page
@@ -43,7 +42,7 @@ module PaginationHelper
     end
 
     def previous_range_first_page
-      previous_range_first_page = current_range_first_page - links_per_page
+      current_range_first_page - links_per_page
     end
 
     def next_range_first_page
@@ -132,5 +131,4 @@ module PaginationHelper
     # Output the string to the view
     raw output unless paginator.total_pages <= 1
   end
-
 end

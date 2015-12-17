@@ -13,7 +13,7 @@ module Flagable
   end
 
   def flagged_by?(user)
-    self.flags.find_by("user_id = ? and flag = ?", user, true).present?
+    self.flags.find_by('user_id = ? and flag = ?', user, true).present?
   end
 
   def flagged?
@@ -34,5 +34,4 @@ module Flagable
   def initialize_hidden_attr
     self.hidden = false
   end
-
 end

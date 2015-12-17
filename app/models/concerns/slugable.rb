@@ -27,7 +27,7 @@ module Slugable
     # Sub non-alphanumeric chars with '-'
     # Condense multiple '-' with one
     # Remove leading and trailing '-'
-    slug = slug.gsub(/[^A-Za-z0-9]/, '-').gsub(/-+/, '-').gsub(/\A-|-\z/, '')
+    slug.gsub(/[^A-Za-z0-9]/, '-').gsub(/-+/, '-').gsub(/\A-|-\z/, '')
   end
 
   private
@@ -54,5 +54,4 @@ module Slugable
 
     self.slug = slug
   end
-
 end

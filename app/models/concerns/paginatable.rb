@@ -7,7 +7,6 @@ module Paginatable
   end
 
   module ClassMethods
-
     def set_items_per_page(num_items)
       self.items_per_page = num_items
     end
@@ -23,7 +22,7 @@ module Paginatable
     end
 
     def paginate(page)
-      page = (page ||= 1).to_i
+      (page ||= 1).to_i
       page = 1 if page < 1
       page = total_pages if page > total_pages
 
@@ -35,5 +34,4 @@ module Paginatable
     end
 
   end
-
 end
