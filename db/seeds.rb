@@ -16,12 +16,6 @@ end
   User.create(username: "User#{i + 76}", password: 'pw', time_zone: Time.zone.name, role: 1)
 end
 
-# Create an admin and moderator
-User.create([
-  { username: 'AdminUser', password: 'pw', time_zone: Time.zone.name, role: 2 },
-  { username: 'ModerUser', password: 'pw', time_zone: Time.zone.name, role: 1 }
-])
-
 categories = ['Humor', 'Sports', 'Technology', 'News', 'TV & Movies', 'Science', 'Music', 'Education', 'Politics']
 
 9.times do |i|
