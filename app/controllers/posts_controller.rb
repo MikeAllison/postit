@@ -63,8 +63,7 @@ class PostsController < ApplicationController
     Post.transaction do
       # @post.flagged? case may be better implemented with a around_action
       if @post.flagged? # In Flagable
-        @error_msg = 'You may not vote on a post that has been flagged for
-                      review.'
+        @error_msg = 'You may not vote on a post that has been flagged for review.'
       elsif @vote.new_record?
         @vote.vote = submitted_vote
         @vote.save
@@ -76,7 +75,9 @@ class PostsController < ApplicationController
         @error_msg = "Sorry, your vote couldn't be counted."
       end
 
-      @post.calculate_tallied_votes # Voteable
+      # Only caluluate votes if there's no error message
+      # Works but seems wrong
+      @post.calculate_tallied_votes unless @error_msg # Voteable
     end
 
     respond_to do |format|

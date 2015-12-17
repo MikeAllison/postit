@@ -27,8 +27,7 @@ class CommentsController < ApplicationController
     Comment.transaction do
       # @comment.flagged? case may be better implemented with an around_action
       if @comment.flagged? # In Flagable
-        @error_msg = 'You may not vote on a comment that has been flagged for
-                      review.'
+        @error_msg = 'You may not vote on a comment that has been flagged for review.'
       elsif @vote.new_record?
         @vote.vote = submitted_vote
         @vote.save
@@ -40,7 +39,9 @@ class CommentsController < ApplicationController
         @error_msg = "Sorry, your vote couldn't be counted."
       end
 
-      @comment.calculate_tallied_votes # Voteable
+      # Only caluluate votes if there's no error message
+      # Works but seems wrong
+      @comment.calculate_tallied_votes unless @error_msg # Voteable
     end
 
     respond_to do |format|
