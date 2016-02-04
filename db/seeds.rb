@@ -1,12 +1,3 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
-#
-# Examples:
-#
-#   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
-#   Mayor.create(name: 'Emanuel', city: cities.first)
-
-# Create 75 regular users
 75.times do |i|
   User.create(username: "User#{i + 1}", password: 'pw', time_zone: Time.zone.name, role: 0)
 end
@@ -22,18 +13,62 @@ categories = ['Humor', 'Sports', 'Technology', 'News', 'TV & Movies', 'Science',
   Category.create(name: categories[i])
 end
 
-descriptions = [
-  'lager bitter crystal malt crystal malt cask barley kolsch ester malt. pub copper abv wit? additive, ale chocolate malt mash tun black malt brewing carboy bright beer balthazar. malt, double bock/dopplebock, goblet keg bottom fermenting yeast, heat exchanger bottom fermenting yeast. wort chiller grainy squares. scotch ale cask malt extract, copper hard cider beer bung dextrin squares! krausen pint glass carbonation hydrometer krug. length carboy sour/acidic; dunkle adjunct real ale. heat exchanger. cask conditioned ale dry stout, conditioning, lagering.',
-  'cask conditioned ale yeast mead pub wheat beer glass brewhouse. mead pint glass; grainy malt pilsner; anaerobic wort.',
-  'attenuation alcohol final gravity biere de garde, brew kettle. pitching beer cask wheat beer glass draft (draught); keg. bung malt extract ester yeast. ibu hand pump malt extract hops anaerobic. mouthfeel aau, chocolate malt kolsch ibu copper, lauter tun bung barrel bock fermentation!'
+# Descriptions
+humor = [
+  'LOL.  Funny Jokes!  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat',
+  'Can you believe this?!?!?! Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur',
+  'I can look at memes all day!!!  Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum voluptate velit ess sed do eiusmod tempor incididunt.'
+]
+sports = [
+  'Reactions to the big game...Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat',
+  'Trades that will have a major impact on the upcomping season.  Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur',
+  'Last night\'s scores.  Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum voluptate velit ess sed do eiusmod tempor incididunt.'
+]
+technology = [
+  'From CNET:  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat',
+  'The latest gadget news from Engadget.  Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur',
+  'Look at this story on Wired!  Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum voluptate velit ess sed do eiusmod tempor incididunt.'
+]
+news = [
+  'Check out this story on Google News!  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat',
+  'News from around the world.  Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur',
+  'This local story is crazy!  Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum voluptate velit ess sed do eiusmod tempor incididunt.'
 ]
 
-100.times do |i|
-  Post.create(url: "http://www.website#{i + 1}.com",
-              title: "Post Title #{i + 1}",
-              description: descriptions.sample,
+# Create humor posts
+25.times do |i|
+  Post.create(url: "http://www.humor-website#{i + 1}.com",
+              title: "Humor Post #{i + 1}",
+              description: humor.sample,
               user_id: rand(1..100),
-              category_ids: rand(1..4))
+              category_ids: rand(1))
+end
+
+# Create sports posts
+25.times do |i|
+  Post.create(url: "http://www.sports-website#{i + 1}.com",
+              title: "Sports Post #{i + 1}",
+              description: sports.sample,
+              user_id: rand(1..100),
+              category_ids: rand(2))
+end
+
+# Create technology posts
+25.times do |i|
+  Post.create(url: "http://www.tech-website#{i + 1}.com",
+              title: "Technology Post #{i + 1}",
+              description: technology.sample,
+              user_id: rand(1..100),
+              category_ids: rand(3))
+end
+
+# Create news posts
+25.times do |i|
+  Post.create(url: "http://www.news-website#{i + 1}.com",
+              title: "News Post #{i + 1}",
+              description: news.sample,
+              user_id: rand(1..100),
+              category_ids: rand(4))
 end
 
 300.times do |i|
