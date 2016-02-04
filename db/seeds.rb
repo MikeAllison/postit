@@ -41,7 +41,7 @@ news = [
               title: "Humor Post #{i + 1}",
               description: humor.sample,
               user_id: rand(1..100),
-              category_ids: rand(1))
+              category_ids: 1)
 end
 
 # Create sports posts
@@ -50,7 +50,7 @@ end
               title: "Sports Post #{i + 1}",
               description: sports.sample,
               user_id: rand(1..100),
-              category_ids: rand(2))
+              category_ids: 2)
 end
 
 # Create technology posts
@@ -59,7 +59,7 @@ end
               title: "Technology Post #{i + 1}",
               description: technology.sample,
               user_id: rand(1..100),
-              category_ids: rand(3))
+              category_ids: 3)
 end
 
 # Create news posts
@@ -68,7 +68,7 @@ end
               title: "News Post #{i + 1}",
               description: news.sample,
               user_id: rand(1..100),
-              category_ids: rand(4))
+              category_ids: 4)
 end
 
 300.times do |i|
