@@ -38,7 +38,7 @@ news = [
 # Create humor posts
 25.times do |i|
   Post.create(url: "http://www.humor-website#{i + 1}.com",
-              title: "Humor Post #{i + 1}",
+              title: "Post #{i + 1}",
               description: humor.sample,
               user_id: rand(1..100),
               category_ids: 1)
@@ -47,7 +47,7 @@ end
 # Create sports posts
 25.times do |i|
   Post.create(url: "http://www.sports-website#{i + 1}.com",
-              title: "Sports Post #{i + 1}",
+              title: "Post #{i + 1}",
               description: sports.sample,
               user_id: rand(1..100),
               category_ids: 2)
@@ -56,7 +56,7 @@ end
 # Create technology posts
 25.times do |i|
   Post.create(url: "http://www.tech-website#{i + 1}.com",
-              title: "Technology Post #{i + 1}",
+              title: "Post #{i + 1}",
               description: technology.sample,
               user_id: rand(1..100),
               category_ids: 3)
@@ -65,7 +65,7 @@ end
 # Create news posts
 25.times do |i|
   Post.create(url: "http://www.news-website#{i + 1}.com",
-              title: "News Post #{i + 1}",
+              title: "Post #{i + 1}",
               description: news.sample,
               user_id: rand(1..100),
               category_ids: 4)
