@@ -1,7 +1,3 @@
 = README
 
-This is a Reddit-like app for Tealeaf Academy's Rapid Prototyping with Ruby on Rails course.
-
-== Items to Blog About:
-
-* Checkboxes - https://www.youtube.com/watch?v=c2qwV0B9yfU
+This is a Reddit-like app that I designed while taking Tealeaf Academy's Rapid Prototyping with Ruby on Rails course.
