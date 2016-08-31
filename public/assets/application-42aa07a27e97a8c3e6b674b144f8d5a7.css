@@ -7314,26 +7314,26 @@ a.list-group-item-danger.active, a.list-group-item-danger.active:hover, a.list-g
 }
 
 /* line 251, C:/RailsInstaller/Ruby2.1.0/lib/ruby/gems/2.1.0/gems/bootstrap-sass-3.3.4.1/assets/stylesheets/bootstrap/_panels.scss */
-.panel-primary {
+. {
   border-color: #337ab7;
 }
 /* line 6, C:/RailsInstaller/Ruby2.1.0/lib/ruby/gems/2.1.0/gems/bootstrap-sass-3.3.4.1/assets/stylesheets/bootstrap/mixins/_panels.scss */
-.panel-primary > .panel-heading {
+. > .panel-heading {
   color: white;
   background-color: #337ab7;
   border-color: #337ab7;
 }
 /* line 11, C:/RailsInstaller/Ruby2.1.0/lib/ruby/gems/2.1.0/gems/bootstrap-sass-3.3.4.1/assets/stylesheets/bootstrap/mixins/_panels.scss */
-.panel-primary > .panel-heading + .panel-collapse > .panel-body {
+. > .panel-heading + .panel-collapse > .panel-body {
   border-top-color: #337ab7;
 }
 /* line 14, C:/RailsInstaller/Ruby2.1.0/lib/ruby/gems/2.1.0/gems/bootstrap-sass-3.3.4.1/assets/stylesheets/bootstrap/mixins/_panels.scss */
-.panel-primary > .panel-heading .badge {
+. > .panel-heading .badge {
   color: #337ab7;
   background-color: white;
 }
 /* line 20, C:/RailsInstaller/Ruby2.1.0/lib/ruby/gems/2.1.0/gems/bootstrap-sass-3.3.4.1/assets/stylesheets/bootstrap/mixins/_panels.scss */
-.panel-primary > .panel-footer + .panel-collapse > .panel-body {
+. > .panel-footer + .panel-collapse > .panel-body {
   border-bottom-color: #337ab7;
 }
 

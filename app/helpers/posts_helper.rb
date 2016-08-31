@@ -3,7 +3,7 @@ module PostsHelper
 
   # Show 'New Post' button in shared/category_selection if logged in
   def new_post_button
-    link_to 'New Post', new_post_path, class: 'btn btn-lg btn-primary' unless !logged_in? || @posts.empty?
+    link_to 'New Post', new_post_path, class: 'btn btn-l' unless !logged_in? || @posts.empty?
   end
 
   def new_category_link
@@ -12,7 +12,7 @@ module PostsHelper
 
   # Shows a button with the post's total comments
   def comments_link(post)
-    link_to post, class: 'btn btn-primary btn-xs' do
+    link_to post, class: 'btn btn-xs' do
       raw "<span class='badge'>#{post.unhidden_comments_count}</span> Comments"
     end unless posts_show_view?
   end

@@ -1,0 +1,16 @@
+$brand-primary: #3097d1;
+$darkened-brand-primary: darken($brand-primary, 5%);
+$dark-blue: #1c73a5;
+$white: #fff;
+
+$border-radius-base: 2px;
+
+$navbar-border-radius: 0;
+$navbar-default-brand-color: $white;
+$navbar-default-brand-hover-color: $white;
+$navbar-default-bg: $brand-primary;
+$navbar-default-border: $dark-blue;
+$navbar-default-link-color: rgba(255, 255, 255, 0.8);
+$navbar-default-link-hover-color: $white;
+$navbar-default-link-active-color: $white;
+$navbar-default-link-active-bg: $dark-blue;

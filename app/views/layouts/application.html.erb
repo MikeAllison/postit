@@ -12,10 +12,9 @@
     <%= yield(:head) %>
   </head>
   <body>
+    <%= render 'layouts/navigation' %>
+
     <div class="container">
-
-      <%= render 'layouts/navigation' %>
-
       <div class="row">
         <div class="col-xs-12">
           <%= render 'layouts/messages' %>

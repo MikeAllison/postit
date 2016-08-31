@@ -16,16 +16,16 @@ module ApplicationHelper
     if logged_in?
       render 'layouts/user_menu'
     else
-      link_to 'Register', register_path, class: 'text-muted'
+      link_to 'Register', register_path
     end
   end
 
   # Sets 'Login/Logout' link on navbar
   def login_link
     if logged_in?
-      link_to 'Log Out', logout_path, class: 'text-muted'
+      link_to 'Log Out', logout_path
     else
-      link_to 'Log In', login_path, class: 'text-muted'
+      link_to 'Log In', login_path
     end
   end
 
@@ -62,7 +62,7 @@ module ApplicationHelper
   def voting_button(obj, vote, glyph_type, text_color)
     (disabled = 'disabled') && (text_color = 'text-default') if !logged_in? || obj.vote_exists?(current_user, vote) || obj.flagged?
 
-    link_to [:vote, obj, vote: vote], method: :post, class: "btn btn-default #{disabled}", remote: true do
+    link_to [:vote, obj, vote: vote], method: :post, class: "btn #{disabled}", remote: true do
       content_tag :span, nil, class: "glyphicon glyphicon-#{glyph_type} #{text_color}", :'aria-hidden' => true
     end
   end
@@ -105,7 +105,7 @@ module ApplicationHelper
     if logged_in? && current_user.moderator?
       if obj.flagged_by?(current_user) # In Flagable
         link_to "Unflag #{obj.class}", [:flag, obj, flag: false], method: :post,
-                                                                  class: 'btn btn-success btn-xs',
+                                                                  class: 'btn btn-xs',
                                                                   remote: true
       else
         link_to "Flag #{obj.class}", [:flag, obj, flag: true], method: :post,
@@ -121,7 +121,7 @@ module ApplicationHelper
   def hide_item_btn(obj)
     if logged_in? && current_user.admin? && admin_flags_index_view?
       link_to 'Hide Item', [:hide, obj], method: :patch,
-                                         class: 'btn btn-default btn-xs hide-item-btn',
+                                         class: 'btn btn-xs hide-item-btn',
                                          remote: true,
                                          data: { confirm: 'Are you sure that this item should be permanently hidden?' }
     end
@@ -131,7 +131,7 @@ module ApplicationHelper
   def clear_flags_btn(obj)
     if logged_in? && current_user.admin? && admin_flags_index_view?
       link_to [:clear_flags, obj], method: :patch,
-                                   class: 'btn btn-success btn-xs',
+                                   class: 'btn btn-xs',
                                    remote: true do
         raw "Clear Flags <span class='badge'>#{obj.total_flags}</span>"
       end
