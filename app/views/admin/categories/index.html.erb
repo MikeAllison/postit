@@ -1,6 +1,6 @@
-<div class="row category-list">
+<div class="row">
   <div class="col-md-6 col-md-offset-3">
-    <div class="panel">
+    <div class="panel panel-default">
       <div class="panel-heading text-center">
         <h3>All Categories</h3>
       </div>
@@ -21,8 +21,8 @@
                     <td><%= category.name %></td>
                     <td class="text-center"><%= category.unhidden_posts_count %></td>
                     <td class="text-right">
-                      <%= link_to 'Edit', edit_admin_category_path(category), class: 'btn btn-xs' %>
-                      <%= link_to 'Show', category_path(category), class: 'btn btn-xs' %>
+                      <%= link_to 'Edit', edit_admin_category_path(category), class: 'btn btn-default btn-xs' %>
+                      <%= link_to 'Show', category_path(category), class: 'btn btn-default btn-xs' %>
                     </td>
                   </tr>
                 <% end %>
@@ -32,7 +32,7 @@
         </div>
         <div class="row">
           <div class="col-md-12">
-            <%= link_to 'Add a Category', new_admin_category_path, class: 'btn' %>
+            <%= link_to 'Add a Category', new_admin_category_path, class: 'btn btn-primary' %>
           </div>
         </div>
       </div>

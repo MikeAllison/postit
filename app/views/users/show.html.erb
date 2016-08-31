@@ -24,7 +24,7 @@
               <td><%= @user.time_zone %></td>
               <td class="user-role"><%= @user.role.titleize %></td>
               <% if current_user && current_user.admin? %>
-                <td id="user-role-selection">
+                <td id="user-role-selection" class="user-role-selection">
                   <%= render 'user_role_selection' %>
                 </td>
               <% end %>

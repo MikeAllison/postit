@@ -1,9 +1,26 @@
+$gray-base: darken(#1e3948, 20%);
 $brand-primary: #3097d1;
 $darkened-brand-primary: darken($brand-primary, 5%);
 $dark-blue: #1c73a5;
+$light-blue: #f5f8fa;
+$medium-blue: #d3e0e9;
 $white: #fff;
 
+$body-text-color: #1e3948;
+$body-bg: $light-blue;
 $border-radius-base: 2px;
+
+$blockquote-border-color: $medium-blue;
+
+$btn-default-color: $body-text-color;
+$btn-default-border: $medium-blue;
+
+$dropdown-border: $dark-blue;
+$dropdown-link-hover-bg: $light-blue;
+
+$input-border-focus: $brand-primary;
+
+$label-default-bg: $brand-primary;
 
 $navbar-border-radius: 0;
 $navbar-default-brand-color: $white;
@@ -14,3 +31,12 @@ $navbar-default-link-color: rgba(255, 255, 255, 0.8);
 $navbar-default-link-hover-color: $white;
 $navbar-default-link-active-color: $white;
 $navbar-default-link-active-bg: $dark-blue;
+
+$panel-default-border: $medium-blue;
+$panel-default-heading-bg: $white;
+$panel-footer-bg: $white;
+
+$table-bg-accent: $light-blue;
+
+$well-bg: $white;
+$well-border: $medium-blue;
