@@ -13,10 +13,17 @@
   </div>
 
   <div class="collapse navbar-collapse" id="navbar-collapse-1">
-    <ul id="navbar-links" class="nav navbar-nav navbar-right"> <!-- SHOW PILLS ON SM+ -->
+    <ul id="navbar-links" class="nav navbar-nav navbar-right text-center">
+      <li class="visible-xs">
+        <%= link_to new_post_path do %>
+          <span class="glyphicon glyphicon-file" aria-hidden="true"></span>
+          New Post
+        <% end if logged_in? %>
+      </li>
       <li>
         <%= link_to root_path do %>
-          <span class="glyphicon glyphicon-home" aria-hidden="true"></span>Home
+          <span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+          Home
         <% end %>
       </li>
       <li class="dropdown"><%= render 'layouts/admin_menu' if logged_in? && current_user.admin? %></li> <!-- AppHelper -->
