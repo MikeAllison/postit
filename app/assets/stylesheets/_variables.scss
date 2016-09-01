@@ -1,6 +1,8 @@
 $gray-base: darken(#1e3948, 20%);
 $brand-primary: #3097d1;
 $darkened-brand-primary: darken($brand-primary, 5%);
+$brand-success: #58983d;
+
 $dark-blue: #1c73a5;
 $light-blue: #f5f8fa;
 $medium-blue: #d3e0e9;
@@ -35,6 +37,10 @@ $navbar-default-link-active-bg: $dark-blue;
 $panel-default-border: $medium-blue;
 $panel-default-heading-bg: $white;
 $panel-footer-bg: $white;
+
+$state-success-bg: #d8ffb4;
+$state-success-border: #aeea75;
+$state-success-text: #58983d;
 
 $table-bg-accent: $light-blue;
 

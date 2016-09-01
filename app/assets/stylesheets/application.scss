@@ -27,6 +27,20 @@
   }
 }
 
+.btn-group .dropdown-toggle {
+  background-color: $white !important;
+
+  &:active {
+    background-color: $light-blue !important;
+  }
+  &:hover {
+    background-color: $light-blue !important;
+  }
+  &:focus {
+    background-color: $light-blue !important;
+  }
+}
+
 .navbar-default {
   .navbar-brand {
     font-size: 30px;
@@ -75,6 +89,14 @@
   a:first-child {
     margin-right: 5px;
   }
+}
+
+.tooltip-inner {
+  background-color: $brand-primary;
+}
+
+.tooltip.top > .tooltip-arrow {
+  border-top-color: $brand-primary;
 }
 
 @media (min-width: 768px) and (max-width: 991px) {
