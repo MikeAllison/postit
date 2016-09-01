@@ -3,7 +3,18 @@ module PostsHelper
 
   # Show 'New Post' button in shared/category_selection if logged in
   def new_post_button
-    link_to 'New Post', new_post_path, class: 'btn btn-primary btn-lg' unless !logged_in? || @posts.empty?
+    glyphicon = content_tag :span, '', class: 'glyphicon glyphicon-file', :'aria-hidden' => true
+    link_to new_post_path, class: 'btn btn-primary btn-lg' do
+      glyphicon + ' New Post'
+    end unless !logged_in? || @posts.empty?
+  end
+
+  # Shows appropriate icon for new post/existing post
+  def post_create_update(post)
+    action =  post.new_record? ? 'Create Post' : 'Update Post'
+
+    glyphicon = content_tag :span, nil, class: 'glyphicon glyphicon-floppy-saved', :'aria-hidden' => true
+    glyphicon + " #{action}"
   end
 
   def new_category_link

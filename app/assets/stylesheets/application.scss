@@ -41,10 +41,15 @@
   }
 }
 
-.navbar-default {
-  .navbar-brand {
-    font-size: 30px;
+.navbar {
+  .glyphicon {
+    margin-right: 5px;
   }
+
+  .navbar-brand {
+    font-size: 20px;
+  }
+
   .navbar-toggle {
     color: $white;
     border-color: $dark-blue;
@@ -67,14 +72,20 @@
   padding-top: 30px;
 }
 
+.post-category-section {
+  margin-bottom: 20px;
+}
+
 .post-body {
   blockquote {
     font-size: 14px;
   }
 }
 
-.post-category-section {
-  margin-bottom: 20px;
+.category-btn {
+  .glyphicon {
+    margin-right: 5px;
+  }
 }
 
 .comments-btn {

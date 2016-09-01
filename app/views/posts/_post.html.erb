@@ -7,7 +7,11 @@
   <div class="col-sm-10"> <!-- BEGIN EACH POST COLUMN -->
     <div class="panel panel-default">
       <div class="panel-heading">
-        <h3><strong><%= link_to post.title, post %></strong></h3> <!-- POST TITLE -->
+        <h3>
+          <strong>
+            <%= link_to post.title, post %>
+          </strong>
+      </h3> <!-- POST TITLE -->
         <%= render 'posts/voting_box_mobile', obj: post %>
       </div> <!-- END .panel-heading -->
 
@@ -21,7 +25,10 @@
       <div class="panel-footer"> <!-- BEGIN .panel-footer -->
         <p>
           <small>Posted by</small>
-          <%= link_to post.creator.username_role, post.creator, class: 'user-name-role' %>
+          <%= link_to post.creator, class: 'user-name-role' do %>
+            <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+            <%= post.creator.username_role %>
+          <% end %>
           <small><%= formatted_date_time(post) %></small> <!-- AppHelper -->
           <%= edit_post_link(post) %> <!-- PostsHelper -->
         </p>

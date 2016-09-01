@@ -16,16 +16,25 @@ module ApplicationHelper
     if logged_in?
       render 'layouts/user_menu'
     else
-      link_to 'Register', register_path
+      link_to register_path do
+        glyphicon = content_tag :span, nil, class: 'glyphicon glyphicon-check', :'aria-hidden' => true
+        glyphicon + 'Register'
+      end
     end
   end
 
   # Sets 'Login/Logout' link on navbar
   def login_link
+    glyphicon = content_tag :span, nil, class: 'glyphicon glyphicon-lock', :'aria-hidden' => true
+
     if logged_in?
-      link_to 'Log Out', logout_path
+      link_to logout_path do
+        glyphicon + 'Log Out'
+      end
     else
-      link_to 'Log In', login_path
+      link_to login_path do
+        glyphicon + 'Log In'
+      end
     end
   end
 
@@ -60,7 +69,11 @@ module ApplicationHelper
   # obj: post/comment, vote: t/f, glyph_type: 'thumbs-up/down', color: 'text-primary/danger'
   # .vote_exists? in Voteable
   def voting_button(obj, vote, glyph_type, text_color)
-    (disabled = 'disabled') && (text_color = 'text-default') if !logged_in? || obj.vote_exists?(current_user, vote) || obj.flagged?
+    if !logged_in? || obj.vote_exists?(current_user, vote) || obj.flagged?
+      glyph_type = 'ban-circle'
+      disabled = 'disabled'
+      text_color = 'text-default'
+    end
 
     link_to [:vote, obj, vote: vote], method: :post, class: "btn btn-default #{disabled}", remote: true do
       content_tag :span, nil, class: "glyphicon glyphicon-#{glyph_type} #{text_color}", :'aria-hidden' => true

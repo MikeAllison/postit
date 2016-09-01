@@ -34,8 +34,13 @@
             </div>
           </div>
           <div class="form-group">
-            <%= f.submit @post.new_record? ? 'Create Post' : 'Update Post', class: 'btn btn-primary' %>
-            <%= link_to 'Back', :back, class: 'btn btn-default' %>
+            <%= button_tag type: 'submit', class: 'btn btn-primary' do %>
+              <%= post_create_update(@post) %> <!-- UsersHelper -->
+            <% end %>
+            <%= link_to :back, class: 'btn btn-default' do %>
+              <span class="glyphicon glyphicon-floppy-remove" aria-hidden="true"></span>
+              Back
+            <% end %>
           </div>
         <% end %>
       </div>
