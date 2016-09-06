@@ -6,8 +6,6 @@ $ ->
   # Enable Bootstrap tooltips
   $('[data-toggle="tooltip"]').tooltip()
 
-### END DOCUMENT READY ###
-
 # Shows each h4 .flagged-item-msg if it contains a message
 showFlaggedItemMsgs = ->
   $('.flagged-item-msg').each ->
