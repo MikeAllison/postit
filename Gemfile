@@ -6,12 +6,7 @@ gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.0.0'
 gem 'bootstrap-sass', '~> 3.3.7'
 
-# See https://github.com/sstephenson/execjs#readme for more supported runtimes
-# gem 'therubyracer', platforms: :ruby
-
 gem 'jquery-rails'
-# gem 'jquery-turbolinks', '~> 2.1.0'
-# gem 'turbolinks'
 gem 'jbuilder', '~> 1.2'
 
 gem 'bcrypt', '~> 3.1.10'
