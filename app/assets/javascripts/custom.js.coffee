@@ -1,12 +1,12 @@
 $ ->
-  adjustStyles()
-  $(window).resize(adjustStyles)
   showFlaggedItemMsgs()
   checkPasswordInput()
   $("#user_password").keyup(checkPasswordInput)
 
   # Enable Bootstrap tooltips
   $('[data-toggle="tooltip"]').tooltip()
+
+### END DOCUMENT READY ###
 
 # Shows each h4 .flagged-item-msg if it contains a message
 showFlaggedItemMsgs = ->

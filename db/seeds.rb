@@ -47,7 +47,7 @@ end
 # Create sports posts
 25.times do |i|
   Post.create(url: "http://www.sports-website#{i + 1}.com",
-              title: "Post #{i + 1}",
+              title: "Post #{i + 26}",
               description: sports.sample,
               user_id: rand(1..100),
               category_ids: 2)
@@ -56,7 +56,7 @@ end
 # Create technology posts
 25.times do |i|
   Post.create(url: "http://www.tech-website#{i + 1}.com",
-              title: "Post #{i + 1}",
+              title: "Post #{i + 51}",
               description: technology.sample,
               user_id: rand(1..100),
               category_ids: 3)
@@ -65,7 +65,7 @@ end
 # Create news posts
 25.times do |i|
   Post.create(url: "http://www.news-website#{i + 1}.com",
-              title: "Post #{i + 1}",
+              title: "Post #{i + 76}",
               description: news.sample,
               user_id: rand(1..100),
               category_ids: 4)
