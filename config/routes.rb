@@ -40,4 +40,6 @@ PostitTemplate::Application.routes.draw do
     end
   end
 
+  # Catch all for missing routes
+  get '*unmatched_route', to: 'application#catch_routing_error'
 end

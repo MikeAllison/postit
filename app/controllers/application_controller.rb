@@ -9,6 +9,12 @@ class ApplicationController < ActionController::Base
 
   helper_method :current_user, :logged_in?
 
+  # Catch all for missing route
+  def catch_routing_error
+    flash[:warning] = "Sorry, the page that you are looking for doesn't exist."
+    redirect_to root_path
+  end
+
   protected
 
   def current_user
