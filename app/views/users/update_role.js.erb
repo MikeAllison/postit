@@ -1,9 +1,5 @@
 <% if @error_msg %>
   bootbox.alert("<%= @error_msg %>");
-  $("#user-role-selection").html("<%= j render 'user_role_selection' %>")
 <% end %>
 
-$(".user-role").text("<%= @user.role.titleize %>");
-$(".user-name-role").text("<%= @user.username_role %>");
-$(".make-moderator").text("<%= !@user.moderator? ? "Make Moderator" : "Make User" %>");
-$(".make-admin").text("<%= !@user.admin? ? "Make Admin" : "Make User" %>");
+$("#user-details").html("<%= j render 'user_details', user: @user %>");

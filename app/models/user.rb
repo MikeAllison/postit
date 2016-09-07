@@ -30,6 +30,12 @@ class User < ActiveRecord::Base
     self.user? ? "#{username}" : "#{username} [#{role}]"
   end
 
+  def flagged_items_count
+    posts = Post.where("user_id = ? AND total_flags > ?", self.id, 0).size
+    comments = Comment.where("user_id = ? AND total_flags > ?", self.id, 0).size
+    posts + comments
+  end
+
   private
 
   def set_default_role

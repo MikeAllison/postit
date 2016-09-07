@@ -1,0 +1,11 @@
+<td><%= link_to user.username, user_path(user) %></td>
+<td><%= user.role.titleize %></td>
+<td><%= user.flagged_items_count %></td>
+<td>
+  <%= link_to update_role_admin_user_path(id: user, role: 'moderator'), method: :patch, class: 'btn btn-default btn-xs', remote: true do %>
+    <%= user.moderator? ? "Make User" : "Make Moderator" %>
+  <% end %>
+  <%= link_to update_role_admin_user_path(id: user, role: 'admin'), method: :patch, class: 'btn btn-default btn-xs', remote: true do %>
+    <%= user.admin? ? "Make User" : "Make Admin" %>
+  <% end %>
+</td>

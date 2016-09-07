@@ -1,0 +1,14 @@
+<td><%= user.posts.count %></td>
+<td><%= user.comments.count %></td>
+<td><%= user.time_zone %></td>
+<td><%= user.role.titleize %></td>
+<td>
+  <% if current_user && current_user.admin? %>
+    <%= link_to update_role_user_path(role: 'moderator'), method: :patch, class: 'btn btn-default btn-xs', remote: true do %>
+      <%= user.moderator? ? "Make User" : "Make Moderator" %>
+    <% end %>
+    <%= link_to update_role_user_path(role: 'admin'), method: :patch, class: 'btn btn-default btn-xs', remote: true do %>
+      <%= user.admin? ? "Make User" : "Make Admin" %>
+    <% end %>
+  <% end %>
+</td>

@@ -13,6 +13,11 @@ PostitTemplate::Application.routes.draw do
   namespace :admin do
     resources :flags, only: [:index]
     resources :categories, except: [:destroy]
+    resources :users, only: [:index] do
+      member do
+        patch 'update_role'
+      end
+    end
   end
 
   resources :categories, only: [:show]

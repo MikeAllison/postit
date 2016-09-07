@@ -18,16 +18,8 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td><%= @user.posts.count %></td>
-              <td><%= @user.comments.count %></td>
-              <td><%= @user.time_zone %></td>
-              <td class="user-role"><%= @user.role.titleize %></td>
-              <% if current_user && current_user.admin? %>
-                <td id="user-role-selection" class="user-role-selection">
-                  <%= render 'user_role_selection' %>
-                </td>
-              <% end %>
+            <tr id="user-details">
+              <%= render 'user_details', user: @user %>
             </tr>
           </tbody>
         </table>
