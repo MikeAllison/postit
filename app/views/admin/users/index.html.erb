@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col-md-8 col-md-offset-2">
+  <div class="col-md-10 col-md-offset-1">
     <div class="panel panel-default">
       <div class="panel-heading text-center">
         <h3>Manage Users</h3>
@@ -9,15 +9,17 @@
           <thead>
             <tr>
               <th>Username</th>
-              <th>Role</th>
               <th>Flagged Items</th>
-              <th>Actions</th>
+              <th>Role</th>
+              <th>Change Role</th>
+              <th>Account Status</th>
+              <th>Change Status</th>
             </tr>
           </thead>
           <tbody>
             <% @users.each do |user| %>
               <tr id="<%= dom_id(user) %>">
-                <%= render 'user_role_selection', user: user %>
+                <%= render 'user_details', user: user %>
               </tr>
             <% end %>
           </tbody>

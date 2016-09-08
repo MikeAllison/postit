@@ -21,10 +21,21 @@ class User < ActiveRecord::Base
   validates_confirmation_of :password, message: "The passwords don't match", unless: Proc.new { |form| form.password.blank? }
   validates_inclusion_of :time_zone, in: ActiveSupport::TimeZone.zones_map.keys, message: 'The time zone is not valid'
 
+  after_initialize :set_default_status, if: :new_record?
   after_initialize :set_default_role, if: :new_record?
   before_validation :strip_username_whitespace
 
   set_slugable_attribute :username # Slugable
+
+  def disable!
+    self.disabled = true
+    self.save
+  end
+
+  def enable!
+    self.disabled = false
+    self.save
+  end
 
   def username_role
     self.user? ? "#{username}" : "#{username} [#{role}]"
@@ -37,6 +48,10 @@ class User < ActiveRecord::Base
   end
 
   private
+
+  def set_default_status
+    self.disabled = false
+  end
 
   def set_default_role
     self.role ||= :user

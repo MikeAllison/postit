@@ -16,6 +16,7 @@ PostitTemplate::Application.routes.draw do
     resources :users, only: [:index] do
       member do
         patch 'update_role'
+        patch 'update_account_status'
       end
     end
   end
@@ -25,6 +26,7 @@ PostitTemplate::Application.routes.draw do
   resources :users, except: [:index, :destroy] do
     member do
       patch 'update_role'
+      patch 'update_account_status'
     end
   end
 

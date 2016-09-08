@@ -1,4 +1,6 @@
 class SessionsController < ApplicationController
+  before_action :prevent_login_if_user_disabled, only: [:create]
+
   def new
   end
 
@@ -16,8 +18,20 @@ class SessionsController < ApplicationController
   end
 
   def destroy
-    flash[:success] = 'You have logged out successfully.' if logged_in?
     @current_user = session[:current_user_id] = nil
+    flash[:success] = 'You have logged out successfully.' if logged_in?
     redirect_to root_path
+  end
+
+  private
+
+  def prevent_login_if_user_disabled
+    user = User.find_by('lower(username) = ?', params[:username].downcase)
+
+    if user.disabled?
+      @current_user = session[:current_user_id] = nil
+      flash[:danger] = 'Your account has been disabled.'
+      redirect_to root_path
+    end
   end
 end

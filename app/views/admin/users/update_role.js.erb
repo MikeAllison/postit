@@ -1,5 +1,0 @@
-<% if @error_msg %>
-  bootbox.alert("<%= @error_msg %>");
-<% end %>
-
-$("#user_<%= @user.id %>").html("<%= j render 'user_role_selection', user: @user %>");

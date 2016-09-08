@@ -1,9 +1,9 @@
 class UsersController < ApplicationController
   before_action :authenticate, except: [:new, :create, :show] # AppController
-  before_action :find_user, only: [:show, :edit, :update, :update_role]
-  before_action :require_admin, only: [:update_role] # AppController
+  before_action :find_user, only: [:show, :edit, :update, :update_role, :update_account_status]
+  before_action :require_admin, only: [:update_role, :update_account_status] # AppController
   before_action :require_current_user, only: [:edit, :update]
-  before_action :block_current_user, only: [:update_role] # AppController
+  before_action :block_current_user, only: [:update_role, :update_account_status] # AppController
 
   def new
     @user = User.new
@@ -47,7 +47,16 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to @user }
-      format.js
+      format.js { render 'update_user_details' }
+    end
+  end
+
+  def update_account_status
+    @user.disabled? ? @user.enable! : @user.disable!
+
+    respond_to do |format|
+      format.html { redirect_to @user }
+      format.js { render 'update_user_details' }
     end
   end
 

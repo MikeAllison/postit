@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
+  before_action :destroy_session_if_user_disabled
   around_action :set_time_zone, if: :logged_in?
   around_action :catch_not_found
   around_action :catch_redirect_back
@@ -82,5 +83,13 @@ class ApplicationController < ActionController::Base
     yield
   rescue ActionController::RedirectBackError
     redirect_to root_path
+  end
+
+  def destroy_session_if_user_disabled
+    if logged_in? && current_user.disabled?
+      @current_user = session[:current_user_id] = nil
+      flash[:danger] = 'Your account has been disabled.'
+      redirect_to root_path
+    end
   end
 end

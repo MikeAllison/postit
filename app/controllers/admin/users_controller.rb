@@ -1,8 +1,8 @@
 class Admin::UsersController < ApplicationController
   before_action :authenticate
   before_action :require_admin
-  before_action :find_user, only: [:update_role]
-  before_action :block_current_user, only: [:update_role] # AppController
+  before_action :find_user, only: [:update_role, :update_account_status]
+  before_action :block_current_user, only: [:update_role, :update_account_status] # AppController
 
   def index
     @users = User.all
@@ -19,7 +19,16 @@ class Admin::UsersController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to admin_users_path }
-      format.js
+      format.js { render 'update_user_details' }
+    end
+  end
+
+  def update_account_status
+    @user.disabled? ? @user.enable! : @user.disable!
+
+    respond_to do |format|
+      format.html { redirect_to admin_users_path }
+      format.js { render 'update_user_details' }
     end
   end
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150714185330) do
+ActiveRecord::Schema.define(version: 20160908001249) do
 
   create_table "categories", force: true do |t|
     t.string   "name"
@@ -91,6 +91,7 @@ ActiveRecord::Schema.define(version: 20150714185330) do
     t.string   "slug"
     t.string   "time_zone"
     t.integer  "role"
+    t.boolean  "disabled"
   end
 
   add_index "users", ["slug"], name: "index_users_on_slug"

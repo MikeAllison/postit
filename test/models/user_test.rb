@@ -67,9 +67,30 @@ class UserTest < ActiveSupport::TestCase
     assert_equal 'The time zone is not valid', u.errors.messages[:time_zone].first
   end
 
+  test 'set_default_status' do
+    u = User.new
+    assert_equal false, u.disabled
+  end
+
   test 'set_default_role' do
     u = User.new
     assert u.user?
+  end
+
+  test 'disable!' do
+    u = User.create(username: 'auser', password: 'password', time_zone: 'Eastern Time (US & Canada)')
+    u.disable!
+    u.reload
+    assert u.disabled?
+  end
+
+  test 'enable!' do
+    u = User.create(username: 'auser', password: 'password', time_zone: 'Eastern Time (US & Canada)')
+    u.disabled = true
+    u.save
+    u.enable!
+    u.reload
+    assert_not u.disabled?
   end
 
   test 'strip_username_whitespace' do

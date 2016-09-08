@@ -11,9 +11,11 @@
               <th>Total Posts</th>
               <th>Total Comments</th>
               <th>Time Zone</th>
-              <th>User Type</th>
+              <th>User Role</th>
               <% if current_user && current_user.admin? %>
-                <th>Actions</th>
+                <th>Change Role</th>
+                <th>Account Status</th>
+                <th>Change Status</th>
               <% end %>
             </tr>
           </thead>
