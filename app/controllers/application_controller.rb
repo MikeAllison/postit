@@ -89,7 +89,7 @@ class ApplicationController < ActionController::Base
     if logged_in? && current_user.disabled?
       @current_user = session[:current_user_id] = nil
       flash[:danger] = 'Your account has been disabled.'
-      redirect_to root_path
+      redirect_to login_path
     end
   end
 end

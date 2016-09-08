@@ -23,12 +23,7 @@ PostitTemplate::Application.routes.draw do
 
   resources :categories, only: [:show]
 
-  resources :users, except: [:index, :destroy] do
-    member do
-      patch 'update_role'
-      patch 'update_account_status'
-    end
-  end
+  resources :users, except: [:index, :destroy]
 
   resources :posts, except: [:destroy] do
     member do

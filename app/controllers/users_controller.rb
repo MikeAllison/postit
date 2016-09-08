@@ -1,9 +1,7 @@
 class UsersController < ApplicationController
   before_action :authenticate, except: [:new, :create, :show] # AppController
-  before_action :find_user, only: [:show, :edit, :update, :update_role, :update_account_status]
-  before_action :require_admin, only: [:update_role, :update_account_status] # AppController
+  before_action :find_user, only: [:show, :edit, :update]
   before_action :require_current_user, only: [:edit, :update]
-  before_action :block_current_user, only: [:update_role, :update_account_status] # AppController
 
   def new
     @user = User.new
@@ -33,30 +31,6 @@ class UsersController < ApplicationController
       redirect_to current_user.reload
     else
       render :edit
-    end
-  end
-
-  def update_role
-    if params[:role] == 'moderator'
-      !@user.moderator? ? @user.moderator! : @user.user!
-    elsif params[:role] == 'admin'
-      !@user.admin? ? @user.admin! : @user.user!
-    else
-      flash[:danger] = @error_msg = 'That is not a valid role.'
-    end
-
-    respond_to do |format|
-      format.html { redirect_to @user }
-      format.js { render 'update_user_details' }
-    end
-  end
-
-  def update_account_status
-    @user.disabled? ? @user.enable! : @user.disable!
-
-    respond_to do |format|
-      format.html { redirect_to @user }
-      format.js { render 'update_user_details' }
     end
   end
 
