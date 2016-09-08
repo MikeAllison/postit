@@ -27,6 +27,12 @@ class User < ActiveRecord::Base
 
   set_slugable_attribute :username # Slugable
 
+  def self.search(search_term)
+    return User.all if !search_term
+
+    User.where("username LIKE ?", "%#{search_term}%")
+  end
+
   def disable!
     self.disabled = true
     self.save

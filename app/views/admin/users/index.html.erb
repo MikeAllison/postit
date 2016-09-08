@@ -3,6 +3,13 @@
     <div class="panel panel-default">
       <div class="panel-heading text-center">
         <h3>Manage Users</h3>
+        <%= form_tag '/admin/users', method: :get, class: 'form-inline' do %>
+          <div class="form-group">
+            <%= text_field_tag :username, nil, class: 'form-control', placeholder: 'Enter a username' %>
+            <%= submit_tag 'Search', class: 'btn btn-primary' %>
+            <%= link_to 'Reset', admin_users_path, class: 'btn btn-default' %>
+          </div>
+        <% end %>
       </div>
       <div class="panel-body table-responsive">
         <table class="table table-striped">

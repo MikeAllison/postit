@@ -5,7 +5,11 @@ class Admin::UsersController < ApplicationController
   before_action :block_current_user, only: [:update_role, :toggle_disabled] # AppController
 
   def index
-    @users = User.all
+    @users = User.search(params[:username])
+
+    if @users.empty?
+      flash.now[:warning] = 'Your search returned no results.'
+    end
   end
 
   def update_role
@@ -30,6 +34,10 @@ class Admin::UsersController < ApplicationController
       format.html { redirect_to admin_users_path }
       format.js { render 'update_user_details' }
     end
+  end
+
+  def search
+    binding.pry
   end
 
   private
