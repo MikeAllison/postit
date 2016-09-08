@@ -25,9 +25,29 @@ class CategoryTest < ActiveSupport::TestCase
     assert_equal 'Category name must be less than 15 characters', c.errors.messages[:name].first
   end
 
+  test 'initialize_hidden' do
+    c = Category.new
+    assert_equal false, c.hidden
+  end
+
   test 'initialize_posts_count' do
     c = Category.new
     assert_equal 0, c.unhidden_posts_count
+  end
+
+  test 'hide!' do
+    c = Category.create(name: 'News')
+    c.hide!
+    c.reload
+    assert c.hidden?
+  end
+
+  test 'unhide!' do
+    c = Category.create(name: 'News')
+    c.hide!
+    c.unhide!
+    c.reload
+    assert_equal false, c.hidden?
   end
 
   test 'increase_unhidden_posts_count' do

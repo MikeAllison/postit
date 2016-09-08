@@ -1,10 +1,10 @@
 class Admin::CategoriesController < ApplicationController
   before_action :authenticate
   before_action :require_admin
-  before_action :find_category, only: [:show, :edit, :update]
+  before_action :find_category, only: [:show, :edit, :update, :toggle_hidden]
 
   def index
-    @categories = Category.all
+    @categories = Category.unscope(where: :hidden)
   end
 
   def new
@@ -34,10 +34,19 @@ class Admin::CategoriesController < ApplicationController
     end
   end
 
+  def toggle_hidden
+    @category.hidden? ? @category.unhide! : @category.hide!
+
+    respond_to do |format|
+      format.html { redirect_to admin_categories_path }
+      format.js { render 'update_category_list' }
+    end
+  end
+
   private
 
   def find_category
-    @category = Category.find_by!(slug: params[:id])
+    @category = Category.unscope(where: :hidden).find_by!(slug: params[:id])
   end
 
   def category_params

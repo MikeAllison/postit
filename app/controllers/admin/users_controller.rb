@@ -1,8 +1,8 @@
 class Admin::UsersController < ApplicationController
   before_action :authenticate
   before_action :require_admin
-  before_action :find_user, only: [:update_role, :update_account_status]
-  before_action :block_current_user, only: [:update_role, :update_account_status] # AppController
+  before_action :find_user, only: [:update_role, :toggle_disabled]
+  before_action :block_current_user, only: [:update_role, :toggle_disabled] # AppController
 
   def index
     @users = User.all
@@ -23,7 +23,7 @@ class Admin::UsersController < ApplicationController
     end
   end
 
-  def update_account_status
+  def toggle_disabled
     @user.disabled? ? @user.enable! : @user.disable!
 
     respond_to do |format|

@@ -1,0 +1,15 @@
+<tr id="<%= dom_id(category) %>">
+  <td><%= category.name %></td>
+  <td class="text-center"><%= category.unhidden_posts_count %></td>
+  <td class="text-right">
+    <%= link_to 'Edit', edit_admin_category_path(category), class: 'btn btn-default btn-xs' %>
+
+    <% if !category.hidden? %>
+      <%= link_to 'Show', category_path(category), class: 'btn btn-default btn-xs' %>
+    <% end %>
+
+    <%= link_to toggle_hidden_admin_category_path(category), method: :patch, class: 'btn btn-default btn-xs', remote: true do %>
+      <%= category.hidden? ? 'Unhide' : 'Hide' %>
+    <% end %>
+  </td>
+</tr>

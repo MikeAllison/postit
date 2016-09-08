@@ -15,14 +15,7 @@
           </thead>
           <tbody>
             <% @categories.each do |category| %>
-              <tr>
-                <td><%= category.name %></td>
-                <td class="text-center"><%= category.unhidden_posts_count %></td>
-                <td class="text-right">
-                  <%= link_to 'Edit', edit_admin_category_path(category), class: 'btn btn-default btn-xs' %>
-                  <%= link_to 'Show', category_path(category), class: 'btn btn-default btn-xs' %>
-                </td>
-              </tr>
+              <%= render 'category_details', category: category %>
             <% end %>
           </tbody>
         </table>

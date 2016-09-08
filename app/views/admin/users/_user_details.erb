@@ -12,7 +12,7 @@
 </td>
 <td><%= user.disabled? ? 'Disabled' : 'Enabled' %></td>
 <td>
-  <%= link_to update_account_status_admin_user_path(id: user), method: :patch, class: 'btn btn-default btn-xs', remote: true do %>
+  <%= link_to toggle_disabled_admin_user_path(id: user), method: :patch, class: 'btn btn-default btn-xs', remote: true do %>
     <%= user.disabled? ? "Enable Account" : "Disable Account" %>
   <% end %>
 </td>
