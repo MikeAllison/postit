@@ -9,7 +9,7 @@ class ApplicationControllerTest < ActionDispatch::IntegrationTest
     u.save
 
     get new_post_path
-    assert_redirected_to root_path
+    assert_redirected_to login_path
     assert_equal nil, session[:current_user_id]
     assert_equal 'Your account has been disabled.', flash[:danger]
   end
