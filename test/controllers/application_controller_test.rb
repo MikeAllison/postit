@@ -21,7 +21,7 @@ class ApplicationControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'catch_routing_error' do
-    get 'notarealroute'
+    get '/notarealroute'
     assert_redirected_to root_path
     assert_equal "Sorry, the page that you are looking for doesn't exist.", flash[:warning]
   end
