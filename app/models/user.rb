@@ -30,7 +30,7 @@ class User < ActiveRecord::Base
   def self.search(search_term)
     return User.all if !search_term
 
-    User.where("username LIKE ?", "%#{search_term.downcase}%")
+    User.where("username ILIKE ?", "%#{search_term}%")
   end
 
   def disable!
