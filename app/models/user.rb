@@ -30,7 +30,8 @@ class User < ActiveRecord::Base
   def self.search(search_term)
     return User.all if !search_term
 
-    User.where("username ILIKE ?", "%#{search_term}%")
+    users = User.arel_table
+    User.where(users[:username].matches("%#{search_term}%"))
   end
 
   def disable!
