@@ -2,7 +2,7 @@ require 'test_helper'
 
 class CommentTest < ActiveSupport::TestCase
   test 'can add a valid comment' do
-    c = Comment.create(body: 'A valid comment')
+    c = create_valid_comment
     assert c.persisted?
   end
 
@@ -18,7 +18,7 @@ class CommentTest < ActiveSupport::TestCase
   end
 
   test 'clear_flags' do
-    c = Comment.create(body: 'A valid comment')
+    c = create_valid_comment
     2.times do
       c.flags.create
     end
@@ -28,11 +28,7 @@ class CommentTest < ActiveSupport::TestCase
   end
 
   test 'hide' do
-    p = Post.new(url: 'http://www.abc.com',
-                     title: 'Valid Title',
-                     description: 'A valid description')
-    p.categories << Category.create(name: 'News')
-    p.save
+    p = create_valid_post
     c = p.comments.create(body: 'A valid comment')
     2.times do
       c.flags.create

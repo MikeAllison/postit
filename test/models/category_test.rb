@@ -2,7 +2,7 @@ require 'test_helper'
 
 class CategoryTest < ActiveSupport::TestCase
   test 'can create a valid category' do
-    c = Category.create(name: 'News')
+    c = create_valid_category
     assert c.persisted?
   end
 
@@ -13,8 +13,8 @@ class CategoryTest < ActiveSupport::TestCase
   end
 
   test 'duplicate categories will not be saved' do
-    c = Category.create(name: 'News')
-    c2 = Category.create(name: 'News')
+    create_valid_category
+    c2 = create_valid_category
     assert_not c2.persisted?
     assert_equal 'This category already exists', c2.errors.messages[:name].first
   end
@@ -36,14 +36,14 @@ class CategoryTest < ActiveSupport::TestCase
   end
 
   test 'hide!' do
-    c = Category.create(name: 'News')
+    c = create_valid_category
     c.hide!
     c.reload
     assert c.hidden?
   end
 
   test 'unhide!' do
-    c = Category.create(name: 'News')
+    c = create_valid_category
     c.hide!
     c.unhide!
     c.reload
@@ -51,13 +51,13 @@ class CategoryTest < ActiveSupport::TestCase
   end
 
   test 'increase_unhidden_posts_count' do
-    c = Category.create(name: 'News')
+    c = create_valid_category
     c.increase_unhidden_posts_count
     assert_equal 1, c.unhidden_posts_count
   end
 
   test 'reduce_unhidden_posts_count' do
-    c = Category.create(name: 'News')
+    c = create_valid_category
     c.increase_unhidden_posts_count
     c.reduce_unhidden_posts_count
     assert_equal 0, c.unhidden_posts_count

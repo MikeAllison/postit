@@ -13,4 +13,26 @@ class ActiveSupport::TestCase
   fixtures :all
 
   # Add more helper methods to be used by all tests here...
+  def create_valid_user
+    User.create(username: 'auser',
+                password: 'password',
+                time_zone: 'Eastern Time (US & Canada)')
+  end
+
+  def create_valid_post
+    p = Post.new(title: 'Valid Title',
+                 url: 'http://www.url.com',
+                 description: 'A valid description')
+    p.categories << Category.create(name: 'News')
+    p.save
+    return p
+  end
+
+  def create_valid_category
+    Category.create(name: 'News')
+  end
+
+  def create_valid_comment
+    Comment.create(body: 'A valid comment')
+  end
 end
