@@ -12,7 +12,7 @@ PostitTemplate::Application.routes.draw do
 
   namespace :admin do
     resources :flags, only: [:index]
-    resources :categories, except: [:destroy] do
+    resources :categories, except: [:show, :destroy] do
       member do
         patch 'toggle_hidden'
       end

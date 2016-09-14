@@ -12,13 +12,41 @@ class ActiveSupport::TestCase
   # -- they do not yet inherit this setting
   fixtures :all
 
-  # Add more helper methods to be used by all tests here...
-  def create_valid_user
-    User.create(username: 'auser',
+  # Session
+  def log_in_standard_user
+    post login_path, { username: 'user', password: 'password' }
+  end
+
+  def log_in_moderator_user
+    post login_path, { username: 'moderator', password: 'password' }
+  end
+
+  def log_in_admin_user
+    post login_path, { username: 'admin', password: 'password' }
+  end
+
+  # User
+  def create_standard_user
+    User.create(username: 'user',
                 password: 'password',
                 time_zone: 'Eastern Time (US & Canada)')
   end
 
+  def create_moderator_user
+    User.create(username: 'moderator',
+                password: 'password',
+                time_zone: 'Eastern Time (US & Canada)',
+                role: 1)
+  end
+
+  def create_admin_user
+    User.create(username: 'admin',
+                password: 'password',
+                time_zone: 'Eastern Time (US & Canada)',
+                role: 2)
+  end
+
+  # Post
   def create_valid_post
     p = Post.new(title: 'Valid Title',
                  url: 'http://www.url.com',
@@ -28,10 +56,12 @@ class ActiveSupport::TestCase
     return p
   end
 
+  # Category
   def create_valid_category
     Category.create(name: 'News')
   end
 
+  # Comment
   def create_valid_comment
     Comment.create(body: 'A valid comment')
   end
