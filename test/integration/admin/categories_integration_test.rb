@@ -135,10 +135,12 @@ class Admin::CategoriesIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test 'admins can access admin/categories#edit' do
-    c = create_persisted_category
+    cat = create_persisted_category
+
     login(create_admin_user)
 
-    get admin_category_path(id: c.id)
+    get admin_category_path(id: cat.id
+)
 
     assert_response :found
   end
@@ -170,13 +172,14 @@ class Admin::CategoriesIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test 'admins can update a category with PATCH' do
-    c = create_persisted_category
+    cat = create_persisted_category
+
     login(create_admin_user)
 
-    patch admin_category_path(id: c.slug), category: { name: 'Updated' }
+    patch admin_category_path(id: cat.slug), category: { name: 'Updated' }
 
-    c.reload
-    assert_equal 'Updated', c.name
+    cat.reload
+    assert_equal 'Updated', cat.name
     assert_redirected_to admin_categories_path
     assert_equal 'The category was updated.', flash[:success]
   end
@@ -208,13 +211,14 @@ class Admin::CategoriesIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test 'admins can update a category with PUT' do
-    c = create_persisted_category
+    cat = create_persisted_category
+
     login(create_admin_user)
 
-    put admin_category_path(id: c.slug), category: { name: 'Updated' }
+    put admin_category_path(id: cat.slug), category: { name: 'Updated' }
 
-    c.reload
-    assert_equal 'Updated', c.name
+    cat.reload
+    assert_equal 'Updated', cat.name
     assert_redirected_to admin_categories_path
     assert_equal 'The category was updated.', flash[:success]
   end
@@ -246,48 +250,52 @@ class Admin::CategoriesIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test 'admins can hide a category via HTTP' do
-    c = create_persisted_category
+    cat = create_persisted_category
+
     login(create_admin_user)
 
-    patch toggle_hidden_admin_category_path(id: c.slug)
+    patch toggle_hidden_admin_category_path(id: cat.slug)
     assert_response :found
     assert_redirected_to admin_categories_path
-    c.reload
-    assert c.hidden?
+    cat.reload
+    assert cat.hidden?
   end
 
   test 'admins can hide a category via AJAX' do
-    c = create_persisted_category
+    cat = create_persisted_category
+
     login(create_admin_user)
 
-    patch toggle_hidden_admin_category_path(id: c.slug), xhr: true
+    patch toggle_hidden_admin_category_path(id: cat.slug), xhr: true
     assert_response :found
     assert_redirected_to admin_categories_path
-    c.reload
-    assert c.hidden?
+    cat.reload
+    assert cat.hidden?
   end
 
   test 'admins can unhide a category via HTTP' do
-    c = create_persisted_category
-    c.hide!
+    cat = create_persisted_category
+
+    cat.hide!
     login(create_admin_user)
 
-    patch toggle_hidden_admin_category_path(id: c.slug)
+    patch toggle_hidden_admin_category_path(id: cat.slug)
     assert_response :found
     assert_redirected_to admin_categories_path
-    c.reload
-    assert_not c.hidden?
+    cat.reload
+    assert_not cat.hidden?
   end
 
   test 'admins can unhide a category via AJAX' do
-    c = create_persisted_category
-    c.hide!
+    cat = create_persisted_category
+
+    cat.hide!
     login(create_admin_user)
 
-    patch toggle_hidden_admin_category_path(id: c.slug), xhr: true
+    patch toggle_hidden_admin_category_path(id: cat.slug), xhr: true
     assert_response :found
     assert_redirected_to admin_categories_path
-    c.reload
-    assert_not c.hidden?
+    cat.reload
+    assert_not cat.hidden?
   end
 end

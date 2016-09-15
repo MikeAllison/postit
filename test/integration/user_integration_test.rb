@@ -56,19 +56,20 @@ class UserIntegrationTest < ActionDispatch::IntegrationTest
 
   # users#show
   test 'an unauthenticated user can view a user profile' do
-    u = create_standard_user
+    user = create_standard_user
 
-    get user_path(id: u.slug)
+    get user_path(id: user.slug)
 
     assert_response :success
     assert assigns :user
   end
 
   test 'an authenticated user can view a user profile' do
-    u = create_standard_user
+    user = create_standard_user
+
     login(create_standard_user2)
 
-    get user_path(id: u.slug)
+    get user_path(id: user.slug)
 
     assert_response :success
     assert assigns :user
@@ -83,20 +84,21 @@ class UserIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test 'an authenticated user cannot edit a different users profile' do
-    u = create_standard_user
-    u2 = create_standard_user2
-    login(u2)
+    user = create_standard_user
+    user2 = create_standard_user2
 
-    get edit_user_path(id: u.slug)
+    login(user2)
 
-    assert_redirected_to user_path(id: u2.slug)
+    get edit_user_path(id: user.slug)
+
+    assert_redirected_to user_path(id: user2.slug)
     assert_equal 'Access Denied! - You may only edit your own profile.', flash[:danger]
   end
 
   test 'an authenticated user can edit their own profile' do
-    u = login(create_standard_user)
+    user = login(create_standard_user)
 
-    get edit_user_path(id: u.slug)
+    get edit_user_path(id: user.slug)
 
     assert_response :success
     assert assigns :user
@@ -111,29 +113,29 @@ class UserIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test 'an authenticated user cannot update another users profile via PATCH' do
-    u = create_standard_user
-    u2 = login(create_standard_user2)
+    user = create_standard_user
+    user2 = login(create_standard_user2)
 
-    patch user_path(id: u.slug)
+    patch user_path(id: user.slug)
 
-    assert_redirected_to user_path(id: u2.slug)
+    assert_redirected_to user_path(id: user2.slug)
     assert_equal 'Access Denied! - You may only edit your own profile.', flash[:danger]
   end
 
   test 'an authenticated can update their own profile via PATCH' do
-    u = login(create_standard_user)
+    user = login(create_standard_user)
 
-    patch user_path(id: u.slug), { user: {
+    patch user_path(id: user.slug), { user: {
       username: 'newusername',
       password: 'newpassword',
       password_confirmation: 'newpassword',
       time_zone: 'Pacific Time (US & Canada)'
     } }
 
-    u.reload
-    assert_equal 'newusername', u.username
-    assert_equal 'Pacific Time (US & Canada)', u.time_zone
-    assert_redirected_to user_path(id: u.slug)
+    user.reload
+    assert_equal 'newusername', user.username
+    assert_equal 'Pacific Time (US & Canada)', user.time_zone
+    assert_redirected_to user_path(id: user.slug)
     assert_equal 'Your account was updated successfully.', flash[:success]
   end
 
@@ -145,36 +147,36 @@ class UserIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test 'an authenticated user cannot update another users profile via PUT' do
-    u = create_standard_user
-    u2 = login(create_standard_user2)
+    user = create_standard_user
+    user2 = login(create_standard_user2)
 
-    put user_path(id: u.slug)
+    put user_path(id: user.slug)
 
-    assert_redirected_to user_path(id: u2.slug)
+    assert_redirected_to user_path(id: user2.slug)
     assert_equal 'Access Denied! - You may only edit your own profile.', flash[:danger]
   end
 
   test 'an authenticated can update their own profile via PUT' do
-    u = login(create_standard_user)
+    user = login(create_standard_user)
 
-    put user_path(id: u.slug), { user: {
+    put user_path(id: user.slug), { user: {
       username: 'newusername',
       password: 'newpassword',
       password_confirmation: 'newpassword',
       time_zone: 'Pacific Time (US & Canada)'
     } }
 
-    u.reload
-    assert_equal 'newusername', u.username
-    assert_equal 'Pacific Time (US & Canada)', u.time_zone
-    assert_redirected_to user_path(id: u.slug)
+    user.reload
+    assert_equal 'newusername', user.username
+    assert_equal 'Pacific Time (US & Canada)', user.time_zone
+    assert_redirected_to user_path(id: user.slug)
     assert_equal 'Your account was updated successfully.', flash[:success]
   end
 
   test 'a failed attempt at updating a user profile via PATCH' do
-    u = login(create_standard_user)
+    user = login(create_standard_user)
 
-    patch user_path(id: u.slug), { user: {
+    patch user_path(id: user.slug), { user: {
       time_zone: 'invalidtimezone'
     } }
 
@@ -182,9 +184,9 @@ class UserIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test 'a failed attempt at updating a user profile via PUT' do
-    u = login(create_standard_user)
-    
-    put user_path(id: u.slug), { user: {
+    user = login(create_standard_user)
+
+    put user_path(id: user.slug), { user: {
       time_zone: 'invalidtimezone'
     } }
 

@@ -37,14 +37,14 @@ class Admin::UsersIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test 'searching for an existing user' do
-    u = create_standard_user
+    user = create_standard_user
     login(create_admin_user)
 
-    get admin_users_path, { username: u.username }
+    get admin_users_path, { username: user.username }
 
     assert_response :success
     users_collection = assigns :users
-    assert_includes(users_collection, u)
+    assert_includes(users_collection, user)
   end
 
   test 'searching for a nonexistant user' do
@@ -84,94 +84,95 @@ class Admin::UsersIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test 'admins can update a user role via HTTP' do
-    u = create_standard_user
+    user = create_standard_user
     login(create_admin_user)
 
     # Moderator
-    patch update_role_admin_user_path(id: u.slug), { role: 'moderator' }
+    patch update_role_admin_user_path(id: user.slug), { role: 'moderator' }
 
-    u.reload
-    assert u.moderator?
+    user.reload
+    assert user.moderator?
     assert_redirected_to admin_users_path
 
     # Admin
-    patch update_role_admin_user_path(id: u.slug), { role: 'admin' }
+    patch update_role_admin_user_path(id: user.slug), { role: 'admin' }
 
-    u.reload
-    assert u.admin?
+    user.reload
+    assert user.admin?
     assert_redirected_to admin_users_path
   end
 
   test 'admins can update a user role via AJAX' do
-    u = create_standard_user
+    user = create_standard_user
     login(create_admin_user)
 
     # Moderator
-    patch update_role_admin_user_path(id: u.slug), { role: 'moderator' }, xhr: true
+    patch update_role_admin_user_path(id: user.slug), { role: 'moderator' }, xhr: true
 
-    u.reload
-    assert u.moderator?
+    user.reload
+    assert user.moderator?
 
     # Admin
-    patch update_role_admin_user_path(id: u.slug), { role: 'admin' }, xhr: true
+    patch update_role_admin_user_path(id: user.slug), { role: 'admin' }, xhr: true
 
-    u.reload
-    assert u.admin?
+    user.reload
+    assert user.admin?
   end
 
   test 'admins cannot change their own role via HTTP' do
-    u = login(create_admin_user)
+    user = login(create_admin_user)
 
     # Moderator
-    patch update_role_admin_user_path(id: u.slug), { role: 'user' }
+    patch update_role_admin_user_path(id: user.slug), { role: 'user' }
 
-    u.reload
-    assert u.admin?
+    user.reload
+    assert user.admin?
     assert_equal 'This action cannot be performed under your account.', flash[:danger]
 
     # User
-    patch update_role_admin_user_path(id: u.slug), { role: 'moderator' }
+    patch update_role_admin_user_path(id: user.slug
+), { role: 'moderator' }
 
-    u.reload
-    assert u.admin?
+    user.reload
+    assert user.admin?
     assert_equal 'This action cannot be performed under your account.', flash[:danger]
   end
 
   test 'admins cannot change their own role via AJAX' do
-    u = login(create_admin_user)
+    user = login(create_admin_user)
 
     # Moderator
-    patch update_role_admin_user_path(id: u.slug), { role: 'user' }, xhr: true
+    patch update_role_admin_user_path(id: user.slug), { role: 'user' }, xhr: true
 
-    u.reload
-    assert u.admin?
+    user.reload
+    assert user.admin?
     assert_equal 'This action cannot be performed under your account.', flash[:danger]
 
     # User
-    patch update_role_admin_user_path(id: u.slug), { role: 'moderator' }, xhr: true
+    patch update_role_admin_user_path(id: user.slug), { role: 'moderator' }, xhr: true
 
-    u.reload
-    assert u.admin?
+    user.reload
+    assert user.admin?
     assert_equal 'This action cannot be performed under your account.', flash[:danger]
   end
 
   test 'user role must be valid' do
-    u = create_standard_user
+    user = create_standard_user
     login(create_admin_user)
 
     # via HTTP
-    patch update_role_admin_user_path(id: u.slug), { role: 'notavalidrole' }
+    patch update_role_admin_user_path(id: user.slug), { role: 'notavalidrole' }
 
-    u.reload
-    assert u.user?
+    user.reload
+    assert user.user?
     assert_redirected_to admin_users_path
     assert_equal 'That is not a valid role.', flash[:danger]
 
     # via AJAX
-    patch update_role_admin_user_path(id: u.slug), { role: 'notavalidrole' }, xhr: true
+    patch update_role_admin_user_path(id: user.slug), { role: 'notavalidrole' }, xhr: true
 
-    u.reload
-    assert u.user?
+    user.reload
+    assert user.user?
     assert_equal 'That is not a valid role.', flash[:danger]
   end
 
@@ -202,64 +203,64 @@ class Admin::UsersIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test 'admins can disable an account via HTTP' do
-    u = create_standard_user
+    user = create_standard_user
     login(create_admin_user)
 
-    patch toggle_disabled_admin_user_path(id: u.slug)
+    patch toggle_disabled_admin_user_path(id: user.slug)
 
-    u.reload
-    assert u.disabled?
+    user.reload
+    assert user.disabled?
     assert_redirected_to admin_users_path
   end
 
   test 'admins can disable an account via AJAX' do
-    u = create_standard_user
+    user = create_standard_user
     login(create_admin_user)
 
-    patch toggle_disabled_admin_user_path(id: u.slug), xhr: true
+    patch toggle_disabled_admin_user_path(id: user.slug), xhr: true
 
-    u.reload
-    assert u.disabled?
+    user.reload
+    assert user.disabled?
   end
 
   test 'admins can enable an account via HTTP' do
-    u = create_standard_user
-    u.disable!
+    user = create_standard_user
+    user.disable!
     login(create_admin_user)
 
-    patch toggle_disabled_admin_user_path(id: u.slug)
+    patch toggle_disabled_admin_user_path(id: user.slug)
 
-    u.reload
-    assert_not u.disabled?
+    user.reload
+    assert_not user.disabled?
     assert_redirected_to admin_users_path
   end
 
   test 'admins can enable an account via AJAX' do
-    u = create_standard_user
-    u.disable!
+    user = create_standard_user
+    user.disable!
     login(create_admin_user)
 
-    patch toggle_disabled_admin_user_path(id: u.slug), xhr: true
+    patch toggle_disabled_admin_user_path(id: user.slug), xhr: true
 
-    u.reload
-    assert_not u.disabled?
+    user.reload
+    assert_not user.disabled?
   end
 
   test 'admins cannot disable their own account' do
-    u = login(create_admin_user)
+    user = login(create_admin_user)
 
     # via HTTP
-    patch toggle_disabled_admin_user_path(id: u.slug)
+    patch toggle_disabled_admin_user_path(id: user.slug)
 
-    u.reload
-    assert_not u.disabled?
+    user.reload
+    assert_not user.disabled?
     assert_equal 'This action cannot be performed under your account.', flash[:danger]
 
     # via AJAX
-    patch toggle_disabled_admin_user_path(id: u.slug), xhr: true
+    patch toggle_disabled_admin_user_path(id: user.slug), xhr: true
 
-    u.reload
-    assert_not u.disabled?
+    user.reload
+    assert_not user.disabled?
     assert_equal 'This action cannot be performed under your account.', flash[:danger]
   end
 end

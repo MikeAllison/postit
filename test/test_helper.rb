@@ -52,7 +52,7 @@ class ActiveSupport::TestCase
   end
 
   # Post
-  def create_post(user)
+  def create_post_by(user)
     post = user.posts.create(title: 'New Post',
                       url: 'http://www.example.com',
                       description: 'A cool site.')

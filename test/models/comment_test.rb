@@ -32,7 +32,8 @@ class CommentTest < ActiveSupport::TestCase
   end
 
   test 'hide' do
-    p = create_persisted_post
+    post = create_persisted_post
+
     c = p.comments.create(body: 'A valid comment')
     2.times do
       c.flags.create

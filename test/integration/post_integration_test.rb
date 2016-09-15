@@ -24,6 +24,7 @@ class PostIntegrationTest < ActionDispatch::IntegrationTest
 
   test 'an authenticated user can access the new post page' do
     create_persisted_category
+
     login(create_standard_user)
 
     get new_post_path
@@ -48,38 +49,39 @@ class PostIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test 'a authenticated user can create a post' do
-    c = create_persisted_category
-    u = login(create_standard_user)
+    cat = create_persisted_category
+    user = login(create_standard_user)
 
     assert_difference('Post.count') do
       post posts_path, { post: {
         title: 'Post 1',
         url: 'http://www.example.com',
         description: 'A cool post.',
-        category_ids: [c.id]
+        category_ids: [cat.id]
       } }
     end
 
-    assert_equal Post.last.id, u.id
+    assert_equal Post.last.id, user.id
     assert_redirected_to posts_path
     assert_equal 'Your post was created.', flash[:success]
   end
 
   # posts#show
   test 'an unauthenticated user can access posts#show' do
-    p = create_persisted_post
+    post = create_persisted_post
 
-    get post_path(id: p.slug)
+    get post_path(id: post.slug)
 
     assert_response :success
     assert assigns :post
   end
 
   test 'an authenticated user can access posts#show' do
-    p = create_persisted_post
+    post = create_persisted_post
+
     login(create_standard_user)
 
-    get post_path(id: p.slug)
+    get post_path(id: post.slug)
 
     assert_response :success
     assert assigns :post
@@ -94,47 +96,46 @@ class PostIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test 'an authenticated user cannot edit a post from another user' do
-    u = login(create_standard_user)
+    user = login(create_standard_user)
+    post = create_post_by(user)
+
     login(create_standard_user2)
 
-    p = create_post(u)
+    get edit_post_path(id: post.slug)
 
-    get edit_post_path(id: p.slug)
-
-    assert_redirected_to post_path(id: p.slug)
+    assert_redirected_to post_path(id: post.slug)
     assert_equal "Access Denied! - You may only edit posts that you've created.", flash[:danger]
   end
 
   test 'an authenticated user can edit their own post' do
-    u = login(create_standard_user)
+    user = login(create_standard_user)
+    post = create_post_by(user)
 
-    p = create_post(u)
-
-    get edit_post_path(id: p.slug)
+    get edit_post_path(id: post.slug)
 
     assert_response :success
     assert assigns :post
   end
 
   test 'a moderator cannot edit another users post' do
-    u = login(create_standard_user)
+    user = login(create_standard_user)
+    post = create_post_by(user)
+
     login(create_moderator_user)
 
-    p = create_post(u)
+    get edit_post_path(id: post.slug)
 
-    get edit_post_path(id: p.slug)
-
-    assert_redirected_to post_path(id: p.slug)
+    assert_redirected_to post_path(id: post.slug)
     assert_equal "Access Denied! - You may only edit posts that you've created.", flash[:danger]
   end
 
   test 'an admin can edit another users post' do
-    u = login(create_standard_user)
+    user = login(create_standard_user)
     login(create_admin_user)
 
-    p = create_post(u)
+    post = create_post_by(user)
 
-    get edit_post_path(id: p.slug)
+    get edit_post_path(id: post.slug)
 
     assert_response :success
     assert assigns :post
@@ -156,14 +157,14 @@ class PostIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test 'an authenticated user cannot update a post from another user via PATCH' do
-    u = create_standard_user
-    u2 = login(create_standard_user2)
+    user = create_standard_user
+    post = create_post_by(user)
 
-    p = create_post(u)
+    login(create_standard_user2)
 
-    patch post_path(id: p.slug)
+    patch post_path(id: post.slug)
 
-    assert_redirected_to post_path(id: p.slug)
+    assert_redirected_to post_path(id: post.slug)
     assert_equal "Access Denied! - You may only edit posts that you've created.", flash[:danger]
   end
 

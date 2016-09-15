@@ -2,13 +2,13 @@ require 'test_helper'
 
 class UserTest < ActiveSupport::TestCase
   test 'can create a valid user' do
-    u = create_standard_user
+    user = create_standard_user
 
     assert u.persisted?
   end
 
   test 'cannot save a user without a username' do
-    u = create_standard_user
+    user = create_standard_user
     u.username = ''
 
     assert_not u.save
@@ -16,7 +16,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test 'username cannot contain spaces' do
-    u = create_standard_user
+    user = create_standard_user
     u.username = 'a user'
 
     assert_not u.save
@@ -24,7 +24,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test 'username must start with a letter or number' do
-    u = create_standard_user
+    user = create_standard_user
     u.username = '-auser'
 
     assert_not u.save
@@ -32,7 +32,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test 'username must only contain letters, numbers, or dashes' do
-    u = create_standard_user
+    user = create_standard_user
     u.username = 'au@ser'
 
     assert_not u.save
@@ -40,7 +40,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test 'username must end with a letter or number' do
-    u = create_standard_user
+    user = create_standard_user
     u.username = 'auser-'
 
     assert_not u.save
@@ -48,7 +48,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test 'username must be < 20 characters' do
-    u = create_standard_user
+    user = create_standard_user
     u.username = 'areallyreallyreallylongusername'
 
     assert_not u.save
@@ -78,7 +78,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test 'timezome must be valid' do
-    u = create_standard_user
+    user = create_standard_user
     u.time_zone = 'Not valid'
 
     assert_not u.save
@@ -97,7 +97,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test 'User.search can find a user by username' do
-    u = create_standard_user
+    user = create_standard_user
 
     search_results = User.search(u.username)
 
@@ -117,7 +117,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test 'disable!' do
-    u = create_standard_user
+    user = create_standard_user
     u.disable!
     u.reload
 
@@ -125,7 +125,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test 'enable!' do
-    u = create_standard_user
+    user = create_standard_user
     u.disabled = true
     u.save
     u.enable!
@@ -135,7 +135,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test 'strip_username_whitespace' do
-    u = create_standard_user
+    user = create_standard_user
     u.username = '     auser   '
     u.save
 
@@ -143,7 +143,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test 'username_role' do
-    u = create_standard_user
+    user = create_standard_user
     u.moderator!
 
     assert_equal 'user [moderator]', u.username_role

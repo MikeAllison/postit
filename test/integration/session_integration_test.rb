@@ -50,11 +50,11 @@ class SessionIntegrationTest < ActionDispatch::IntegrationTest
 
   # Disabled Accounts
   test 'a disabled user cannot log in' do
-    u = create_standard_user
-    u.disabled = true
-    u.save
+    user = create_standard_user
+    user.disabled = true
+    user.save
 
-    login(u)
+    login(user)
 
     assert_nil session[:current_user_id]
     assert_redirected_to login_path
@@ -62,12 +62,12 @@ class SessionIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test 'session will be destroyed if user account is disabled' do
-    u = login(create_standard_user)
+    user = login(create_standard_user)
 
     assert_redirected_to posts_path
 
-    u.disabled = true
-    u.save
+    user.disabled = true
+    user.save
 
     get new_post_path
     assert_redirected_to login_path
