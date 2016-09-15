@@ -2,48 +2,48 @@ require 'test_helper'
 
 class CommentTest < ActiveSupport::TestCase
   test 'can add a valid comment' do
-    c = create_persisted_comment
+    comm = create_persisted_comment
 
-    assert c.persisted?
+    assert comm.persisted?
   end
 
   test 'cannot save a comment without a body' do
-    c = Comment.create(body: '')
-    assert_not c.persisted?
+    comm = Comment.create(body: '')
+    assert_not comm.persisted?
 
-    assert_equal 'Comment cannot be blank', c.errors.messages[:body].first
+    assert_equal 'Comment cannot be blank', comm.errors.messages[:body].first
   end
 
   test 'initialize_tallied_votes' do
-    c = Comment.new
+    comm = Comment.new
 
-    assert_equal 0, c.tallied_votes
+    assert_equal 0, comm.tallied_votes
   end
 
   test 'clear_flags' do
-    c = create_persisted_comment
+    comm = create_persisted_comment
     2.times do
-      c.flags.create
+      comm.flags.create
     end
-    c.clear_flags
+    comm.clear_flags
 
-    assert_equal 0, c.flags.count
-    assert_equal 0, c.total_flags
+    assert_equal 0, comm.flags.count
+    assert_equal 0, comm.total_flags
   end
 
   test 'hide' do
     post = create_persisted_post
 
-    c = p.comments.create(body: 'A valid comment')
+    comm = post.comments.create(body: 'A valid comment')
     2.times do
-      c.flags.create
-      c.votes.create
+      comm.flags.create
+      comm.votes.create
     end
-    c.hide
-    
-    assert c.hidden
-    assert_equal 0, c.flags.count
-    assert_equal 0, c.votes.count
-    assert_equal -1, c.post.unhidden_comments_count
+    comm.hide
+
+    assert comm.hidden
+    assert_equal 0, comm.flags.count
+    assert_equal 0, comm.votes.count
+    assert_equal(-1, comm.post.unhidden_comments_count)
   end
 end

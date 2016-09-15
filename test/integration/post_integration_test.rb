@@ -169,7 +169,15 @@ class PostIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test 'an authenticated user cannot update a post from another user via PUT' do
+    user = create_standard_user
+    post = create_post_by(user)
 
+    login(create_standard_user2)
+
+    put post_path(id: post.slug)
+
+    assert_redirected_to post_path(id: post.slug)
+    assert_equal "Access Denied! - You may only edit posts that you've created.", flash[:danger]
   end
 
   test 'an authenticated user can update their own post via PATCH' do

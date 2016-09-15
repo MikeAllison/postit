@@ -5,76 +5,76 @@ class CategoryTest < ActiveSupport::TestCase
     cat = create_persisted_category
 
 
-    assert c.persisted?
+    assert cat.persisted?
   end
 
   test 'cannot save a category without a name' do
-    c = Category.create(name: '')
+    cat = Category.create(name: '')
 
-    assert_not c.persisted?
-    assert_equal 'Name cannot be blank', c.errors.messages[:name].first
+    assert_not cat.persisted?
+    assert_equal 'Name cannot be blank', cat.errors.messages[:name].first
   end
 
   test 'duplicate categories will not be saved' do
     create_persisted_category
-    c2 = create_persisted_category
+    cat2 = create_persisted_category
 
-    assert_not c2.persisted?
-    assert_equal 'This category already exists', c2.errors.messages[:name].first
+    assert_not cat2.persisted?
+    assert_equal 'This category already exists', cat2.errors.messages[:name].first
   end
 
   test 'cannot create a category with over 15 characters' do
-    c = Category.create(name: 'superlongcategoryname')
+    cat = Category.create(name: 'superlongcategoryname')
 
-    assert_not c.persisted?
-    assert_equal 'Category name must be less than 15 characters', c.errors.messages[:name].first
+    assert_not cat.persisted?
+    assert_equal 'Category name must be less than 15 characters', cat.errors.messages[:name].first
   end
 
   test 'initialize_hidden' do
-    c = Category.new
+    cat = Category.new
 
-    assert_equal false, c.hidden
+    assert_equal false, cat.hidden
   end
 
   test 'initialize_posts_count' do
-    c = Category.new
+    cat = Category.new
 
-    assert_equal 0, c.unhidden_posts_count
+    assert_equal 0, cat.unhidden_posts_count
   end
 
   test 'hide!' do
     cat = create_persisted_category
 
-    c.hide!
-    c.reload
+    cat.hide!
+    cat.reload
 
-    assert c.hidden?
+    assert cat.hidden?
   end
 
   test 'unhide!' do
     cat = create_persisted_category
 
-    c.hide!
-    c.unhide!
-    c.reload
+    cat.hide!
+    cat.unhide!
+    cat.reload
 
-    assert_equal false, c.hidden?
+    assert_equal false, cat.hidden?
   end
 
   test 'increase_unhidden_posts_count' do
     cat = create_persisted_category
 
-    c.increase_unhidden_posts_count
+    cat.increase_unhidden_posts_count
 
-    assert_equal 1, c.unhidden_posts_count
+    assert_equal 1, cat.unhidden_posts_count
   end
 
   test 'reduce_unhidden_posts_count' do
     cat = create_persisted_category
 
-    c.increase_unhidden_posts_count
-    c.reduce_unhidden_posts_count
-    
-    assert_equal 0, c.unhidden_posts_count
+    cat.increase_unhidden_posts_count
+    cat.reduce_unhidden_posts_count
+
+    assert_equal 0, cat.unhidden_posts_count
   end
 end
