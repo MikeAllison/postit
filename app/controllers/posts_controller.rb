@@ -7,6 +7,7 @@ class PostsController < ApplicationController
   before_action :find_post, only: [:show, :edit, :update, :vote, :flag,
                                    :clear_flags, :hide]
   before_action :require_current_user_or_admin, only: [:edit, :update]
+  before_action :catch_invalid_vote, only: [:vote]
 
   def index
     @posts = Post.includes(:categories, :creator).votes_created_desc
@@ -48,7 +49,7 @@ class PostsController < ApplicationController
   def update
     if @post.update(post_params)
       flash[:success] = 'Your post was updated.'
-      redirect_to posts_path
+      redirect_to @post
     else
       render :edit
     end
@@ -71,13 +72,11 @@ class PostsController < ApplicationController
         @vote.destroy!
       elsif @vote.already_exists?(submitted_vote)
         @error_msg = "You've already voted on this post."
-      else
-        @error_msg = "Sorry, your vote couldn't be counted."
       end
 
       # Only caluluate votes if there's no error message
       # Works but seems wrong
-      @post.calculate_tallied_votes unless @error_msg # Voteable
+      @post.calculate_tallied_votes # Voteable
     end
 
     respond_to do |format|
@@ -141,6 +140,20 @@ class PostsController < ApplicationController
     return unless @post.creator != current_user && !current_user.admin?
     flash[:danger] = "Access Denied! - You may only edit posts that you've created."
     redirect_to @post
+  end
+
+  def catch_invalid_vote
+    if (params[:vote] != 'true') && (params[:vote] != 'false')
+      respond_to do |format|
+        format.html do
+          flash[:danger] = "Sorry, your vote couldn't be counted."
+          redirect_to :back
+        end
+        format.js { render 'shared/flag', locals: { obj: @post.reload } }
+      end
+    end
+
+    return
   end
 
   def post_params

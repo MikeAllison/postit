@@ -4,7 +4,6 @@ class PostTest < ActiveSupport::TestCase
   test 'can create a valid post' do
     post = create_persisted_post
 
-
     assert post.persisted?
   end
 
@@ -109,7 +108,6 @@ class PostTest < ActiveSupport::TestCase
   test 'clear_flags' do
     post = create_persisted_post
 
-
     2.times do
       post.flags.create
     end
@@ -121,7 +119,6 @@ class PostTest < ActiveSupport::TestCase
 
   test 'hide' do
     post = create_persisted_post
-
 
     2.times do
       post.votes.create

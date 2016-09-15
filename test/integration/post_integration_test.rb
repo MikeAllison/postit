@@ -3,8 +3,6 @@ require 'test_helper'
 class PostIntegrationTest < ActionDispatch::IntegrationTest
   # posts#index
   test 'an unauthenticated user can access posts#index' do
-    create_persisted_post
-
     get posts_path
     assert_response :success
     assert assigns :posts
@@ -181,27 +179,234 @@ class PostIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test 'an authenticated user can update their own post via PATCH' do
+    user = login(create_standard_user)
+    post = create_post_by(user)
 
+    patch post_path(id: post.slug), { post: {
+      title: 'New Title',
+      url: 'http://www.newurl.com',
+      description: 'A new description'
+    } }
+
+    post.reload
+    assert_equal 'New Title', post.title
+    assert_equal 'http://www.newurl.com', post.url
+    assert_equal 'A new description', post.description
+    assert_redirected_to post_path(id: post.slug)
+    assert_equal 'Your post was updated.', flash[:success]
   end
 
   test 'an authenticated user can update their own post via PUT' do
+    user = login(create_standard_user)
+    post = create_post_by(user)
 
+    put post_path(id: post.slug), { post: {
+      title: 'New Title',
+      url: 'http://www.newurl.com',
+      description: 'A new description'
+    } }
+
+    post.reload
+    assert_equal 'New Title', post.title
+    assert_equal 'http://www.newurl.com', post.url
+    assert_equal 'A new description', post.description
+    assert_redirected_to post_path(id: post.slug)
+    assert_equal 'Your post was updated.', flash[:success]
   end
 
   test 'a moderator cannot update another users post via PATCH' do
+    user = create_standard_user
+    post = create_post_by(user)
+    login(create_moderator_user)
 
+    patch post_path(id: post.slug), { post: {
+      title: 'New Title',
+      url: 'http://www.newurl.com',
+      description: 'A new description'
+    } }
+
+    assert_redirected_to post_path(id: post.slug)
+    assert_equal "Access Denied! - You may only edit posts that you've created.", flash[:danger]
   end
 
   test 'a moderator cannot update another users post via PUT' do
+    user = create_standard_user
+    post = create_post_by(user)
+    login(create_moderator_user)
 
+    put post_path(id: post.slug), { post: {
+      title: 'New Title',
+      url: 'http://www.newurl.com',
+      description: 'A new description'
+    } }
   end
 
   test 'an admin can update another users post via PATCH' do
+    user = create_standard_user
+    post = create_post_by(user)
+    login(create_admin_user)
 
+    patch post_path(id: post.slug), { post: {
+      title: 'New Title',
+      url: 'http://www.newurl.com',
+      description: 'A new description'
+    } }
+
+    post.reload
+    assert_equal 'New Title', post.title
+    assert_equal 'http://www.newurl.com', post.url
+    assert_equal 'A new description', post.description
+    assert_redirected_to post_path(id: post.slug)
+    assert_equal 'Your post was updated.', flash[:success]
   end
 
   test 'an admin can update another users post via PUT' do
+    user = create_standard_user
+    post = create_post_by(user)
+    login(create_admin_user)
 
+    put post_path(id: post.slug), { post: {
+      title: 'New Title',
+      url: 'http://www.newurl.com',
+      description: 'A new description'
+    } }
+
+    post.reload
+    assert_equal 'New Title', post.title
+    assert_equal 'http://www.newurl.com', post.url
+    assert_equal 'A new description', post.description
+    assert_redirected_to post_path(id: post.slug)
+    assert_equal 'Your post was updated.', flash[:success]
+  end
+
+  test 'a failed post update via PATCH' do
+    user = login(create_standard_user)
+    post = create_post_by(user)
+
+    patch post_path(id: post.slug), { post: {
+      title: ''
+    } }
+
+    assert_template :edit
+  end
+
+  test 'a failed post update via PUT' do
+    user = login(create_standard_user)
+    post = create_post_by(user)
+
+    put post_path(id: post.slug), { post: {
+      title: ''
+    } }
+
+    assert_template :edit
+  end
+
+  # posts#vote
+  test 'an unauthenticated user cannot vote on a post' do
+    # HTTP
+    post vote_post_path(id: 1)
+
+    assert_redirected_to login_path
+    assert_equal 'You must log in to access that page.', flash[:danger]
+
+    # AJAX
+    post vote_post_path(id: 1), xhr: true
+
+    assert_equal 'You must log in to access that page.', flash[:danger]
+  end
+
+  test 'an authenticated user can upvote on a post via HTTP' do
+    post = create_persisted_post
+    login(create_standard_user)
+
+    post vote_post_path(id: post.slug), { vote: 'true' }
+
+    post.reload
+    assert_equal 1, post.tallied_votes
+  end
+
+  test 'an authenticated user can upvote on a post via AJAX' do
+    post = create_persisted_post
+    login(create_standard_user)
+
+    post vote_post_path(id: post.slug), { vote: 'true' }, xhr: true
+
+    post.reload
+    assert_equal 1, post.tallied_votes
+  end
+
+  test 'an authenticated user can downvote on a post via HTTP' do
+    post = create_persisted_post
+    login(create_standard_user)
+
+    post vote_post_path(id: post.slug), { vote: 'false' }
+
+    post.reload
+    assert_equal(-1, post.tallied_votes)
+  end
+
+  test 'an authenticated user can downvote on a post via AJAX' do
+    post = create_persisted_post
+    login(create_standard_user)
+
+    post vote_post_path(id: post.slug), { vote: 'false' }, xhr: true
+
+    post.reload
+    assert_equal(-1, post.tallied_votes)
+  end
+
+  test 'an authenticated user cannot vote on a flagged post' do
+    login(create_standard_user)
+
+    post = create_persisted_post
+    post.total_flags = 1
+    post.save
+
+    post vote_post_path(id: post.slug), { vote: 'true' }
+
+    post.reload
+    assert_equal 0, post.tallied_votes
+    assert_equal 'You may not vote on a post that has been flagged for review.', flash[:danger]
+  end
+
+  test 'a user cannot vote on a post more than once' do
+    post = create_persisted_post
+    login(create_standard_user)
+
+    post vote_post_path(id: post.slug), { vote: 'true' }
+
+    post.reload
+    assert_equal 1, post.tallied_votes
+
+    post vote_post_path(id: post.slug), { vote: 'true' }
+    assert_equal "You've already voted on this post.", flash[:danger]
+  end
+
+  test 'a user can change their vote' do
+    post = create_persisted_post
+    login(create_standard_user)
+
+    post vote_post_path(id: post.slug), { vote: 'true' }
+
+    post.reload
+    assert_equal 1, post.tallied_votes
+
+    post vote_post_path(id: post.slug), { vote: 'false' }
+    post vote_post_path(id: post.slug), { vote: 'false' }
+
+    post.reload
+    assert_equal(-1, post.tallied_votes)
+  end
+
+  test 'a vote on a post must be true or false' do
+    post = create_persisted_post
+    login(create_standard_user)
+
+    post vote_post_path(id: post.slug), { vote: 'invalidvote' }
+
+    post.reload
+    assert_equal 0, post.tallied_votes
+    assert_equal "Sorry, your vote couldn't be counted.", flash[:danger]
   end
 
   # Misc
