@@ -398,7 +398,7 @@ class PostIntegrationTest < ActionDispatch::IntegrationTest
     assert_equal(-1, post.tallied_votes)
   end
 
-  test 'a vote on a post must be true or false' do
+  test 'a vote on a post must be true/false' do
     post = create_persisted_post
     login(create_standard_user)
 

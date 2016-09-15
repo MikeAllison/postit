@@ -3,6 +3,7 @@ class CommentsController < ApplicationController
   before_action :require_admin, only: [:clear_flags, :hide]
   before_action :require_moderator_or_admin, only: [:flag]
   before_action :find_comment, only: [:vote, :flag, :clear_flags, :hide]
+  before_action :catch_invalid_vote, only: [:vote]
 
   def create
     @post = Post.find_by(slug: params[:post_id])
@@ -35,8 +36,6 @@ class CommentsController < ApplicationController
         @vote.destroy!
       elsif @vote.already_exists?(submitted_vote)
         @error_msg = "You've already voted on this comment."
-      else
-        @error_msg = "Sorry, your vote couldn't be counted."
       end
 
       # Only caluluate votes if there's no error message
@@ -46,7 +45,6 @@ class CommentsController < ApplicationController
 
     respond_to do |format|
       format.html do
-        flash[:danger] = @error_msg if @error_msg
         redirect_to :back
       end
       format.js { render 'shared/vote', locals: { obj: @comment } }
@@ -96,6 +94,20 @@ class CommentsController < ApplicationController
   end
 
   private
+
+  def catch_invalid_vote
+    if (params[:vote] != 'true') && (params[:vote] != 'false')
+      @error_msg = "Sorry, your vote couldn't be counted."
+      
+      respond_to do |format|
+        format.html do
+          flash[:danger] = @error_msg
+          redirect_to :back
+        end
+        format.js { render 'shared/vote', locals: { obj: @comment.reload } }
+      end
+    end
+  end
 
   def find_comment
     @comment = Comment.find(params[:id])
