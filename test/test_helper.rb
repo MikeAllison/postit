@@ -40,20 +40,10 @@ class ActiveSupport::TestCase
   end
 
   # Session
-  def log_in_standard_user
-    post login_path, { username: 'user', password: 'password' }
-  end
+  def login(user)
+    post login_path, { username: user.username, password: 'password' }
 
-  def log_in_standard_user2
-    post login_path, { username: 'user2', password: 'password' }
-  end
-
-  def log_in_moderator_user
-    post login_path, { username: 'moderator', password: 'password' }
-  end
-
-  def log_in_admin_user
-    post login_path, { username: 'admin', password: 'password' }
+    return User.find_by(id: session[:current_user_id])
   end
 
   # Post

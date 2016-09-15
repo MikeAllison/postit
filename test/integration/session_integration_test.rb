@@ -39,8 +39,7 @@ class SessionIntegrationTest < ActionDispatch::IntegrationTest
 
   # Logout
   test 'user can log out' do
-    create_standard_user
-    log_in_standard_user
+    login(create_standard_user)
 
     get logout_path
 
@@ -55,7 +54,7 @@ class SessionIntegrationTest < ActionDispatch::IntegrationTest
     u.disabled = true
     u.save
 
-    log_in_standard_user
+    login(u)
 
     assert_nil session[:current_user_id]
     assert_redirected_to login_path
@@ -63,9 +62,7 @@ class SessionIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test 'session will be destroyed if user account is disabled' do
-    u = create_standard_user
-
-    log_in_standard_user
+    u = login(create_standard_user)
 
     assert_redirected_to posts_path
 

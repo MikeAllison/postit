@@ -10,8 +10,7 @@ class Admin::CategoriesIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test 'moderators cannot access admin/categories#index' do
-    create_moderator_user
-    log_in_moderator_user
+    login(create_moderator_user)
 
     get admin_categories_path
 
@@ -20,8 +19,7 @@ class Admin::CategoriesIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test 'users cannot access admin/categories#index' do
-    create_standard_user
-    log_in_standard_user
+    login(create_standard_user)
 
     get admin_categories_path
 
@@ -30,8 +28,7 @@ class Admin::CategoriesIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test 'admins can access admin/categories#index' do
-    create_admin_user
-    log_in_admin_user
+    login(create_admin_user)
 
     get admin_categories_path
 
@@ -48,8 +45,7 @@ class Admin::CategoriesIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test 'moderators cannot access admin/categories#new' do
-    create_moderator_user
-    log_in_moderator_user
+    login(create_moderator_user)
 
     get new_admin_category_path
 
@@ -58,8 +54,7 @@ class Admin::CategoriesIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test 'users cannot access admin/categories#new' do
-    create_standard_user
-    log_in_standard_user
+    login(create_standard_user)
 
     get new_admin_category_path
 
@@ -68,8 +63,7 @@ class Admin::CategoriesIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test 'admins can access admin/categories#new' do
-    create_admin_user
-    log_in_admin_user
+    login(create_admin_user)
 
     get new_admin_category_path
 
@@ -86,8 +80,7 @@ class Admin::CategoriesIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test 'moderators cannot access admin/categories#create' do
-    create_moderator_user
-    log_in_moderator_user
+    login(create_moderator_user)
 
     post admin_categories_path
 
@@ -96,8 +89,7 @@ class Admin::CategoriesIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test 'users cannot access admin/categories#create' do
-    create_standard_user
-    log_in_standard_user
+    login(create_standard_user)
 
     post admin_categories_path
 
@@ -106,8 +98,7 @@ class Admin::CategoriesIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test 'admins can create a new category' do
-    create_admin_user
-    log_in_admin_user
+    login(create_admin_user)
 
     assert_difference('Category.count') do
       post admin_categories_path, { category: { name: 'News' } }
@@ -126,8 +117,7 @@ class Admin::CategoriesIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test 'moderators cannot access admin/categories#edit' do
-    create_moderator_user
-    log_in_moderator_user
+    login(create_moderator_user)
 
     get edit_admin_category_path(id: 1)
 
@@ -136,8 +126,7 @@ class Admin::CategoriesIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test 'users cannot access admin/categories#edit' do
-    create_standard_user
-    log_in_standard_user
+    login(create_standard_user)
 
     get edit_admin_category_path(id: 1)
 
@@ -147,8 +136,7 @@ class Admin::CategoriesIntegrationTest < ActionDispatch::IntegrationTest
 
   test 'admins can access admin/categories#edit' do
     c = create_valid_category
-    create_admin_user
-    log_in_admin_user
+    login(create_admin_user)
 
     get admin_category_path(id: c.id)
 
@@ -164,8 +152,7 @@ class Admin::CategoriesIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test 'moderators cannot access admin/categories#update PATCH' do
-    create_moderator_user
-    log_in_moderator_user
+    login(create_moderator_user)
 
     patch admin_category_path(id: 1)
 
@@ -174,8 +161,7 @@ class Admin::CategoriesIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test 'users cannot access admin/categories#update PATCH' do
-    create_standard_user
-    log_in_standard_user
+    login(create_standard_user)
 
     patch admin_category_path(id: 1)
 
@@ -185,8 +171,7 @@ class Admin::CategoriesIntegrationTest < ActionDispatch::IntegrationTest
 
   test 'admins can update a category with PATCH' do
     c = create_valid_category
-    create_admin_user
-    log_in_admin_user
+    login(create_admin_user)
 
     patch admin_category_path(id: c.slug), category: { name: 'Updated' }
 
@@ -205,8 +190,7 @@ class Admin::CategoriesIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test 'moderators cannot access admin/categories#update PUT' do
-    create_moderator_user
-    log_in_moderator_user
+    login(create_moderator_user)
 
     put admin_category_path(id: 1)
 
@@ -215,8 +199,7 @@ class Admin::CategoriesIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test 'users cannot access admin/categories#update PUT' do
-    create_standard_user
-    log_in_standard_user
+    login(create_standard_user)
 
     put admin_category_path(id: 1)
 
@@ -226,8 +209,7 @@ class Admin::CategoriesIntegrationTest < ActionDispatch::IntegrationTest
 
   test 'admins can update a category with PUT' do
     c = create_valid_category
-    create_admin_user
-    log_in_admin_user
+    login(create_admin_user)
 
     put admin_category_path(id: c.slug), category: { name: 'Updated' }
 
@@ -246,8 +228,7 @@ class Admin::CategoriesIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test 'moderators cannot access admin/categories#toggle_hidden' do
-    create_moderator_user
-    log_in_moderator_user
+    login(create_moderator_user)
 
     patch toggle_hidden_admin_category_path(id: 1)
 
@@ -256,8 +237,7 @@ class Admin::CategoriesIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test 'users cannot access admin/categories#toggle_hidden' do
-    create_standard_user
-    log_in_standard_user
+    login(create_standard_user)
 
     patch toggle_hidden_admin_category_path(id: 1)
 
@@ -267,8 +247,7 @@ class Admin::CategoriesIntegrationTest < ActionDispatch::IntegrationTest
 
   test 'admins can hide a category via HTTP' do
     c = create_valid_category
-    create_admin_user
-    log_in_admin_user
+    login(create_admin_user)
 
     patch toggle_hidden_admin_category_path(id: c.slug)
     assert_response :found
@@ -279,8 +258,7 @@ class Admin::CategoriesIntegrationTest < ActionDispatch::IntegrationTest
 
   test 'admins can hide a category via AJAX' do
     c = create_valid_category
-    create_admin_user
-    log_in_admin_user
+    login(create_admin_user)
 
     patch toggle_hidden_admin_category_path(id: c.slug), xhr: true
     assert_response :found
@@ -292,8 +270,7 @@ class Admin::CategoriesIntegrationTest < ActionDispatch::IntegrationTest
   test 'admins can unhide a category via HTTP' do
     c = create_valid_category
     c.hide!
-    create_admin_user
-    log_in_admin_user
+    login(create_admin_user)
 
     patch toggle_hidden_admin_category_path(id: c.slug)
     assert_response :found
@@ -305,8 +282,7 @@ class Admin::CategoriesIntegrationTest < ActionDispatch::IntegrationTest
   test 'admins can unhide a category via AJAX' do
     c = create_valid_category
     c.hide!
-    create_admin_user
-    log_in_admin_user
+    login(create_admin_user)
 
     patch toggle_hidden_admin_category_path(id: c.slug), xhr: true
     assert_response :found

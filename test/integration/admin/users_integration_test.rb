@@ -10,8 +10,7 @@ class Admin::UsersIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test 'moderators cannot access admin/users#index' do
-    create_moderator_user
-    log_in_moderator_user
+    login(create_moderator_user)
 
     get admin_users_path
 
@@ -20,8 +19,7 @@ class Admin::UsersIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test 'users cannot access admin/users#index' do
-    create_standard_user
-    log_in_standard_user
+    login(create_standard_user)
 
     get admin_users_path
 
@@ -30,8 +28,7 @@ class Admin::UsersIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test 'admins can access admin/users#index' do
-    create_admin_user
-    log_in_admin_user
+    login(create_admin_user)
 
     get admin_users_path
 
@@ -41,8 +38,7 @@ class Admin::UsersIntegrationTest < ActionDispatch::IntegrationTest
 
   test 'searching for an existing user' do
     u = create_standard_user
-    create_admin_user
-    log_in_admin_user
+    login(create_admin_user)
 
     get admin_users_path, { username: u.username }
 
@@ -52,8 +48,7 @@ class Admin::UsersIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test 'searching for a nonexistant user' do
-    create_admin_user
-    log_in_admin_user
+    login(create_admin_user)
 
     get admin_users_path, { username: 'notauser' }
 
@@ -71,8 +66,7 @@ class Admin::UsersIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test 'moderators cannot access admin/users#update_role' do
-    create_moderator_user
-    log_in_moderator_user
+    login(create_moderator_user)
 
     patch update_role_admin_user_path(id: 1)
 
@@ -81,8 +75,7 @@ class Admin::UsersIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test 'users cannot access admin/users#update_role' do
-    create_standard_user
-    log_in_standard_user
+    login(create_standard_user)
 
     patch update_role_admin_user_path(id: 1)
 
@@ -92,8 +85,7 @@ class Admin::UsersIntegrationTest < ActionDispatch::IntegrationTest
 
   test 'admins can update a user role via HTTP' do
     u = create_standard_user
-    create_admin_user
-    log_in_admin_user
+    login(create_admin_user)
 
     # Moderator
     patch update_role_admin_user_path(id: u.slug), { role: 'moderator' }
@@ -112,8 +104,7 @@ class Admin::UsersIntegrationTest < ActionDispatch::IntegrationTest
 
   test 'admins can update a user role via AJAX' do
     u = create_standard_user
-    create_admin_user
-    log_in_admin_user
+    login(create_admin_user)
 
     # Moderator
     patch update_role_admin_user_path(id: u.slug), { role: 'moderator' }, xhr: true
@@ -129,8 +120,7 @@ class Admin::UsersIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test 'admins cannot change their own role via HTTP' do
-    u = create_admin_user
-    log_in_admin_user
+    u = login(create_admin_user)
 
     # Moderator
     patch update_role_admin_user_path(id: u.slug), { role: 'user' }
@@ -148,8 +138,7 @@ class Admin::UsersIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test 'admins cannot change their own role via AJAX' do
-    u = create_admin_user
-    log_in_admin_user
+    u = login(create_admin_user)
 
     # Moderator
     patch update_role_admin_user_path(id: u.slug), { role: 'user' }, xhr: true
@@ -168,8 +157,7 @@ class Admin::UsersIntegrationTest < ActionDispatch::IntegrationTest
 
   test 'user role must be valid' do
     u = create_standard_user
-    create_admin_user
-    log_in_admin_user
+    login(create_admin_user)
 
     # via HTTP
     patch update_role_admin_user_path(id: u.slug), { role: 'notavalidrole' }
@@ -196,8 +184,7 @@ class Admin::UsersIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test 'moderators cannot access admin/users#toggle_disabled' do
-    create_moderator_user
-    log_in_moderator_user
+    login(create_moderator_user)
 
     patch toggle_disabled_admin_user_path(id: 1)
 
@@ -206,8 +193,7 @@ class Admin::UsersIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test 'users cannot access admin/users#toggle_disabled' do
-    create_standard_user
-    log_in_standard_user
+    login(create_standard_user)
 
     patch toggle_disabled_admin_user_path(id: 1)
 
@@ -217,8 +203,7 @@ class Admin::UsersIntegrationTest < ActionDispatch::IntegrationTest
 
   test 'admins can disable an account via HTTP' do
     u = create_standard_user
-    create_admin_user
-    log_in_admin_user
+    login(create_admin_user)
 
     patch toggle_disabled_admin_user_path(id: u.slug)
 
@@ -229,8 +214,7 @@ class Admin::UsersIntegrationTest < ActionDispatch::IntegrationTest
 
   test 'admins can disable an account via AJAX' do
     u = create_standard_user
-    create_admin_user
-    log_in_admin_user
+    login(create_admin_user)
 
     patch toggle_disabled_admin_user_path(id: u.slug), xhr: true
 
@@ -241,8 +225,7 @@ class Admin::UsersIntegrationTest < ActionDispatch::IntegrationTest
   test 'admins can enable an account via HTTP' do
     u = create_standard_user
     u.disable!
-    create_admin_user
-    log_in_admin_user
+    login(create_admin_user)
 
     patch toggle_disabled_admin_user_path(id: u.slug)
 
@@ -254,8 +237,7 @@ class Admin::UsersIntegrationTest < ActionDispatch::IntegrationTest
   test 'admins can enable an account via AJAX' do
     u = create_standard_user
     u.disable!
-    create_admin_user
-    log_in_admin_user
+    login(create_admin_user)
 
     patch toggle_disabled_admin_user_path(id: u.slug), xhr: true
 
@@ -264,8 +246,7 @@ class Admin::UsersIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test 'admins cannot disable their own account' do
-    u = create_admin_user
-    log_in_admin_user
+    u = login(create_admin_user)
 
     # via HTTP
     patch toggle_disabled_admin_user_path(id: u.slug)

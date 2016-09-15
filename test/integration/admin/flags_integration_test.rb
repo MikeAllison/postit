@@ -9,8 +9,7 @@ class Admin::FlagsIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test 'moderators cannot access admin/flags#index' do
-    create_moderator_user
-    log_in_moderator_user
+    login(create_moderator_user)
 
     get admin_flags_path
 
@@ -19,8 +18,7 @@ class Admin::FlagsIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test 'users cannot access admin/flags#index' do
-    create_standard_user
-    log_in_standard_user
+    login(create_standard_user)
 
     get admin_flags_path
 
@@ -29,8 +27,7 @@ class Admin::FlagsIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test 'admins can access admin/flags#index' do
-    create_admin_user
-    log_in_admin_user
+    login(create_admin_user)
 
     get admin_flags_path
 

@@ -14,17 +14,7 @@ class PostIntegrationTest < ActionDispatch::IntegrationTest
     assert assigns :posts
   end
 
-  # posts#show
-  test 'an unauthenticated user can access posts#show' do
-    p = create_valid_post
-
-    get post_path(id: p.slug)
-
-    assert_response :success
-    assert assigns :post
-  end
-
-  # posts/new
+  # posts#new
   test 'an unauthenticated in user cannot access the new post page' do
     get new_post_path
 
@@ -32,7 +22,17 @@ class PostIntegrationTest < ActionDispatch::IntegrationTest
     assert_equal 'You must log in to access that page.', flash[:danger]
   end
 
-  # posts/create
+  test 'an authenticated user can access the new post page' do
+    create_valid_category
+    login(create_standard_user)
+
+    get new_post_path
+
+    assert_response :success
+    assert_generates '/posts/new', controller: :posts, action: :new
+  end
+
+  # posts#create
   test 'an unauthenticated user cannot make a post' do
     assert_no_difference('Post.count') do
       post posts_path, { post: {
@@ -49,8 +49,7 @@ class PostIntegrationTest < ActionDispatch::IntegrationTest
 
   test 'a authenticated user can make a post' do
     c = create_valid_category
-    u = create_standard_user
-    log_in_standard_user
+    u = login(create_standard_user)
 
     assert_difference('Post.count') do
       post posts_path, { post: {
@@ -66,24 +65,135 @@ class PostIntegrationTest < ActionDispatch::IntegrationTest
     assert_equal 'Your post was created.', flash[:success]
   end
 
-  # posts/new
-  test 'an authenticated user can access the new post page' do
-    create_valid_category
-    create_standard_user
-    log_in_standard_user
+  # posts#show
+  test 'an unauthenticated user can access posts#show' do
+    p = create_valid_post
 
-    get new_post_path
+    get post_path(id: p.slug)
 
     assert_response :success
-    assert_generates '/posts/new', controller: :posts, action: :new
+    assert assigns :post
   end
 
-  # posts/edit
+  test 'an authenticated user can access posts#show' do
+    p = create_valid_post
+    login(create_standard_user)
+
+    get post_path(id: p.slug)
+
+    assert_response :success
+    assert assigns :post
+  end
+
+  # posts#edit
+  test 'an unauthenticated user cannot access posts#edit' do
+    get edit_post_path(id: 1)
+
+    assert_redirected_to login_path
+    assert_equal 'You must log in to access that page.', flash[:danger]
+  end
+
+  test 'an authenticated user cannot edit a post from another user' do
+    create_valid_category
+    u = login(create_standard_user)
+    login(create_standard_user2)
+
+    p = u.posts.create(title: 'new post', url: 'http://www.example.com', description: 'A cool site.', category_ids: [1])
+
+    get edit_post_path(id: p.slug)
+
+    assert_redirected_to post_path(id: p.slug)
+    assert_equal "Access Denied! - You may only edit posts that you've created.", flash[:danger]
+  end
+
+  test 'an authenticated can edit their own post' do
+    create_valid_category
+    u = login(create_standard_user)
+
+    p = u.posts.create(title: 'new post', url: 'http://www.example.com', description: 'A cool site.', category_ids: [1])
+
+    get edit_post_path(id: p.slug)
+
+    assert_response :success
+    assert assigns :post
+  end
+
+  test 'a moderator cannot edit another users post' do
+    create_valid_category
+    u = login(create_standard_user)
+    login(create_moderator_user)
+
+    p = u.posts.create(title: 'new post', url: 'http://www.example.com', description: 'A cool site.', category_ids: [1])
+
+    get edit_post_path(id: p.slug)
+
+    assert_redirected_to post_path(id: p.slug)
+    assert_equal "Access Denied! - You may only edit posts that you've created.", flash[:danger]
+  end
+
+  test 'an admin can edit another users post' do
+    create_valid_category
+    u = login(create_standard_user)
+    login(create_admin_user)
+
+    p = u.posts.create(title: 'new post', url: 'http://www.example.com', description: 'A cool site.', category_ids: [1])
+
+    get edit_post_path(id: p.slug)
+
+    assert_response :success
+    assert assigns :post
+  end
+
+  # posts#update
+  test 'an unauthenticated user cannot access posts#update via PATCH' do
+    patch post_path(id: 1)
+
+    assert_redirected_to login_path
+    assert_equal 'You must log in to access that page.', flash[:danger]
+  end
+
+  test 'an unauthenticated user cannot access posts#update via PUT' do
+    put post_path(id: 1)
+
+    assert_redirected_to login_path
+    assert_equal 'You must log in to access that page.', flash[:danger]
+  end
+
+  test 'an authenticated user cannot update a post from another user via PATCH' do
+    login(create_standard_user)
+  end
+
+  test 'an authenticated user cannot update a post from another user via PUT' do
+
+  end
+
+  test 'an authenticated user can update their own post via PATCH' do
+
+  end
+
+  test 'an authenticated user can update their own post via PUT' do
+
+  end
+
+  test 'a moderator cannot update another users post via PATCH' do
+
+  end
+
+  test 'a moderator cannot update another users post via PUT' do
+
+  end
+
+  test 'an admin can update another users post via PATCH' do
+
+  end
+
+  test 'an admin can update another users post via PUT' do
+
+  end
 
   # Misc
   test 'a category must exist before adding a post' do
-    create_admin_user
-    log_in_admin_user
+    login(create_admin_user)
 
     get new_post_path
 

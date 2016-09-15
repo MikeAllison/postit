@@ -66,8 +66,7 @@ class UserIntegrationTest < ActionDispatch::IntegrationTest
 
   test 'an authenticated user can view a user profile' do
     u = create_standard_user
-    create_standard_user2
-    log_in_standard_user2
+    login(create_standard_user2)
 
     get user_path(id: u.slug)
 
@@ -86,7 +85,7 @@ class UserIntegrationTest < ActionDispatch::IntegrationTest
   test 'an authenticated user cannot edit a different users profile' do
     u = create_standard_user
     u2 = create_standard_user2
-    log_in_standard_user2
+    login(u2)
 
     get edit_user_path(id: u.slug)
 
@@ -95,8 +94,7 @@ class UserIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test 'an authenticated user can edit their own profile' do
-    u = create_standard_user
-    log_in_standard_user
+    u = login(create_standard_user)
 
     get edit_user_path(id: u.slug)
 
@@ -114,8 +112,7 @@ class UserIntegrationTest < ActionDispatch::IntegrationTest
 
   test 'an authenticated user cannot update another users profile via PATCH' do
     u = create_standard_user
-    u2 = create_standard_user2
-    log_in_standard_user2
+    u2 = login(create_standard_user2)
 
     patch user_path(id: u.slug)
 
@@ -124,8 +121,7 @@ class UserIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test 'an authenticated can update their own profile via PATCH' do
-    u = create_standard_user
-    log_in_standard_user
+    u = login(create_standard_user)
 
     patch user_path(id: u.slug), { user: {
       username: 'newusername',
@@ -150,8 +146,7 @@ class UserIntegrationTest < ActionDispatch::IntegrationTest
 
   test 'an authenticated user cannot update another users profile via PUT' do
     u = create_standard_user
-    u2 = create_standard_user2
-    log_in_standard_user2
+    u2 = login(create_standard_user2)
 
     put user_path(id: u.slug)
 
@@ -160,8 +155,7 @@ class UserIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test 'an authenticated can update their own profile via PUT' do
-    u = create_standard_user
-    log_in_standard_user
+    u = login(create_standard_user)
 
     put user_path(id: u.slug), { user: {
       username: 'newusername',
@@ -178,8 +172,7 @@ class UserIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test 'a failed attempt at updating a user profile via PATCH' do
-    u = create_standard_user
-    log_in_standard_user
+    u = login(create_standard_user)
 
     patch user_path(id: u.slug), { user: {
       time_zone: 'invalidtimezone'
@@ -189,9 +182,8 @@ class UserIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test 'a failed attempt at updating a user profile via PUT' do
-    u = create_standard_user
-    log_in_standard_user
-
+    u = login(create_standard_user)
+    
     put user_path(id: u.slug), { user: {
       time_zone: 'invalidtimezone'
     } }
