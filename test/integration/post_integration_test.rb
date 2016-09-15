@@ -3,7 +3,7 @@ require 'test_helper'
 class PostIntegrationTest < ActionDispatch::IntegrationTest
   # posts#index
   test 'an unauthenticated user can access posts#index' do
-    create_valid_post
+    create_persisted_post
 
     get posts_path
     assert_response :success
@@ -23,7 +23,7 @@ class PostIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test 'an authenticated user can access the new post page' do
-    create_valid_category
+    create_persisted_category
     login(create_standard_user)
 
     get new_post_path
@@ -33,7 +33,7 @@ class PostIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   # posts#create
-  test 'an unauthenticated user cannot make a post' do
+  test 'an unauthenticated user cannot create a post' do
     assert_no_difference('Post.count') do
       post posts_path, { post: {
         title: 'Post 1',
@@ -47,8 +47,8 @@ class PostIntegrationTest < ActionDispatch::IntegrationTest
     assert_equal 'You must log in to access that page.', flash[:danger]
   end
 
-  test 'a authenticated user can make a post' do
-    c = create_valid_category
+  test 'a authenticated user can create a post' do
+    c = create_persisted_category
     u = login(create_standard_user)
 
     assert_difference('Post.count') do
@@ -67,7 +67,7 @@ class PostIntegrationTest < ActionDispatch::IntegrationTest
 
   # posts#show
   test 'an unauthenticated user can access posts#show' do
-    p = create_valid_post
+    p = create_persisted_post
 
     get post_path(id: p.slug)
 
@@ -76,7 +76,7 @@ class PostIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test 'an authenticated user can access posts#show' do
-    p = create_valid_post
+    p = create_persisted_post
     login(create_standard_user)
 
     get post_path(id: p.slug)
@@ -94,11 +94,10 @@ class PostIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test 'an authenticated user cannot edit a post from another user' do
-    create_valid_category
     u = login(create_standard_user)
     login(create_standard_user2)
 
-    p = u.posts.create(title: 'new post', url: 'http://www.example.com', description: 'A cool site.', category_ids: [1])
+    p = create_post(u)
 
     get edit_post_path(id: p.slug)
 
@@ -106,11 +105,10 @@ class PostIntegrationTest < ActionDispatch::IntegrationTest
     assert_equal "Access Denied! - You may only edit posts that you've created.", flash[:danger]
   end
 
-  test 'an authenticated can edit their own post' do
-    create_valid_category
+  test 'an authenticated user can edit their own post' do
     u = login(create_standard_user)
 
-    p = u.posts.create(title: 'new post', url: 'http://www.example.com', description: 'A cool site.', category_ids: [1])
+    p = create_post(u)
 
     get edit_post_path(id: p.slug)
 
@@ -119,11 +117,10 @@ class PostIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test 'a moderator cannot edit another users post' do
-    create_valid_category
     u = login(create_standard_user)
     login(create_moderator_user)
 
-    p = u.posts.create(title: 'new post', url: 'http://www.example.com', description: 'A cool site.', category_ids: [1])
+    p = create_post(u)
 
     get edit_post_path(id: p.slug)
 
@@ -132,11 +129,10 @@ class PostIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test 'an admin can edit another users post' do
-    create_valid_category
     u = login(create_standard_user)
     login(create_admin_user)
 
-    p = u.posts.create(title: 'new post', url: 'http://www.example.com', description: 'A cool site.', category_ids: [1])
+    p = create_post(u)
 
     get edit_post_path(id: p.slug)
 
@@ -160,7 +156,15 @@ class PostIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test 'an authenticated user cannot update a post from another user via PATCH' do
-    login(create_standard_user)
+    u = create_standard_user
+    u2 = login(create_standard_user2)
+
+    p = create_post(u)
+
+    patch post_path(id: p.slug)
+
+    assert_redirected_to post_path(id: p.slug)
+    assert_equal "Access Denied! - You may only edit posts that you've created.", flash[:danger]
   end
 
   test 'an authenticated user cannot update a post from another user via PUT' do

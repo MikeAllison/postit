@@ -135,7 +135,7 @@ class Admin::CategoriesIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test 'admins can access admin/categories#edit' do
-    c = create_valid_category
+    c = create_persisted_category
     login(create_admin_user)
 
     get admin_category_path(id: c.id)
@@ -170,7 +170,7 @@ class Admin::CategoriesIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test 'admins can update a category with PATCH' do
-    c = create_valid_category
+    c = create_persisted_category
     login(create_admin_user)
 
     patch admin_category_path(id: c.slug), category: { name: 'Updated' }
@@ -208,7 +208,7 @@ class Admin::CategoriesIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test 'admins can update a category with PUT' do
-    c = create_valid_category
+    c = create_persisted_category
     login(create_admin_user)
 
     put admin_category_path(id: c.slug), category: { name: 'Updated' }
@@ -246,7 +246,7 @@ class Admin::CategoriesIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test 'admins can hide a category via HTTP' do
-    c = create_valid_category
+    c = create_persisted_category
     login(create_admin_user)
 
     patch toggle_hidden_admin_category_path(id: c.slug)
@@ -257,7 +257,7 @@ class Admin::CategoriesIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test 'admins can hide a category via AJAX' do
-    c = create_valid_category
+    c = create_persisted_category
     login(create_admin_user)
 
     patch toggle_hidden_admin_category_path(id: c.slug), xhr: true
@@ -268,7 +268,7 @@ class Admin::CategoriesIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test 'admins can unhide a category via HTTP' do
-    c = create_valid_category
+    c = create_persisted_category
     c.hide!
     login(create_admin_user)
 
@@ -280,7 +280,7 @@ class Admin::CategoriesIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test 'admins can unhide a category via AJAX' do
-    c = create_valid_category
+    c = create_persisted_category
     c.hide!
     login(create_admin_user)
 

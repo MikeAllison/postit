@@ -2,13 +2,13 @@ require 'test_helper'
 
 class PostTest < ActiveSupport::TestCase
   test 'can create a valid post' do
-    p = create_valid_post
+    p = create_persisted_post
 
     assert p.persisted?
   end
 
   test 'cannot save without a title' do
-    p = create_valid_post
+    p = create_persisted_post
     p.title = ''
 
     assert_not p.save
@@ -16,7 +16,7 @@ class PostTest < ActiveSupport::TestCase
   end
 
   test 'cannot save with a title < 2 characters' do
-    p = create_valid_post
+    p = create_persisted_post
     p.title = 'A'
 
     assert_not p.save
@@ -24,7 +24,7 @@ class PostTest < ActiveSupport::TestCase
   end
 
   test 'cannot save without a url' do
-    p = create_valid_post
+    p = create_persisted_post
     p.url = ''
 
     assert_not p.save
@@ -32,7 +32,7 @@ class PostTest < ActiveSupport::TestCase
   end
 
   test 'cannot save a duplicate URL' do
-    create_valid_post
+    create_persisted_post
 
     p2 = Post.new(title: 'Valid Title 2',
                  url: 'http://www.url.com',
@@ -45,7 +45,7 @@ class PostTest < ActiveSupport::TestCase
   end
 
   test 'cannot save an invalid url' do
-    p = create_valid_post
+    p = create_persisted_post
     p.url = 'www.abc.com'
 
     assert_not p.save
@@ -53,7 +53,7 @@ class PostTest < ActiveSupport::TestCase
   end
 
   test 'cannot save without a description' do
-    p = create_valid_post
+    p = create_persisted_post
     p.description = ''
 
     assert_not p.save
@@ -82,7 +82,7 @@ class PostTest < ActiveSupport::TestCase
   end
 
   test 'strip_url_whitespace' do
-    p = create_valid_post
+    p = create_persisted_post
     p.url = ' http://www.a  bc.com  '
 
     assert p.save
@@ -90,7 +90,7 @@ class PostTest < ActiveSupport::TestCase
   end
 
   test 'downcase_url' do
-    p = create_valid_post
+    p = create_persisted_post
     p.url = 'hTTP://wWw.ABc.cOM'
     p.save
 
@@ -99,7 +99,7 @@ class PostTest < ActiveSupport::TestCase
   end
 
   test 'clear_flags' do
-    p = create_valid_post
+    p = create_persisted_post
 
     2.times do
       p.flags.create
@@ -111,7 +111,7 @@ class PostTest < ActiveSupport::TestCase
   end
 
   test 'hide' do
-    p = create_valid_post
+    p = create_persisted_post
 
     2.times do
       p.votes.create
@@ -144,14 +144,14 @@ class PostTest < ActiveSupport::TestCase
   end
 
   test 'increase_unhidden_comments_count' do
-    p = create_valid_post
+    p = create_persisted_post
     p.increase_unhidden_comments_count
 
     assert_equal 1, p.unhidden_comments_count
   end
 
   test 'reduce_unhidden_comments_count' do
-    p = create_valid_post
+    p = create_persisted_post
     p.increase_unhidden_comments_count
     p.reduce_unhidden_comments_count
 

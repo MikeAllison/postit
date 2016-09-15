@@ -46,27 +46,36 @@ class ActiveSupport::TestCase
     return User.find_by(id: session[:current_user_id])
   end
 
-  # Post
-  def create_valid_post
-    p = Post.new(title: 'Valid Title',
-                 url: 'http://www.url.com',
-                 description: 'A valid description')
-    p.categories << Category.create(name: 'news')
-    p.creator = User.create(username: 'user',
-                password: 'password',
-                time_zone: 'Eastern Time (US & Canada)')
-    p.save
-
-    return p
-  end
-
   # Category
-  def create_valid_category
+  def create_persisted_category
     Category.create(name: 'News')
   end
 
+  # Post
+  def create_post(user)
+    post = user.posts.create(title: 'New Post',
+                      url: 'http://www.example.com',
+                      description: 'A cool site.')
+    post.categories << create_persisted_category
+    post.creator = user
+    post.save
+
+    return post
+  end
+
+  def create_persisted_post
+    post = Post.new(title: 'Valid Title',
+                 url: 'http://www.url.com',
+                 description: 'A valid description')
+    post.categories << create_persisted_category
+    post.creator = create_standard_user
+    post.save
+
+    return post
+  end
+
   # Comment
-  def create_valid_comment
+  def create_persisted_comment
     Comment.create(body: 'A valid comment')
   end
 end
