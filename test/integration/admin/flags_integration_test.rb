@@ -35,5 +35,7 @@ class Admin::FlagsIntegrationTest < ActionDispatch::IntegrationTest
     get admin_flags_path
 
     assert_response :success
+    assert assigns :posts
+    assert assigns :comments
   end
 end

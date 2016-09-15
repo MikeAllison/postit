@@ -12,22 +12,15 @@ class ActiveSupport::TestCase
   # -- they do not yet inherit this setting
   fixtures :all
 
-  # Session
-  def log_in_standard_user
-    post login_path, { username: 'user', password: 'password' }
-  end
-
-  def log_in_moderator_user
-    post login_path, { username: 'moderator', password: 'password' }
-  end
-
-  def log_in_admin_user
-    post login_path, { username: 'admin', password: 'password' }
-  end
-
   # User
   def create_standard_user
     User.create(username: 'user',
+                password: 'password',
+                time_zone: 'Eastern Time (US & Canada)')
+  end
+
+  def create_standard_user2
+    User.create(username: 'user2',
                 password: 'password',
                 time_zone: 'Eastern Time (US & Canada)')
   end
@@ -46,13 +39,34 @@ class ActiveSupport::TestCase
                 role: 2)
   end
 
+  # Session
+  def log_in_standard_user
+    post login_path, { username: 'user', password: 'password' }
+  end
+
+  def log_in_standard_user2
+    post login_path, { username: 'user2', password: 'password' }
+  end
+
+  def log_in_moderator_user
+    post login_path, { username: 'moderator', password: 'password' }
+  end
+
+  def log_in_admin_user
+    post login_path, { username: 'admin', password: 'password' }
+  end
+
   # Post
   def create_valid_post
     p = Post.new(title: 'Valid Title',
                  url: 'http://www.url.com',
                  description: 'A valid description')
-    p.categories << Category.create(name: 'News')
+    p.categories << Category.create(name: 'news')
+    p.creator = User.create(username: 'user',
+                password: 'password',
+                time_zone: 'Eastern Time (US & Canada)')
     p.save
+
     return p
   end
 

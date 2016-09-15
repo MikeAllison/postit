@@ -1,37 +1,18 @@
 require 'test_helper'
 
-class UserSessionTest < ActionDispatch::IntegrationTest
-  test 'a disabled user cannot log in' do
-    u = create_standard_user
-    u.disabled = true
-    u.save
+class SessionIntegrationTest < ActionDispatch::IntegrationTest
+  # Login
+  test '/login route' do
+    get login_path
 
-    log_in_standard_user
-
-    assert_nil session[:current_user_id]
-    assert_redirected_to login_path
-    assert_equal 'Your account has been disabled.', flash[:danger]
+    assert_response :success
+    assert_generates '/login', controller: :sessions, action: :new
   end
 
-  test 'destroy_session_if_user_disabled' do
-    u = create_standard_user
-
-    log_in_standard_user
-
-    assert_redirected_to posts_path
-
-    u.disabled = true
-    u.save
-
-    get new_post_path
-    assert_redirected_to login_path
-    assert_equal nil, session[:current_user_id]
-    assert_equal 'Your account has been disabled.', flash[:danger]
-  end
-
-  test 'user can log in with correct credentials' do
+  test 'a user can log in successfully' do
     create_standard_user
-    log_in_standard_user
+
+    post login_path, { username: 'user', password: 'password' }
 
     assert_not_nil session[:current_user_id]
     assert_redirected_to posts_path
@@ -56,6 +37,7 @@ class UserSessionTest < ActionDispatch::IntegrationTest
     assert_equal 'The username or password was incorrect.', flash[:danger]
   end
 
+  # Logout
   test 'user can log out' do
     create_standard_user
     log_in_standard_user
@@ -65,5 +47,34 @@ class UserSessionTest < ActionDispatch::IntegrationTest
     assert_nil session[:current_user_id]
     assert_equal 'You have logged out successfully.', flash[:success]
     assert_redirected_to root_path
+  end
+
+  # Disabled Accounts
+  test 'a disabled user cannot log in' do
+    u = create_standard_user
+    u.disabled = true
+    u.save
+
+    log_in_standard_user
+
+    assert_nil session[:current_user_id]
+    assert_redirected_to login_path
+    assert_equal 'Your account has been disabled.', flash[:danger]
+  end
+
+  test 'session will be destroyed if user account is disabled' do
+    u = create_standard_user
+
+    log_in_standard_user
+
+    assert_redirected_to posts_path
+
+    u.disabled = true
+    u.save
+
+    get new_post_path
+    assert_redirected_to login_path
+    assert_equal nil, session[:current_user_id]
+    assert_equal 'Your account has been disabled.', flash[:danger]
   end
 end

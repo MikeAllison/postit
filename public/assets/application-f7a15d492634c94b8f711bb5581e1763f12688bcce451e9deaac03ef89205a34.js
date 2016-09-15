@@ -10398,7 +10398,7 @@ return jQuery;
       return element[0].href;
     },
 
-    // Submits "remote" forms and links with ajax
+    // Submits "remote" forms and links via AJAX
     handleRemote: function(element) {
       var method, url, data, withCredentials, dataType, options;
 

@@ -36,10 +36,6 @@ class Admin::UsersController < ApplicationController
     end
   end
 
-  def search
-    binding.pry
-  end
-
   private
 
   def find_user
