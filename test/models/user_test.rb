@@ -146,6 +146,6 @@ class UserTest < ActiveSupport::TestCase
     user = create_standard_user
     user.moderator!
 
-    assert_equal 'user [moderator]', user.username_role
+    assert_equal 'user1 [moderator]', user.username_role
   end
 end

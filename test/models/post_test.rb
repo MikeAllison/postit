@@ -38,7 +38,7 @@ class PostTest < ActiveSupport::TestCase
     create_persisted_post
 
     post2 = Post.new(title: 'Valid Title 2',
-                 url: 'http://www.url.com',
+                 url: 'http://www.url1.com',
                  description: 'A valid description 2')
     post2.categories << Category.create(name: 'News')
     post2.save

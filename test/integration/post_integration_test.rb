@@ -1,7 +1,9 @@
 require 'test_helper'
 
 class PostIntegrationTest < ActionDispatch::IntegrationTest
+  #
   # posts#index
+  #
   test 'an unauthenticated user can access posts#index' do
     get posts_path
     assert_response :success
@@ -12,7 +14,9 @@ class PostIntegrationTest < ActionDispatch::IntegrationTest
     assert assigns :posts
   end
 
+  #
   # posts#new
+  #
   test 'an unauthenticated in user cannot access the new post page' do
     get new_post_path
 
@@ -31,7 +35,9 @@ class PostIntegrationTest < ActionDispatch::IntegrationTest
     assert_generates '/posts/new', controller: :posts, action: :new
   end
 
+  #
   # posts#create
+  #
   test 'an unauthenticated user cannot create a post' do
     assert_no_difference('Post.count') do
       post posts_path, { post: {
@@ -64,7 +70,9 @@ class PostIntegrationTest < ActionDispatch::IntegrationTest
     assert_equal 'Your post was created.', flash[:success]
   end
 
+  #
   # posts#show
+  #
   test 'an unauthenticated user can access posts#show' do
     post = create_persisted_post
 
@@ -85,7 +93,9 @@ class PostIntegrationTest < ActionDispatch::IntegrationTest
     assert assigns :post
   end
 
+  #
   # posts#edit
+  #
   test 'an unauthenticated user cannot access posts#edit' do
     get edit_post_path(id: 1)
 
@@ -95,9 +105,9 @@ class PostIntegrationTest < ActionDispatch::IntegrationTest
 
   test 'an authenticated user cannot edit a post from another user' do
     user = login(create_standard_user)
-    post = create_post_by(user)
+    post = create_post_by_user(user)
 
-    login(create_standard_user2)
+    login(create_standard_user(2))
 
     get edit_post_path(id: post.slug)
 
@@ -107,7 +117,7 @@ class PostIntegrationTest < ActionDispatch::IntegrationTest
 
   test 'an authenticated user can edit their own post' do
     user = login(create_standard_user)
-    post = create_post_by(user)
+    post = create_post_by_user(user)
 
     get edit_post_path(id: post.slug)
 
@@ -117,7 +127,7 @@ class PostIntegrationTest < ActionDispatch::IntegrationTest
 
   test 'a moderator cannot edit another users post' do
     user = login(create_standard_user)
-    post = create_post_by(user)
+    post = create_post_by_user(user)
 
     login(create_moderator_user)
 
@@ -131,7 +141,7 @@ class PostIntegrationTest < ActionDispatch::IntegrationTest
     user = login(create_standard_user)
     login(create_admin_user)
 
-    post = create_post_by(user)
+    post = create_post_by_user(user)
 
     get edit_post_path(id: post.slug)
 
@@ -139,16 +149,26 @@ class PostIntegrationTest < ActionDispatch::IntegrationTest
     assert assigns :post
   end
 
+  #
   # posts#update
+  #
   test 'an unauthenticated user cannot access posts#update via PATCH' do
-    patch post_path(id: 1)
+    post = create_persisted_post
+
+    assert_no_difference('post.description.length') do
+      patch post_path(id: post.slug), post: { description: 'changed' }
+    end
 
     assert_redirected_to login_path
     assert_equal 'You must log in to access that page.', flash[:danger]
   end
 
   test 'an unauthenticated user cannot access posts#update via PUT' do
-    put post_path(id: 1)
+    post = create_persisted_post
+
+    assert_no_difference('post.description.length') do
+      put post_path(id: post.slug), post: { description: 'changed' }
+    end
 
     assert_redirected_to login_path
     assert_equal 'You must log in to access that page.', flash[:danger]
@@ -156,11 +176,13 @@ class PostIntegrationTest < ActionDispatch::IntegrationTest
 
   test 'an authenticated user cannot update a post from another user via PATCH' do
     user = create_standard_user
-    post = create_post_by(user)
+    post = create_post_by_user(user)
 
-    login(create_standard_user2)
+    login(create_standard_user(2))
 
-    patch post_path(id: post.slug)
+    assert_no_difference('post.description.length') do
+      patch post_path(id: post.slug), post: { description: 'changed' }
+    end
 
     assert_redirected_to post_path(id: post.slug)
     assert_equal "Access Denied! - You may only edit posts that you've created.", flash[:danger]
@@ -168,11 +190,13 @@ class PostIntegrationTest < ActionDispatch::IntegrationTest
 
   test 'an authenticated user cannot update a post from another user via PUT' do
     user = create_standard_user
-    post = create_post_by(user)
+    post = create_post_by_user(user)
 
-    login(create_standard_user2)
+    login(create_standard_user(2))
 
-    put post_path(id: post.slug)
+    assert_no_difference('post.description.length') do
+      put post_path(id: post.slug), post: { description: 'changed' }
+    end
 
     assert_redirected_to post_path(id: post.slug)
     assert_equal "Access Denied! - You may only edit posts that you've created.", flash[:danger]
@@ -180,7 +204,7 @@ class PostIntegrationTest < ActionDispatch::IntegrationTest
 
   test 'an authenticated user can update their own post via PATCH' do
     user = login(create_standard_user)
-    post = create_post_by(user)
+    post = create_post_by_user(user)
 
     patch post_path(id: post.slug), { post: {
       title: 'New Title',
@@ -198,7 +222,7 @@ class PostIntegrationTest < ActionDispatch::IntegrationTest
 
   test 'an authenticated user can update their own post via PUT' do
     user = login(create_standard_user)
-    post = create_post_by(user)
+    post = create_post_by_user(user)
 
     put post_path(id: post.slug), { post: {
       title: 'New Title',
@@ -216,7 +240,7 @@ class PostIntegrationTest < ActionDispatch::IntegrationTest
 
   test 'a moderator cannot update another users post via PATCH' do
     user = create_standard_user
-    post = create_post_by(user)
+    post = create_post_by_user(user)
     login(create_moderator_user)
 
     patch post_path(id: post.slug), { post: {
@@ -231,7 +255,7 @@ class PostIntegrationTest < ActionDispatch::IntegrationTest
 
   test 'a moderator cannot update another users post via PUT' do
     user = create_standard_user
-    post = create_post_by(user)
+    post = create_post_by_user(user)
     login(create_moderator_user)
 
     put post_path(id: post.slug), { post: {
@@ -243,7 +267,7 @@ class PostIntegrationTest < ActionDispatch::IntegrationTest
 
   test 'an admin can update another users post via PATCH' do
     user = create_standard_user
-    post = create_post_by(user)
+    post = create_post_by_user(user)
     login(create_admin_user)
 
     patch post_path(id: post.slug), { post: {
@@ -262,7 +286,7 @@ class PostIntegrationTest < ActionDispatch::IntegrationTest
 
   test 'an admin can update another users post via PUT' do
     user = create_standard_user
-    post = create_post_by(user)
+    post = create_post_by_user(user)
     login(create_admin_user)
 
     put post_path(id: post.slug), { post: {
@@ -281,7 +305,7 @@ class PostIntegrationTest < ActionDispatch::IntegrationTest
 
   test 'a failed post update via PATCH' do
     user = login(create_standard_user)
-    post = create_post_by(user)
+    post = create_post_by_user(user)
 
     patch post_path(id: post.slug), { post: {
       title: ''
@@ -292,7 +316,7 @@ class PostIntegrationTest < ActionDispatch::IntegrationTest
 
   test 'a failed post update via PUT' do
     user = login(create_standard_user)
-    post = create_post_by(user)
+    post = create_post_by_user(user)
 
     put post_path(id: post.slug), { post: {
       title: ''
@@ -301,16 +325,24 @@ class PostIntegrationTest < ActionDispatch::IntegrationTest
     assert_template :edit
   end
 
+  #
   # posts#vote
+  #
   test 'an unauthenticated user cannot vote on a post' do
+    post = create_persisted_post
+
     # HTTP
-    post vote_post_path(id: 1)
+    assert_no_difference('Vote.count') do
+      post vote_post_path(id: post.slug), { vote: 'true' }
+    end
 
     assert_redirected_to login_path
     assert_equal 'You must log in to access that page.', flash[:danger]
 
     # AJAX
-    post vote_post_path(id: 1), xhr: true
+    assert_no_difference('Vote.count') do
+      post vote_post_path(id: post.slug), { vote: 'true' }, xhr: true
+    end
 
     assert_equal 'You must log in to access that page.', flash[:danger]
   end
@@ -359,8 +391,7 @@ class PostIntegrationTest < ActionDispatch::IntegrationTest
     login(create_standard_user)
 
     post = create_persisted_post
-    post.total_flags = 1
-    post.save
+    post.flags.create(flag: true)
 
     post vote_post_path(id: post.slug), { vote: 'true' }
 
@@ -409,7 +440,103 @@ class PostIntegrationTest < ActionDispatch::IntegrationTest
     assert_equal "Sorry, your vote couldn't be counted.", flash[:danger]
   end
 
+  #
+  # post#flag
+  #
+  test 'an unauthenticated user cannot access post#flag' do
+    post = create_persisted_post
+
+    # HTTP
+    assert_no_difference('Flag.count') do
+      post flag_post_path(id: post.slug), { flag: 'true' }
+    end
+
+    assert_redirected_to login_path
+    assert_equal 'You must log in to access that page.', flash[:danger]
+
+    # AJAX
+    assert_no_difference('Flag.count') do
+      post flag_post_path(id: post.slug), { flag: 'true' }, xhr: true
+    end
+
+    assert_equal 'You must log in to access that page.', flash[:danger]
+  end
+
+  test 'users cannot flag a post' do
+    post = create_persisted_post
+    login(create_standard_user)
+
+    # HTTP
+    assert_no_difference('Flag.count') do
+      post flag_post_path(id: post.slug), { flag: 'true' }
+    end
+
+    assert_equal 'This action requires moderator, or administrator, rights.', flash[:danger]
+
+    # AJAX
+    assert_no_difference('Flag.count') do
+      post flag_post_path(id: post.slug), { flag: 'true' }, xhr: true
+    end
+
+    assert_equal 'This action requires moderator, or administrator, rights.', flash[:danger]
+  end
+
+  test 'moderators can flag a post via HTTP' do
+    post = create_persisted_post
+    login(create_moderator_user)
+
+    post flag_post_path(id: post.slug), { flag: 'true' }
+
+    post.reload
+    assert post.flagged?
+  end
+
+  test 'moderators can flag a post via AJAX' do
+    post = create_persisted_post
+    login(create_moderator_user)
+
+    post flag_post_path(id: post.slug), { flag: 'true' }, xhr: true
+
+    post.reload
+    assert post.flagged?
+  end
+
+  test 'admins can flag a post via HTTP' do
+    post = create_persisted_post
+    login(create_admin_user)
+
+    post flag_post_path(id: post.slug), { flag: 'true' }
+
+    post.reload
+    assert post.flagged?
+  end
+
+  test 'admins can flag a post via AJAX' do
+    post = create_persisted_post
+    login(create_admin_user)
+
+    post flag_post_path(id: post.slug), { flag: 'true' }, xhr: true
+
+    post.reload
+    assert post.flagged?
+  end
+
+  test 'users cannot unflag a post' do
+    post = create_persisted_post
+    post.flags.create(flag: true)
+
+    login(create_standard_user)
+
+    post flag_comment_path(id: post.slug), { flag: 'false' }, xhr: true
+
+    post.reload
+    assert post.flagged?
+    assert_equal 'This action requires moderator, or administrator, rights.', flash[:danger]
+  end
+
+  #
   # Misc
+  #
   test 'a category must exist before adding a post' do
     login(create_admin_user)
 

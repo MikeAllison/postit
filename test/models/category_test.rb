@@ -4,7 +4,6 @@ class CategoryTest < ActiveSupport::TestCase
   test 'can create a valid category' do
     cat = create_persisted_category
 
-
     assert cat.persisted?
   end
 

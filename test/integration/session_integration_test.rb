@@ -12,7 +12,7 @@ class SessionIntegrationTest < ActionDispatch::IntegrationTest
   test 'a user can log in successfully' do
     create_standard_user
 
-    post login_path, { username: 'user', password: 'password' }
+    post login_path, { username: 'user1', password: 'password' }
 
     assert_not_nil session[:current_user_id]
     assert_redirected_to posts_path

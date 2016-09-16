@@ -1,12 +1,18 @@
 class CommentsController < ApplicationController
   before_action :authenticate # AppController
-  before_action :require_admin, only: [:clear_flags, :hide]
-  before_action :require_moderator_or_admin, only: [:flag]
+  before_action :require_admin, only: [:clear_flags, :hide] # AppController
+  before_action :require_moderator_or_admin, only: [:flag] # AppController
   before_action :find_comment, only: [:vote, :flag, :clear_flags, :hide]
   before_action :catch_invalid_vote, only: [:vote]
 
   def create
     @post = Post.find_by(slug: params[:post_id])
+
+    if @post.flagged?
+      flash[:danger] = 'You may not comment on a post that has been flagged for review.'
+      redirect_to @post and return
+    end
+
     @comment = @post.comments.build(params.require(:comment).permit(:body))
     @comment.creator = current_user
 

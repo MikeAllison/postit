@@ -43,7 +43,7 @@ class UserIntegrationTest < ActionDispatch::IntegrationTest
 
     assert_no_difference('User.count') do
       post users_path, { user: {
-        username: 'user',
+        username: 'user1',
         password: 'password',
         password_confirmation: 'password',
         time_zone: 'Eastern Time (US & Canada)'
@@ -67,7 +67,7 @@ class UserIntegrationTest < ActionDispatch::IntegrationTest
   test 'an authenticated user can view a user profile' do
     user = create_standard_user
 
-    login(create_standard_user2)
+    login(create_standard_user(2))
 
     get user_path(id: user.slug)
 
@@ -84,12 +84,12 @@ class UserIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test 'an authenticated user cannot edit a different users profile' do
-    user = create_standard_user
-    user2 = create_standard_user2
+    user1 = create_standard_user
+    user2 = create_standard_user(2)
 
     login(user2)
 
-    get edit_user_path(id: user.slug)
+    get edit_user_path(id: user1.slug)
 
     assert_redirected_to user_path(id: user2.slug)
     assert_equal 'Access Denied! - You may only edit your own profile.', flash[:danger]
@@ -113,10 +113,10 @@ class UserIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test 'an authenticated user cannot update another users profile via PATCH' do
-    user = create_standard_user
-    user2 = login(create_standard_user2)
+    user1 = create_standard_user
+    user2 = login(create_standard_user(2))
 
-    patch user_path(id: user.slug)
+    patch user_path(id: user1.slug)
 
     assert_redirected_to user_path(id: user2.slug)
     assert_equal 'Access Denied! - You may only edit your own profile.', flash[:danger]
@@ -147,10 +147,10 @@ class UserIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test 'an authenticated user cannot update another users profile via PUT' do
-    user = create_standard_user
-    user2 = login(create_standard_user2)
+    user1 = create_standard_user
+    user2 = login(create_standard_user(2))
 
-    put user_path(id: user.slug)
+    put user_path(id: user1.slug)
 
     assert_redirected_to user_path(id: user2.slug)
     assert_equal 'Access Denied! - You may only edit your own profile.', flash[:danger]

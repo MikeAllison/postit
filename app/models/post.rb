@@ -9,6 +9,8 @@ class Post < ActiveRecord::Base
   has_many :post_categories
   has_many :categories, through: :post_categories
 
+  default_scope { where(hidden: false) }
+
   validates_presence_of :title, message: "Title field can't be blank"
   validates_length_of :title, minimum: 2, message: 'Title is too short (minimum is 2 characters)'
   validates_presence_of :url, message: "URL field can't be blank"
