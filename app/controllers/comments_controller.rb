@@ -45,6 +45,7 @@ class CommentsController < ApplicationController
 
     respond_to do |format|
       format.html do
+        flash[:danger] = @error_msg if @error_msg
         redirect_to :back
       end
       format.js { render 'shared/vote', locals: { obj: @comment } }
@@ -98,7 +99,7 @@ class CommentsController < ApplicationController
   def catch_invalid_vote
     if (params[:vote] != 'true') && (params[:vote] != 'false')
       @error_msg = "Sorry, your vote couldn't be counted."
-      
+
       respond_to do |format|
         format.html do
           flash[:danger] = @error_msg

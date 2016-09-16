@@ -315,7 +315,7 @@ class PostIntegrationTest < ActionDispatch::IntegrationTest
     assert_equal 'You must log in to access that page.', flash[:danger]
   end
 
-  test 'an authenticated user can upvote on a post via HTTP' do
+  test 'an authenticated user can upvote a post via HTTP' do
     post = create_persisted_post
     login(create_standard_user)
 
@@ -325,7 +325,7 @@ class PostIntegrationTest < ActionDispatch::IntegrationTest
     assert_equal 1, post.tallied_votes
   end
 
-  test 'an authenticated user can upvote on a post via AJAX' do
+  test 'an authenticated user can upvote a post via AJAX' do
     post = create_persisted_post
     login(create_standard_user)
 
@@ -335,7 +335,7 @@ class PostIntegrationTest < ActionDispatch::IntegrationTest
     assert_equal 1, post.tallied_votes
   end
 
-  test 'an authenticated user can downvote on a post via HTTP' do
+  test 'an authenticated user can downvote a post via HTTP' do
     post = create_persisted_post
     login(create_standard_user)
 
@@ -345,7 +345,7 @@ class PostIntegrationTest < ActionDispatch::IntegrationTest
     assert_equal(-1, post.tallied_votes)
   end
 
-  test 'an authenticated user can downvote on a post via AJAX' do
+  test 'an authenticated user can downvote a post via AJAX' do
     post = create_persisted_post
     login(create_standard_user)
 
