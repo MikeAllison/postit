@@ -3,7 +3,7 @@ class CommentsController < ApplicationController
   before_action :require_admin, only: [:clear_flags, :hide] # AppController
   before_action :require_moderator_or_admin, only: [:flag] # AppController
   before_action :find_comment, only: [:vote, :flag, :clear_flags, :hide]
-  before_action :catch_invalid_vote, only: [:vote]
+  before_action :catch_invalid_params, only: [:vote, :flag]
 
   def create
     @post = Post.find_by(slug: params[:post_id])
@@ -69,8 +69,6 @@ class CommentsController < ApplicationController
       @flag.save
     elsif @flag.opposite_exists?(submitted_flag)
       @flag.update(flag: submitted_flag)
-    else
-      @error_msg = 'Sorry, there was a problem flagging this comment.'
     end
 
     respond_to do |format|
@@ -102,16 +100,16 @@ class CommentsController < ApplicationController
 
   private
 
-  def catch_invalid_vote
-    if (params[:vote] != 'true') && (params[:vote] != 'false')
-      @error_msg = "Sorry, your vote couldn't be counted."
+  def catch_invalid_params
+    if (params[action_name] != 'true') && (params[action_name] != 'false')
+      @error_msg = "Sorry, there was a problem submitting your #{action_name}.  Please try again."
 
       respond_to do |format|
         format.html do
           flash[:danger] = @error_msg
           redirect_to :back
         end
-        format.js { render 'shared/vote', locals: { obj: @comment.reload } }
+        format.js { render "shared/#{action_name}", locals: { obj: @comment.reload } }
       end
     end
   end

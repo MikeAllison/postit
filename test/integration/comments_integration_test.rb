@@ -19,12 +19,14 @@ class CommentsIntegrationTest < ActionDispatch::IntegrationTest
     post = create_persisted_post
     login(create_standard_user)
 
-    assert_difference('Comment.count') do
+    assert_difference('Comment.count', 1) do
       post post_comments_path(post_id: post.slug), { comment: { body: 'A comment.' } }
     end
 
     assert_redirected_to post_path(id: post.slug)
     assert_equal 'Your comment was added.', flash[:success]
+    post.reload
+    assert_equal 1, post.unhidden_comments_count
   end
 
   test 'a comment cannot be added to a flagged post' do
@@ -157,15 +159,23 @@ class CommentsIntegrationTest < ActionDispatch::IntegrationTest
     assert_equal(-1, comment.tallied_votes)
   end
 
-  test 'a vote on a comment must be true/false' do
+  test 'comment/vote only accepts true/false' do
     comment = create_persisted_comment
     login(create_standard_user)
 
+    # HTTP
     post vote_comment_path(id: comment.id), { vote: 'invalidvote' }
 
     comment.reload
     assert_equal 0, comment.tallied_votes
-    assert_equal "Sorry, your vote couldn't be counted.", flash[:danger]
+    assert_equal "Sorry, there was a problem submitting your vote.  Please try again.", flash[:danger]
+
+    # AJAX
+    post vote_comment_path(id: comment.id), { vote: 'invalidvote' }, xhr: true
+
+    comment.reload
+    assert_equal 0, comment.tallied_votes
+    assert_equal "Sorry, there was a problem submitting your vote.  Please try again.", flash[:danger]
   end
 
   #
@@ -255,6 +265,14 @@ class CommentsIntegrationTest < ActionDispatch::IntegrationTest
 
     login(create_standard_user)
 
+    # HTTP
+    post flag_comment_path(id: comment.id), { flag: 'false' }
+
+    comment.reload
+    assert comment.flagged?
+    assert_equal 'This action requires moderator, or administrator, rights.', flash[:danger]
+
+    # AJAX
     post flag_comment_path(id: comment.id), { flag: 'false' }, xhr: true
 
     comment.reload
@@ -262,18 +280,26 @@ class CommentsIntegrationTest < ActionDispatch::IntegrationTest
     assert_equal 'This action requires moderator, or administrator, rights.', flash[:danger]
   end
 
-  test 'moderators can clear their own flag on a comment' do
+  test 'moderators can unflag their own flag on a comment' do
     comment = create_persisted_comment
     moder = login(create_moderator_user)
 
+    # HTTP
     post flag_comment_path(id: comment.id), { flag: 'true' }
     post flag_comment_path(id: comment.id), { flag: 'false' }
 
     comment.reload
     assert_equal false, comment.flags.find_by(user_id: moder.id).flag
+
+    # AJAX
+    post flag_comment_path(id: comment.id), { flag: 'true' }, xhr: true
+    post flag_comment_path(id: comment.id), { flag: 'false' }, xhr: true
+
+    comment.reload
+    assert_equal false, comment.flags.find_by(user_id: moder.id).flag
   end
 
-  test 'moderators cannot clear a flag from another moderator' do
+  test 'moderators cannot unflag a flag from another moderator' do
     comment = create_persisted_comment
     moder1 = login(create_moderator_user)
 
@@ -281,52 +307,283 @@ class CommentsIntegrationTest < ActionDispatch::IntegrationTest
     logout!
 
     login(create_moderator_user(2))
+
+    # HTTP
     post flag_comment_path(id: comment.id), { flag: 'false' }
+
+    comment.reload
+    assert_equal true, comment.flags.find_by(user_id: moder1.id).flag
+
+    # AJAX
+    post flag_comment_path(id: comment.id), { flag: 'false' }, xhr: true
 
     comment.reload
     assert_equal true, comment.flags.find_by(user_id: moder1.id).flag
   end
 
-  test 'admins can clear their own flag on a comment' do
+  test 'admins can unflag their own flag on a comment' do
+    comment = create_persisted_comment
+    admin = login(create_admin_user)
 
+    # HTTP
+    post flag_comment_path(id: comment.id), { flag: 'true' }
+    post flag_comment_path(id: comment.id), { flag: 'false' }
+
+    comment.reload
+    assert_equal false, comment.flags.find_by(user_id: admin.id).flag
+
+    # AJAX
+    post flag_comment_path(id: comment.id), { flag: 'true' }, xhr: true
+    post flag_comment_path(id: comment.id), { flag: 'false' }, xhr: true
+
+    comment.reload
+    assert_equal false, comment.flags.find_by(user_id: admin.id).flag
   end
 
-  test 'admins cannot clear a flag from another user' do
+  test 'admins cannot unflag a flag from another user' do
+    comment = create_persisted_comment
+    moder = login(create_moderator_user)
 
+    post flag_comment_path(id: comment.id), { flag: 'true' }
+    logout!
+
+    login(create_admin_user)
+
+    # HTTP
+    post flag_comment_path(id: comment.id), { flag: 'false' }
+
+    comment.reload
+    assert_equal true, comment.flags.find_by(user_id: moder.id).flag
+
+    # AJAX
+    post flag_comment_path(id: comment.id), { flag: 'false' }, xhr: true
+
+    comment.reload
+    assert_equal true, comment.flags.find_by(user_id: moder.id).flag
   end
 
+  test 'comments/flag only accepts true/false' do
+    comment = create_persisted_comment
+
+    login(create_moderator_user)
+
+    # HTTP
+    post flag_comment_path(id: comment.id), { flag: 'true' }
+    post flag_comment_path(id: comment.id), { flag: 'nottrueorfalse' }
+
+    comment.reload
+    assert comment.flagged?
+    assert_equal "Sorry, there was a problem submitting your flag.  Please try again.", flash[:danger]
+
+    # AJAX
+    post flag_comment_path(id: comment.id), { flag: 'true' }, xhr: true
+    post flag_comment_path(id: comment.id), { flag: 'nottrueorfalse' }, xhr: true
+
+    comment.reload
+    assert comment.flagged?
+    assert_equal "Sorry, there was a problem submitting your flag.  Please try again.", flash[:danger]
+  end
+
+  #
+  # comments/clear_flags
+  #
   test 'an unauthenticated user cannot access comments#clear_flags' do
+    comment = create_persisted_comment
+    comment.flags.create(flag: true)
+    comment.reload
 
+    # HTTP
+    assert_no_difference('Flag.all.count') do
+      patch clear_flags_comment_path(id: comment.id)
+    end
+
+    comment.reload
+    assert comment.flagged?
+    assert_redirected_to login_path
+    assert_equal 'You must log in to access that page.', flash[:danger]
+
+    # AJAX
+    assert_no_difference('Flag.all.count') do
+      patch clear_flags_comment_path(id: comment.id), xhr: true
+    end
+
+    comment.reload
+    assert comment.flagged?
+    assert_redirected_to login_path
+    assert_equal 'You must log in to access that page.', flash[:danger]
   end
 
   test 'users cannot clear all flags on a comment' do
+    comment = create_persisted_comment
+    comment.flags.create(flag: true)
+    comment.reload
 
+    login(create_standard_user)
+
+    # HTTP
+    assert_no_difference('Flag.all.count') do
+      patch clear_flags_comment_path(id: comment.id)
+    end
+
+    comment.reload
+    assert comment.flagged?
+    assert_equal 'This action requires administrator rights.', flash[:danger]
+
+    # AJAX
+    assert_no_difference('Flag.all.count') do
+      patch clear_flags_comment_path(id: comment.id), xhr: true
+    end
+
+    comment.reload
+    assert comment.flagged?
+    assert_equal 'This action requires administrator rights.', flash[:danger]
   end
 
   test 'moderators cannot clear all flags on a comment' do
+    comment = create_persisted_comment
+    comment.flags.create(flag: true)
+    comment.reload
 
+    login(create_moderator_user)
+
+    # HTTP
+    assert_no_difference('Flag.all.count') do
+      patch clear_flags_comment_path(id: comment.id)
+    end
+
+    comment.reload
+    assert comment.flagged?
+    assert_equal 'This action requires administrator rights.', flash[:danger]
+
+    # AJAX
+    assert_no_difference('Flag.all.count') do
+      patch clear_flags_comment_path(id: comment.id), xhr: true
+    end
+    
+    comment.reload
+    assert comment.flagged?
+    assert_equal 'This action requires administrator rights.', flash[:danger]
   end
 
-  test 'admins can clear all flags on a comment' do
+  test 'admins can clear all flags on a comment via HTTP' do
+    comment = create_persisted_comment
+    2.times do |i|
+      comment.flags.create(flag: true, user_id: i + 2)
+    end
+    comment.reload
 
+    login(create_admin_user)
+
+    # HTTP
+    assert_difference('Flag.all.count', -2) do
+      patch clear_flags_comment_path(id: comment.id)
+    end
+
+    comment.reload
+    assert_not comment.flagged?
+    assert_equal 0, comment.total_flags
+  end
+
+  test 'admins can clear all flags on a comment via AJAX' do
+    comment = create_persisted_comment
+    2.times do |i|
+      comment.flags.create(flag: true, user_id: i + 2)
+    end
+    comment.reload
+
+    login(create_admin_user)
+
+    assert_difference('Flag.all.count', -2) do
+      patch clear_flags_comment_path(id: comment.id), xhr: true
+    end
+
+    comment.reload
+    assert_not comment.flagged?
+    assert_equal 0, comment.total_flags
   end
 
   #
   # comments/hide
   #
   test 'an unauthenticated user cannot access comments#hide' do
+    comment = create_persisted_comment
 
+    # HTTP
+    patch hide_comment_path(id: comment.id), { hidden: true }
+
+    comment.reload
+    assert_not comment.hidden?
+    assert_redirected_to login_path
+    assert_equal 'You must log in to access that page.', flash[:danger]
+
+    # AJAX
+    patch hide_comment_path(id: comment.id), { hidden: true }, xhr: true
+
+    comment.reload
+    assert_not comment.hidden?
+    assert_equal 'You must log in to access that page.', flash[:danger]
   end
 
   test 'a user cannot hide a comment' do
+    comment = create_persisted_comment
+    login(create_standard_user)
 
+    # HTTP
+    patch hide_comment_path(id: comment.id), { hidden: true }
+
+    comment.reload
+    assert_not comment.hidden?
+    assert_equal 'This action requires administrator rights.', flash[:danger]
+
+    # AJAX
+    patch hide_comment_path(id: comment.id), { hidden: true }, xhr: true
+
+    comment.reload
+    assert_not comment.hidden?
+    assert_equal 'This action requires administrator rights.', flash[:danger]
   end
 
   test 'a moderator cannot hide a comment' do
+    comment = create_persisted_comment
+    login(create_moderator_user)
 
+    # HTTP
+    patch hide_comment_path(id: comment.id), { hidden: true }
+
+    comment.reload
+    assert_not comment.hidden?
+    assert_equal 'This action requires administrator rights.', flash[:danger]
+
+    # AJAX
+    patch hide_comment_path(id: comment.id), { hidden: true }, xhr: true
+
+    comment.reload
+    assert_not comment.hidden?
+    assert_equal 'This action requires administrator rights.', flash[:danger]
   end
 
   test 'an admin can hide a comment' do
+    post = create_persisted_post
+    comment1 = post.comments.create(body: 'Comment 1')
+    comment2 = post.comments.create(body: 'Comment 2')
+    2.times { post.increase_unhidden_comments_count }
 
+    login(create_admin_user)
+
+    # HTTP
+    patch hide_comment_path(id: comment1.id), { hidden: true }
+
+    comment1.reload
+    assert comment1.hidden?
+    post.reload
+    assert_equal 1, post.unhidden_comments_count
+
+    # AJAX
+    patch hide_comment_path(id: comment2.id), { hidden: true }, xhr: true
+
+    comment2.reload
+    assert comment2.hidden?
+    post.reload
+    assert_equal 0, post.unhidden_comments_count
   end
 end

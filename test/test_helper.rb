@@ -52,14 +52,16 @@ class ActiveSupport::TestCase
 
   # Post
   def create_persisted_post(post_id = 1, cat_id = 1)
-    post = Post.new(title: "Valid Title #{post_id}",
+    post = Post.new(title: "Title #{post_id}",
                     url: "http://www.url#{post_id}.com",
                     description: "Description #{post_id}")
 
-    if cat_id != 1
-      post.categories << create_persisted_category(cat_id)
+    category = Category.find_by(id: cat_id)
+
+    if category
+      post.categories << category
     else
-      post.categories << create_persisted_category
+      post.categories << create_persisted_category(cat_id)
     end
 
     post.creator = create_standard_user

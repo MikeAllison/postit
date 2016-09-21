@@ -56,7 +56,7 @@ class PostIntegrationTest < ActionDispatch::IntegrationTest
     cat = create_persisted_category
     user = login(create_standard_user)
 
-    assert_difference('Post.count') do
+    assert_difference('Post.count', 1) do
       post posts_path, { post: {
         title: 'Post 1',
         url: 'http://www.example.com',
@@ -437,11 +437,11 @@ class PostIntegrationTest < ActionDispatch::IntegrationTest
 
     post.reload
     assert_equal 0, post.tallied_votes
-    assert_equal "Sorry, your vote couldn't be counted.", flash[:danger]
+    assert_equal "Sorry, there was a problem submitting your vote.  Please try again.", flash[:danger]
   end
 
   #
-  # post#flag
+  # comments/flag
   #
   test 'an unauthenticated user cannot access post#flag' do
     post = create_persisted_post
@@ -527,11 +527,326 @@ class PostIntegrationTest < ActionDispatch::IntegrationTest
 
     login(create_standard_user)
 
-    post flag_comment_path(id: post.slug), { flag: 'false' }, xhr: true
+    # HTTP
+    post flag_post_path(id: post.slug), { flag: 'false' }
 
     post.reload
     assert post.flagged?
     assert_equal 'This action requires moderator, or administrator, rights.', flash[:danger]
+
+    # AJAX
+    post flag_post_path(id: post.slug), { flag: 'false' }, xhr: true
+
+    post.reload
+    assert post.flagged?
+    assert_equal 'This action requires moderator, or administrator, rights.', flash[:danger]
+  end
+
+  test 'moderators can unflag their own flag on a post' do
+    post = create_persisted_post
+    moder = login(create_moderator_user)
+
+    # HTTP
+    post flag_post_path(id: post.slug), { flag: 'true' }
+    post flag_post_path(id: post.slug), { flag: 'false' }
+
+    post.reload
+    assert_equal false, post.flags.find_by(user_id: moder.id).flag
+
+    # AJAX
+    post flag_post_path(id: post.slug), { flag: 'true' }, xhr: true
+    post flag_post_path(id: post.slug), { flag: 'false' }, xhr: true
+
+    post.reload
+    assert_equal false, post.flags.find_by(user_id: moder.id).flag
+  end
+
+  test 'moderators cannot unflag a flag from another moderator' do
+    post = create_persisted_post
+    moder1 = login(create_moderator_user)
+
+    post flag_post_path(id: post.slug), { flag: 'true' }
+    logout!
+
+    login(create_moderator_user(2))
+
+    # HTTP
+    post flag_post_path(id: post.slug), { flag: 'false' }
+
+    post.reload
+    assert_equal true, post.flags.find_by(user_id: moder1.id).flag
+
+    # AJAX
+    post flag_post_path(id: post.slug), { flag: 'false' }, xhr: true
+
+    post.reload
+    assert_equal true, post.flags.find_by(user_id: moder1.id).flag
+  end
+
+  test 'admins can unflag their own flag on a post' do
+    post = create_persisted_post
+    admin = login(create_admin_user)
+
+    # HTTP
+    post flag_post_path(id: post.slug), { flag: 'true' }
+    post flag_post_path(id: post.slug), { flag: 'false' }
+
+    post.reload
+    assert_equal false, post.flags.find_by(user_id: admin.id).flag
+
+    # AJAX
+    post flag_post_path(id: post.slug), { flag: 'true' }, xhr: true
+    post flag_post_path(id: post.slug), { flag: 'false' }, xhr: true
+
+    post.reload
+    assert_equal false, post.flags.find_by(user_id: admin.id).flag
+  end
+
+  test 'admins cannot unflag a flag from another user' do
+    post = create_persisted_post
+    moder = login(create_moderator_user)
+
+    post flag_post_path(id: post.slug), { flag: 'true' }
+    logout!
+
+    login(create_admin_user)
+
+    # HTTP
+    post flag_post_path(id: post.slug), { flag: 'false' }
+
+    post.reload
+    assert_equal true, post.flags.find_by(user_id: moder.id).flag
+
+    # AJAX
+    post flag_post_path(id: post.slug), { flag: 'false' }, xhr: true
+
+    post.reload
+    assert_equal true, post.flags.find_by(user_id: moder.id).flag
+  end
+
+  test 'posts/flag only accepts true/false' do
+    post = create_persisted_post
+
+    login(create_moderator_user)
+
+    # HTTP
+    post flag_post_path(id: post.slug), { flag: 'true' }
+    post flag_post_path(id: post.slug), { flag: 'nottrueorfalse' }
+
+    post.reload
+    assert post.flagged?
+    assert_equal "Sorry, there was a problem submitting your flag.  Please try again.", flash[:danger]
+
+    # AJAX
+    post flag_post_path(id: post.slug), { flag: 'true' }, xhr: true
+    post flag_post_path(id: post.slug), { flag: 'nottrueorfalse' }, xhr: true
+
+    post.reload
+    assert post.flagged?
+    assert_equal "Sorry, there was a problem submitting your flag.  Please try again.", flash[:danger]
+  end
+
+  #
+  # comments/clear_flags
+  #
+  test 'an unauthenticated user cannot access posts#clear_flags' do
+    post = create_persisted_post
+    post.flags.create(flag: true)
+    post.reload
+
+    # HTTP
+    assert_no_difference('Flag.all.count') do
+      patch clear_flags_post_path(id: post.slug)
+    end
+
+    post.reload
+    assert post.flagged?
+    assert_redirected_to login_path
+    assert_equal 'You must log in to access that page.', flash[:danger]
+
+    # AJAX
+    assert_no_difference('Flag.all.count') do
+      patch clear_flags_post_path(id: post.slug), xhr: true
+    end
+
+    post.reload
+    assert post.flagged?
+    assert_redirected_to login_path
+    assert_equal 'You must log in to access that page.', flash[:danger]
+  end
+
+  test 'users cannot clear all flags on a post' do
+    post = create_persisted_post
+    post.flags.create(flag: true)
+    post.reload
+
+    login(create_standard_user)
+
+    # HTTP
+    assert_no_difference('Flag.all.count') do
+      patch clear_flags_post_path(id: post.slug)
+    end
+
+    post.reload
+    assert post.flagged?
+    assert_equal 'This action requires administrator rights.', flash[:danger]
+
+    # AJAX
+    assert_no_difference('Flag.all.count') do
+      patch clear_flags_post_path(id: post.slug), xhr: true
+    end
+
+    post.reload
+    assert post.flagged?
+    assert_equal 'This action requires administrator rights.', flash[:danger]
+  end
+
+  test 'moderators cannot clear all flags on a post' do
+    post = create_persisted_post
+    post.flags.create(flag: true)
+    post.reload
+
+    login(create_moderator_user)
+
+    # HTTP
+    assert_no_difference('Flag.all.count') do
+      patch clear_flags_post_path(id: post.slug)
+    end
+
+    post.reload
+    assert post.flagged?
+    assert_equal 'This action requires administrator rights.', flash[:danger]
+
+    # AJAX
+    assert_no_difference('Flag.all.count') do
+      patch clear_flags_post_path(id: post.slug), xhr: true
+    end
+
+    post.reload
+    assert post.flagged?
+    assert_equal 'This action requires administrator rights.', flash[:danger]
+  end
+
+  test 'admins can clear all flags on a post via HTTP' do
+    post = create_persisted_post
+    2.times do |i|
+      post.flags.create(flag: true, user_id: i + 2)
+    end
+    post.reload
+
+    login(create_admin_user)
+
+    # HTTP
+    assert_difference('Flag.all.count', -2) do
+      patch clear_flags_post_path(id: post.slug)
+    end
+
+    post.reload
+    assert_not post.flagged?
+    assert_equal 0, post.total_flags
+  end
+
+  test 'admins can clear all flags on a post via AJAX' do
+    post = create_persisted_post
+    2.times do |i|
+      post.flags.create(flag: true, user_id: i + 2)
+    end
+    post.reload
+
+    login(create_admin_user)
+
+    assert_difference('Flag.all.count', -2) do
+      patch clear_flags_post_path(id: post.slug), xhr: true
+    end
+
+    post.reload
+    assert_not post.flagged?
+    assert_equal 0, post.total_flags
+  end
+
+  #
+  # posts/hide
+  #
+  test 'an unauthenticated user cannot access posts#hide' do
+    post = create_persisted_post
+
+    # HTTP
+    patch hide_post_path(id: post.slug), { hidden: true }
+
+    post.reload
+    assert_not post.hidden?
+    assert_redirected_to login_path
+    assert_equal 'You must log in to access that page.', flash[:danger]
+
+    # AJAX
+    patch hide_post_path(id: post.slug), { hidden: true }, xhr: true
+
+    post.reload
+    assert_not post.hidden?
+    assert_equal 'You must log in to access that page.', flash[:danger]
+  end
+
+  test 'a user cannot hide a post' do
+    post = create_persisted_post
+    login(create_standard_user)
+
+    # HTTP
+    patch hide_post_path(id: post.slug), { hidden: true }
+
+    post.reload
+    assert_not post.hidden?
+    assert_equal 'This action requires administrator rights.', flash[:danger]
+
+    # AJAX
+    patch hide_post_path(id: post.slug), { hidden: true }, xhr: true
+
+    post.reload
+    assert_not post.hidden?
+    assert_equal 'This action requires administrator rights.', flash[:danger]
+  end
+
+  test 'a moderator cannot hide a post' do
+    post = create_persisted_post
+    login(create_moderator_user)
+
+    # HTTP
+    patch hide_post_path(id: post.slug), { hidden: true }
+
+    post.reload
+    assert_not post.hidden?
+    assert_equal 'This action requires administrator rights.', flash[:danger]
+
+    # AJAX
+    patch hide_post_path(id: post.slug), { hidden: true }, xhr: true
+
+    post.reload
+    assert_not post.hidden?
+    assert_equal 'This action requires administrator rights.', flash[:danger]
+  end
+
+  test 'an admin can hide a post' do
+    post1 = create_persisted_post(1)
+    post2 = create_persisted_post(2)
+    category = post1.categories[0]
+    2.times { category.increase_unhidden_posts_count }
+
+    login(create_admin_user)
+
+    # HTTP
+    patch hide_post_path(id: post1.slug), { hidden: true }
+
+    post1.reload
+    assert post1.hidden?
+    category.reload
+    assert_equal 1, category.unhidden_posts_count
+
+    # AJAX
+    patch hide_post_path(id: post2.slug), { hidden: true }, xhr: true
+
+    post2.reload
+    assert post2.hidden?
+    category.reload
+    assert_equal 0, category.unhidden_posts_count
   end
 
   #

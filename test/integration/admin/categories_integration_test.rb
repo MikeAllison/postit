@@ -100,7 +100,7 @@ class Admin::CategoriesIntegrationTest < ActionDispatch::IntegrationTest
   test 'admins can create a new category' do
     login(create_admin_user)
 
-    assert_difference('Category.count') do
+    assert_difference('Category.count', 1) do
       post admin_categories_path, { category: { name: 'News' } }
     end
 

@@ -10,7 +10,7 @@ class UserIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test 'a successful registration' do
-    assert_difference('User.count') do
+    assert_difference('User.count', 1) do
       post users_path, { user: {
         username: 'user',
         password: 'password',
