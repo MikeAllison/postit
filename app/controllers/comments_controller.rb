@@ -3,7 +3,7 @@ class CommentsController < ApplicationController
   before_action :require_admin, only: [:clear_flags, :hide] # AppController
   before_action :require_moderator_or_admin, only: [:flag] # AppController
   before_action :find_comment, only: [:vote, :flag, :clear_flags, :hide]
-  before_action :catch_invalid_params, only: [:vote, :flag]
+  before_action :catch_invalid_params, only: [:vote, :flag] # AppController
 
   def create
     @post = Post.find_by(slug: params[:post_id])
@@ -99,20 +99,6 @@ class CommentsController < ApplicationController
   end
 
   private
-
-  def catch_invalid_params
-    if (params[action_name] != 'true') && (params[action_name] != 'false')
-      @error_msg = "Sorry, there was a problem submitting your #{action_name}.  Please try again."
-
-      respond_to do |format|
-        format.html do
-          flash[:danger] = @error_msg
-          redirect_to :back
-        end
-        format.js { render "shared/#{action_name}", locals: { obj: @comment.reload } }
-      end
-    end
-  end
 
   def find_comment
     @comment = Comment.find(params[:id])

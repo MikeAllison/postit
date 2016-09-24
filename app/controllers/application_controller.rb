@@ -92,4 +92,20 @@ class ApplicationController < ActionController::Base
       redirect_to login_path
     end
   end
+
+  private
+
+  def catch_invalid_params
+    if (params[action_name] != 'true') && (params[action_name] != 'false')
+      @error_msg = "Sorry, there was a problem submitting your #{action_name}.  Please try again."
+
+      respond_to do |format|
+        format.html do
+          flash[:danger] = @error_msg
+          redirect_to :back
+        end
+        format.js { render "shared/#{action_name}", locals: { obj: @comment.reload } }
+      end
+    end
+  end
 end

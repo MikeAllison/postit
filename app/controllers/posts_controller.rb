@@ -7,7 +7,7 @@ class PostsController < ApplicationController
   before_action :find_post, only: [:show, :edit, :update, :vote, :flag,
                                    :clear_flags, :hide]
   before_action :require_current_user_or_admin, only: [:edit, :update]
-  before_action :catch_invalid_params, only: [:vote, :flag]
+  before_action :catch_invalid_params, only: [:vote, :flag] # AppController
 
   def index
     @posts = Post.includes(:categories, :creator).votes_created_desc
@@ -140,20 +140,6 @@ class PostsController < ApplicationController
     return unless @post.creator != current_user && !current_user.admin?
     flash[:danger] = "Access Denied! - You may only edit posts that you've created."
     redirect_to @post
-  end
-
-  def catch_invalid_params
-    if (params[action_name] != 'true') && (params[action_name] != 'false')
-      @error_msg = "Sorry, there was a problem submitting your #{action_name}.  Please try again."
-
-      respond_to do |format|
-        format.html do
-          flash[:danger] = @error_msg
-          redirect_to :back
-        end
-        format.js { render "shared/#{action_name}", locals: { obj: @post } }
-      end
-    end
   end
 
   def post_params
