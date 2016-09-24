@@ -108,8 +108,12 @@
   }
 }
 
-.new_post .checkbox label {
-  margin-right: 10px;
+.new_post {
+  .checkbox {
+    label {
+      margin-right: 10px;
+    }
+  }
 }
 
 .tooltip-inner {
