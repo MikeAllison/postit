@@ -6,7 +6,7 @@
       </div>
       <div class="panel-body">
         <% if logged_in? %>
-          <h4>Would you like to <%= link_to 'create', new_post_path %> one?</h4>
+          <h4>Would you like to <%= link_to 'create', new_post_path(first_post: @category.id) %> one?</h4>
         <% else %>
           <h4><%= link_to 'Log in', login_path %> to create one.</h4>
         <% end %>
