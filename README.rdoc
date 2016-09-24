@@ -1,3 +1,5 @@
 = README
 
-This is a Reddit-like app that I designed while taking Tealeaf Academy's Rapid Prototyping with Ruby on Rails course.
+This was the project for Launch School's “Rapid Prototyping with Ruby on Rails” course.  To challenge myself, I added additional features that weren’t required by, or taught in, the course.  These include a responsive design, a system for managing user accounts, and a flagging system.  The flagging system allows moderators to flag items with questionable content so they can be hidden from view while under review by administrators.
+
+It has a Rails back-end with authentication built from scratch.  The front-end uses Bootstrap which I customized using SASS.  The site primarily uses AJAX to communicate with the controllers, and jQuery to update the DOM, but can fall back to standard HTTP requests if JavaScript is disabled in the browser.  Finally, the project has a full set of unit and integration tests written with the Minitest framework.
